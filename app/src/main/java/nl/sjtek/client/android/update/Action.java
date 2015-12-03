@@ -7,7 +7,7 @@ public enum Action {
     REFRESH("/info"),
     SWITCH("/switch");
 
-    private static final String API_BASE = "http://sjtek.nl/api";
+    private static final String API_BASE = "https://sjtek.nl/api";
     private final String url;
 
     Action(String urlAction) {
