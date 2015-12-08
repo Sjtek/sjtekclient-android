@@ -1,8 +1,8 @@
 package nl.sjtek.client.android.fragments;
 
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
-import nl.sjtek.client.android.update.Action;
-import nl.sjtek.client.android.update.UpdateRequest;
+import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.UpdateRequest;
 
 /**
  * Created by Wouter Habets on 21-10-15.

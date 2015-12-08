@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.interfaces.CardCallbackListener;
-import nl.sjtek.client.android.update.Action;
+import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.update.Music;
 import nl.sjtek.client.android.update.Update;
 

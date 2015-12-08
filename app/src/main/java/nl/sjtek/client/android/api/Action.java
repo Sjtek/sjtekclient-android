@@ -1,4 +1,4 @@
-package nl.sjtek.client.android.update;
+package nl.sjtek.client.android.api;
 
 /**
  * Created by Wouter Habets on 21-10-15.
@@ -7,7 +7,7 @@ public enum Action {
     REFRESH("/info"),
     SWITCH("/switch");
 
-    private static final String API_BASE = "https://sjtek.nl/api";
+    public static final String API_BASE = "https://sjtek.nl/api";
     private final String url;
 
     Action(String urlAction) {

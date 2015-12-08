@@ -14,7 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import nl.sjtek.client.android.update.Update;
-import nl.sjtek.client.android.update.UpdateRequest;
+import nl.sjtek.client.android.api.UpdateRequest;
 
 public abstract class BaseFragment extends Fragment implements
         Response.Listener<Update>,

@@ -1,4 +1,4 @@
-package nl.sjtek.client.android.update;
+package nl.sjtek.client.android.api;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -17,7 +17,7 @@ import java.net.URLEncoder;
  */
 public class VoiceParsingRequest extends Request<String> {
 
-    private static final String BASE_URL = "http://www.3ddev.nl//emma/core/filter.php?text=%s";
+    private static final String BASE_URL = "https://www.3ddev.nl/emma/core/filter.php?text=%s";
 
     private Response.Listener<String> listener;
 

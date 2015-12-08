@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.UpdateRequest;
+import nl.sjtek.client.android.api.VoiceParsingRequest;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
@@ -40,8 +42,7 @@ import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.update.Update;
-import nl.sjtek.client.android.update.UpdateRequest;
-import nl.sjtek.client.android.update.VoiceParsingRequest;
+import nl.sjtek.client.android.utils.Storage;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -174,6 +175,11 @@ public class ActivityMain extends AppCompatActivity
             replaceFragment(new FragmentSonarr());
         } else if (id == R.id.nav_transmission) {
             replaceFragment(new FragmentTransmission());
+        } else if (id == R.id.nav_sign_in) {
+            startActivity(new Intent(this, ActivityLogin.class));
+        } else if (id == R.id.nav_sign_out) {
+            Storage.getInstance().clearCredentials();
+            startActivity(new Intent(this, ActivityLogin.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

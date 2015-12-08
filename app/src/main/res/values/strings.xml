@@ -1,15 +1,20 @@
 <resources>
     <string name="app_name">Sjtek</string>
+    <string name="oops">Oops</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
+    <string name="nav_title_services">Sjtek services</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_music">Music</string>
     <string name="nav_sonarr">Sonarr</string>
     <string name="nav_transmission">Transmission</string>
+    <string name="nav_title_account">Account</string>
+    <string name="nav_sign_in">Sign in</string>
+    <string name="nav_sign_out">Sign out</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -17,4 +22,15 @@
     <string name="service_action_music_toggle" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_TOGGLE</string>
     <string name="service_action_music_next" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_NEXT</string>
     <string name="service_action_switch" translatable="false">nl.sjtek.client.android.ACTION_SWITCH</string>
+
+    <string name="sign_in_title">Sign in</string>
+    <string name="sign_in_description">To use the Sjtek app outside the Sjtek, you need to be signed in. Ask Wouter to create an account.</string>
+    <string name="sign_in_username">Username</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="sign_in_error">
+        Something went wrong while signing in. Check your username and password.\n\n
+        Http code: %1s\n
+        Message: %2s
+    </string>
 </resources>

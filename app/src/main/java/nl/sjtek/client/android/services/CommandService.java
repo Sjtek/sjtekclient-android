@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.update.Action;
+import nl.sjtek.client.android.api.Action;
 
 
 public class CommandService extends IntentService {

@@ -1,7 +1,8 @@
-package nl.sjtek.client.android.update;
+package nl.sjtek.client.android.api;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -12,6 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import nl.sjtek.client.android.update.Update;
+import nl.sjtek.client.android.utils.Storage;
 
 /**
  * Created by Wouter Habets on 7-10-15.
@@ -60,6 +66,18 @@ public class UpdateRequest extends Request<Update> {
         super(Method.GET, url, errorListener);
         this.listener = responseListener;
         Log.d(LOG_TAG, "Url: " + url);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        String credentials = Storage.getInstance().getCredentials();
+        if (Storage.getInstance().isCredentialsSet()) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("Authorization", credentials);
+            return params;
+        } else {
+            return super.getHeaders();
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
+        android:name=".SjtekApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,10 +22,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -35,7 +34,6 @@
                     android:host="sjtek.nl"
                     android:scheme="http" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -71,6 +69,12 @@
                 <action android:name="@string/service_action_switch" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".activities.ActivityLogin"
+            android:label="@string/sign_in_title"
+            android:parentActivityName=".activities.ActivityMain"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

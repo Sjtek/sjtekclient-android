@@ -16,10 +16,10 @@ import com.android.volley.VolleyError;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
-import nl.sjtek.client.android.update.Action;
+import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.update.Music;
 import nl.sjtek.client.android.update.Update;
-import nl.sjtek.client.android.update.UpdateRequest;
+import nl.sjtek.client.android.api.UpdateRequest;
 
 /**
  * A simple {@link Fragment} subclass.
