@@ -74,6 +74,7 @@ public class WiFiReceiver extends BroadcastReceiver {
                         .setContentIntent(viewPendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MIN)
                         .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        .setOngoing(true)
                         .extend(wearableExtender)
 
                         .addAction(R.drawable.ic_action_play, "Play/Pause", pendingIntentMusicToggle)
