@@ -1,7 +1,7 @@
 package nl.sjtek.client.android.fragments;
 
 import android.content.Context;
-import android.net.wifi.WifiManager;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -13,8 +13,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
-import nl.sjtek.client.android.update.Update;
+import nl.sjtek.client.android.activities.ActivityLogin;
 import nl.sjtek.client.android.api.UpdateRequest;
+import nl.sjtek.client.android.update.Update;
 
 public abstract class BaseFragment extends Fragment implements
         Response.Listener<Update>,
@@ -84,15 +85,15 @@ public abstract class BaseFragment extends Fragment implements
 
     protected void onCannotConnect(VolleyError error) {
         if (getView() == null) return;
-        boolean showEnableWifi = false;
+        boolean showSignIn = false;
         String message;
         if (error instanceof NoConnectionError) {
             message = "Oops, no connection.";
         } else if (error instanceof TimeoutError) {
             message = "Oops, request timed out.";
-        } else if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
-            message = "Oops, not connected to Sjtek wifi or VPN.";
-            showEnableWifi = true;
+        } else if (error.networkResponse != null && error.networkResponse.statusCode == 401) {
+            message = "Oops, you need to be signed in to use this app outside the Sjtek.";
+            showSignIn = true;
         } else if (error.networkResponse != null) {
             message = "Error: " + error.networkResponse.statusCode + " - " + error.getMessage();
         } else {
@@ -105,12 +106,10 @@ public abstract class BaseFragment extends Fragment implements
                         onRetry();
                     }
                 });
-        if (showEnableWifi) snackbar.setAction("Enable Wi-Fi", new View.OnClickListener() {
+        if (showSignIn) snackbar.setAction("Sign in", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-                wifiManager.setWifiEnabled(true);
-                onRetry();
+                startActivity(new Intent(getActivity(), ActivityLogin.class));
             }
         });
 

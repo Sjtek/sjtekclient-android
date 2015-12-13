@@ -18,12 +18,13 @@ public class Storage {
     private static Storage instance = new Storage();
     private SharedPreferences sharedPreferences;
 
-    public static Storage getInstance() {
-        return instance;
+    private Storage() {
+        Context context = SjtekApp.getContext();
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    private Storage() {
-        sharedPreferences = SjtekApp.getContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+    public static Storage getInstance() {
+        return instance;
     }
 
     public void clearCredentials() {

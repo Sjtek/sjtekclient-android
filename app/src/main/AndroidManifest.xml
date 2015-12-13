@@ -48,7 +48,11 @@
                     android:scheme="android-app" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ActivityMusicSelect" />
+
+        <activity
+            android:name=".activities.ActivityMusicSelect"
+            android:label="@string/nav_music"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
             android:name=".receiver.WiFiReceiver"

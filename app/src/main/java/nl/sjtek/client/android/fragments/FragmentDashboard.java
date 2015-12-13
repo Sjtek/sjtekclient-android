@@ -17,9 +17,9 @@ import com.android.volley.VolleyError;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.UpdateRequest;
 import nl.sjtek.client.android.update.Music;
 import nl.sjtek.client.android.update.Update;
-import nl.sjtek.client.android.api.UpdateRequest;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -181,10 +181,6 @@ public class FragmentDashboard extends BaseFragment implements View.OnClickListe
         holder.textViewTempInside.setText(String.format("%01d C°", update.getTemperature().getInside()));
         holder.textViewTempOutside.setText(String.format("%01d C°", update.getTemperature().getOutside()));
 
-        holder.textViewMCR.setText(String.valueOf(update.getMinecraft().isReactorActive()));
-        holder.textViewMCEP.setText(String.format("%d MF/t", update.getMinecraft().getEnergyProducing()));
-        holder.textViewMCES.setText(String.format("%d%%", update.getMinecraft().getEnergyStored()));
-
         if (areRequestsRunning()) return;
         holder.switchLight1.setChecked(update.getLights().isUnit1());
         holder.switchLight2.setChecked(update.getLights().isUnit2());
@@ -227,10 +223,6 @@ public class FragmentDashboard extends BaseFragment implements View.OnClickListe
         private TextView textViewTempInside;
         private TextView textViewTempOutside;
 
-        private TextView textViewMCR;
-        private TextView textViewMCEP;
-        private TextView textViewMCES;
-
         public Holder(View view) {
             switchLight1 = (Switch) view.findViewById(R.id.switchLights1);
             switchLight2 = (Switch) view.findViewById(R.id.switchLights2);
@@ -249,10 +241,6 @@ public class FragmentDashboard extends BaseFragment implements View.OnClickListe
 
             textViewTempInside = (TextView) view.findViewById(R.id.textViewTempInside);
             textViewTempOutside = (TextView) view.findViewById(R.id.textViewTempOutside);
-
-            textViewMCR = (TextView) view.findViewById(R.id.textViewMCR);
-            textViewMCEP = (TextView) view.findViewById(R.id.textViewMCEP);
-            textViewMCES = (TextView) view.findViewById(R.id.textViewMCES);
         }
     }
 }

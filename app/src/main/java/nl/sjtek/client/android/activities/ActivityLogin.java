@@ -37,7 +37,7 @@ public class ActivityLogin extends AppCompatActivity implements
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.start();
 
-        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

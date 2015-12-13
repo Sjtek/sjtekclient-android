@@ -28,9 +28,9 @@
     <string name="sign_in_username">Username</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_button">Sign in</string>
-    <string name="sign_in_error">
+    <string name="sign_in_error" formatted="false">
         Something went wrong while signing in. Check your username and password.\n\n
-        Http code: %1s\n
-        Message: %2s
+        Http code: %s\n
+        Message: %s
     </string>
 </resources>
