@@ -11,6 +11,7 @@ import java.net.URL;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.utils.Storage;
 
 
 public class CommandService extends IntentService {
@@ -36,7 +37,7 @@ public class CommandService extends IntentService {
         } else if (ACTION_MUSIC_NEXT.equals(action)) {
             execute(Action.Music.NEXT.toString());
         } else if (ACTION_SWITCH.equals(action)) {
-            execute(Action.SWITCH.toString());
+            execute(Action.SWITCH.toString() + "?user=" + Storage.getInstance().getUsername().toLowerCase() + "&voice");
         }
     }
 
@@ -45,6 +46,9 @@ public class CommandService extends IntentService {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            if (Storage.getInstance().isCredentialsSet()) {
+                connection.setRequestProperty("Authorization", Storage.getInstance().getCredentials());
+            }
             connection.connect();
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedInputStream bufIn =

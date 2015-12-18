@@ -38,7 +38,7 @@ public class Storage {
                 .apply();
     }
 
-    private String getUsername() {
+    public String getUsername() {
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
 
