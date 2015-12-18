@@ -4,15 +4,16 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.widget.RemoteViews;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.SjtekApp;
 import nl.sjtek.client.android.activities.ActivityMain;
 import nl.sjtek.client.android.services.CommandService;
 
@@ -27,15 +28,34 @@ public class WiFiReceiver extends BroadcastReceiver {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         String ssid = wifiInfo.getSSID();
-        if (ssid != null &&
-                (ssid.contains("Routers of Rohan") || ssid.contains("Routers of Rohan - 5GHz"))) {
-            showNotification(context);
-        } else {
-            dismissNotification(context);
-        }
+//        if (ssid != null &&
+//                (ssid.contains("Routers of Rohan") || ssid.contains("Routers of Rohan - 5GHz"))) {
+//            showNotification(context);
+//        } else {
+//            dismissNotification(context);
+//        }
+        showNotification(context);
     }
 
     private static void showNotification(Context context) {
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_notification_black_24dp)
+                        .setContent(getRemoteView(context))
+                        .setPriority(NotificationCompat.PRIORITY_MIN)
+                        .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        .setOngoing(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+
+    private static void dismissNotification(Context context) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.cancel(NOTIFICATION_ID);
+    }
+
+    private static RemoteViews getRemoteView(Context context) {
         Intent viewIntent = new Intent(context, ActivityMain.class);
         PendingIntent viewPendingIntent =
                 PendingIntent.getActivity(context, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -52,31 +72,12 @@ public class WiFiReceiver extends BroadcastReceiver {
         intentSwitch.setAction(context.getString(R.string.service_action_switch));
         PendingIntent pendingIntentSwitch = PendingIntent.getService(context, 30, intentSwitch, 0);
 
-        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
-                .setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.alexander));
-
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("SjtekControl")
-                        .setContentText("Connected to SjtekControl")
-                        .setContentIntent(viewPendingIntent)
-                        .setPriority(NotificationCompat.PRIORITY_MIN)
-                        .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                        .setOngoing(true)
-                        .extend(wearableExtender)
-
-                        .addAction(R.drawable.ic_play_arrow_black_24dp, "Play/Pause", pendingIntentMusicToggle)
-                        .addAction(R.drawable.ic_skip_next_black_24dp, "Next", pendingIntentMusicNext)
-                        .addAction(R.drawable.ic_power_black_24dp, "Toggle", pendingIntentSwitch);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
-    }
-
-    private static void dismissNotification(Context context) {
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.cancel(NOTIFICATION_ID);
+        RemoteViews view = new RemoteViews(SjtekApp.getContext().getPackageName(), R.layout.notification);
+        view.setOnClickPendingIntent(R.id.buttonApp, viewPendingIntent);
+        view.setOnClickPendingIntent(R.id.buttonPlay, pendingIntentMusicToggle);
+        view.setOnClickPendingIntent(R.id.buttonNext, pendingIntentMusicNext);
+        view.setOnClickPendingIntent(R.id.buttonToggle, pendingIntentSwitch);
+        return view;
     }
 
     @Override
