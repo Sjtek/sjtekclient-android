@@ -33,7 +33,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/textViewMusicLabel"
             android:focusable="false"
-            android:src="@drawable/ic_action_next" />
+            android:src="@drawable/ic_skip_next_black_24dp"/>
 
         <ImageButton
             android:id="@+id/buttonMusicToggle"
@@ -43,7 +43,7 @@
             android:layout_below="@+id/textViewMusicLabel"
             android:layout_toStartOf="@+id/buttonMusicNext"
             android:focusable="false"
-            android:src="@drawable/ic_action_play" />
+            android:src="@drawable/ic_play_arrow_black_24dp"/>
 
         <LinearLayout
             android:id="@+id/linearLayout"

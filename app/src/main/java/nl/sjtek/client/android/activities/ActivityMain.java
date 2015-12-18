@@ -176,8 +176,6 @@ public class ActivityMain extends AppCompatActivity
         } else if (id == R.id.nav_transmission) {
             replaceFragment(new FragmentTransmission());
         } else if (id == R.id.nav_sign_in) {
-            startActivity(new Intent(this, ActivityLogin.class));
-        } else if (id == R.id.nav_sign_out) {
             Storage.getInstance().clearCredentials();
             startActivity(new Intent(this, ActivityLogin.class));
         }

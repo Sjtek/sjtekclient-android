@@ -7,8 +7,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.interfaces.CardCallbackListener;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.interfaces.CardCallbackListener;
 import nl.sjtek.client.android.update.Music;
 import nl.sjtek.client.android.update.Update;
 
@@ -41,7 +41,7 @@ public class MusicCard extends Card implements View.OnClickListener {
         holder.textViewMusicArtist.setText(update.getMusic().getSong().getArtist());
         holder.buttonMusicToggle.setImageResource(
                 (update.getMusic().getStatus() == Music.PlayerStatus.STATUS_PLAYING ?
-                        R.drawable.ic_action_pause : R.drawable.ic_action_play));
+                        R.drawable.ic_pause_black_24dp : R.drawable.ic_play_arrow_black_24dp));
     }
 
     @Override

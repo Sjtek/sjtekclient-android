@@ -146,9 +146,9 @@ public class FragmentDashboard extends BaseFragment implements View.OnClickListe
         if (getView() == null) return;
 
         if (update.getMusic().getStatus() == Music.PlayerStatus.STATUS_PLAYING) {
-            holder.buttonMusicToggle.setImageResource(R.drawable.ic_action_pause);
+            holder.buttonMusicToggle.setImageResource(R.drawable.ic_pause_black_24dp);
         } else {
-            holder.buttonMusicToggle.setImageResource(R.drawable.ic_action_play);
+            holder.buttonMusicToggle.setImageResource(R.drawable.ic_play_arrow_black_24dp);
         }
 
         if (update.getMusic().getStatus() == Music.PlayerStatus.STATUS_STOPPED) {

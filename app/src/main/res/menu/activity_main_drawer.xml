@@ -6,32 +6,28 @@
         android:title="@string/nav_title_services">
         <item
             android:id="@+id/nav_dashboard"
-            android:icon="@drawable/ic_action_dashboard"
-            android:title="@string/nav_dashboard" />
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/nav_dashboard"/>
         <item
             android:id="@+id/nav_music"
-            android:icon="@drawable/ic_action_music"
-            android:title="@string/nav_music" />
+            android:icon="@drawable/ic_music_black_24dp"
+            android:title="@string/nav_music"/>
         <item
             android:id="@+id/nav_sonarr"
-            android:icon="@drawable/ic_action_sonarr"
-            android:title="@string/nav_sonarr" />
+            android:icon="@drawable/ic_sonarr_black_24dp"
+            android:title="@string/nav_sonarr"/>
         <item
             android:id="@+id/nav_transmission"
-            android:icon="@drawable/ic_action_transmission"
-            android:title="@string/nav_transmission" />
+            android:icon="@drawable/ic_transmission_black_24dp"
+            android:title="@string/nav_transmission"/>
     </group>
 
     <item android:title="@string/nav_title_account">
         <menu>
             <item
                 android:id="@+id/nav_sign_in"
-                android:icon="@drawable/ic_action_account"
-                android:title="@string/nav_sign_in" />
-            <item
-                android:id="@+id/nav_sign_out"
-                android:icon="@drawable/ic_action_account"
-                android:title="@string/nav_sign_out" />
+                android:icon="@drawable/ic_account_black_24dp"
+                android:title="@string/nav_sign_in"/>
         </menu>
     </item>
 

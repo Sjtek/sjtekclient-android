@@ -23,17 +23,6 @@ public class WiFiReceiver extends BroadcastReceiver {
     public WiFiReceiver() {
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-        NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-        if (info != null && info.isConnected()) {
-            updateNotification(context);
-        } else {
-            dismissNotification(context);
-        }
-    }
-
     public static void updateNotification(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -77,9 +66,9 @@ public class WiFiReceiver extends BroadcastReceiver {
                         .setOngoing(true)
                         .extend(wearableExtender)
 
-                        .addAction(R.drawable.ic_action_play, "Play/Pause", pendingIntentMusicToggle)
-                        .addAction(R.drawable.ic_action_next, "Next", pendingIntentMusicNext)
-                        .addAction(R.drawable.ic_fab_mic, "Toggle", pendingIntentSwitch);
+                        .addAction(R.drawable.ic_play_arrow_black_24dp, "Play/Pause", pendingIntentMusicToggle)
+                        .addAction(R.drawable.ic_skip_next_black_24dp, "Next", pendingIntentMusicNext)
+                        .addAction(R.drawable.ic_power_black_24dp, "Toggle", pendingIntentSwitch);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
@@ -88,5 +77,16 @@ public class WiFiReceiver extends BroadcastReceiver {
     private static void dismissNotification(Context context) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.cancel(NOTIFICATION_ID);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+        if (info != null && info.isConnected()) {
+            updateNotification(context);
+        } else {
+            dismissNotification(context);
+        }
     }
 }
