@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/ic_alexander"/>
 
     <LinearLayout
         android:layout_width="match_parent"
