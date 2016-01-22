@@ -3,8 +3,6 @@ package nl.sjtek.client.android.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,16 +48,7 @@ public class CommandService extends IntentService {
                 connection.setRequestProperty("Authorization", Storage.getInstance().getCredentials());
             }
             connection.connect();
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedInputStream bufIn =
-                        new BufferedInputStream(connection.getInputStream());
-                byte[] buffer = new byte[1024];
-                int n;
-                ByteArrayOutputStream bufOut = new ByteArrayOutputStream();
-                while ((n = bufIn.read(buffer)) > 0) {
-                    bufOut.write(buffer, 0, n);
-                }
-            }
+            connection.getResponseCode();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@ package nl.sjtek.client.android.api;
  */
 public enum Action {
     REFRESH("/info"),
-    SWITCH("/switch");
+    SWITCH("/toggle");
 
     public static final String API_BASE = "https://sjtek.nl/api";
     private final String url;
@@ -30,6 +30,7 @@ public enum Action {
         TOGGLE_3("/toggle3"),
         TOGGLE_3_ON("/toggle3on"),
         TOGGLE_3_OFF("/toggle3off");
+
 
         private static final String BASE = API_BASE + "/lights";
         private final String url;
@@ -56,7 +57,8 @@ public enum Action {
         CLEAR("/clear"),
         VOLUME_LOWER("/volumelower"),
         VOLUME_RAISE("/volumeraise"),
-        VOLUME_NEUTRAL("/volumeneutral");
+        VOLUME_NEUTRAL("/volumeneutral"),
+        INFO("/info?voice");
 
         private static final String BASE = API_BASE + "/music";
         private final String url;
