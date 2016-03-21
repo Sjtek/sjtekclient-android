@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import com.android.volley.VolleyError;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.update.Update;
+import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +60,7 @@ public abstract class BaseFragmentWeb extends BaseFragment {
     protected abstract String getUrl();
 
     @Override
-    protected void onUpdate(Update update) {
+    protected void onUpdate(ResponseCollection update) {
         webView.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.GONE);
     }

@@ -33,4 +33,6 @@
         Http code: %s\n
         Message: %s
     </string>
+
+    <string name="led_title">LED controller</string>
 </resources>

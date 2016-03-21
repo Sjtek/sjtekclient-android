@@ -14,11 +14,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import nl.sjtek.client.android.activities.ActivityLogin;
-import nl.sjtek.client.android.api.UpdateRequest;
-import nl.sjtek.client.android.update.Update;
+import nl.sjtek.client.android.api.InfoRequest;
+import nl.sjtek.control.data.responses.ResponseCollection;
 
 public abstract class BaseFragment extends Fragment implements
-        Response.Listener<Update>,
+        Response.Listener<ResponseCollection>,
         Response.ErrorListener {
 
     private static final int MAX_RETRIES = 1;
@@ -31,10 +31,10 @@ public abstract class BaseFragment extends Fragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         requestQueue = Volley.newRequestQueue(context);
-        addRequest(new UpdateRequest(this, this));
+        addRequest(new InfoRequest(this, this));
     }
 
-    protected void addRequest(UpdateRequest request) {
+    protected void addRequest(InfoRequest request) {
         runningRequests++;
         request.setTag(this);
         requestQueue.add(request);
@@ -55,7 +55,7 @@ public abstract class BaseFragment extends Fragment implements
     }
 
     @Override
-    public void onResponse(Update response) {
+    public void onResponse(ResponseCollection response) {
         runningRequests--;
         requestErrors = 0;
         if (runningRequests == 0) onUpdate(response);
@@ -71,7 +71,7 @@ public abstract class BaseFragment extends Fragment implements
         }
     }
 
-    protected void onUpdate(Update update) {
+    protected void onUpdate(ResponseCollection update) {
 
     }
 

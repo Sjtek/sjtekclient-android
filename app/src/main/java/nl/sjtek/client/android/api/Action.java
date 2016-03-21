@@ -3,9 +3,10 @@ package nl.sjtek.client.android.api;
 /**
  * Created by Wouter Habets on 21-10-15.
  */
-public enum Action {
+public enum Action implements ActionInterface {
     REFRESH("/info"),
-    SWITCH("/toggle");
+    SWITCH("/toggle"),
+    DATA("/data");
 
     public static final String API_BASE = "https://sjtek.nl/api";
     private final String url;
@@ -19,8 +20,12 @@ public enum Action {
         return url;
     }
 
+    @Override
+    public String getUrl() {
+        return url;
+    }
 
-    public enum Light {
+    public enum Light implements ActionInterface {
         TOGGLE_1("/toggle1"),
         TOGGLE_1_ON("/toggle1on"),
         TOGGLE_1_OFF("/toggle1off"),
@@ -29,7 +34,10 @@ public enum Action {
         TOGGLE_2_OFF("/toggle2off"),
         TOGGLE_3("/toggle3"),
         TOGGLE_3_ON("/toggle3on"),
-        TOGGLE_3_OFF("/toggle3off");
+        TOGGLE_3_OFF("/toggle3off"),
+        TOGGLE_4("/toggle4"),
+        TOGGLE_4_ON("/toggle4on"),
+        TOGGLE_4_OFF("/toggle4off");
 
 
         private static final String BASE = API_BASE + "/lights";
@@ -44,9 +52,14 @@ public enum Action {
         public String toString() {
             return url;
         }
+
+        @Override
+        public String getUrl() {
+            return url;
+        }
     }
 
-    public enum Music {
+    public enum Music implements ActionInterface {
         TOGGLE("/toggle"),
         PLAY("/play"),
         PAUSE("/pause"),
@@ -72,9 +85,14 @@ public enum Action {
         public String toString() {
             return url;
         }
+
+        @Override
+        public String getUrl() {
+            return url;
+        }
     }
 
-    public enum TV {
+    public enum TV implements ActionInterface {
         POWER_OFF("/off"),
         VOLUME_LOWER("/volumelower"),
         VOLUME_RAISE("/volumeraise");
@@ -90,6 +108,11 @@ public enum Action {
 
         @Override
         public String toString() {
+            return url;
+        }
+
+        @Override
+        public String getUrl() {
             return url;
         }
     }

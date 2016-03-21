@@ -5,119 +5,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="4dp"
-    tools:showIn="@layout/fragment_dashboard">
+    card_view:cardCornerRadius="4dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewMusicLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Music"
+            android:layout_marginBottom="8dp"
+            android:text="Muziek woonkamer"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ImageButton
-            android:id="@+id/buttonMusicNext"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textViewMusicLabel"
-            android:focusable="false"
-            android:src="@drawable/ic_skip_next_black_24dp"/>
-
-        <ImageButton
-            android:id="@+id/buttonMusicToggle"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewMusicLabel"
-            android:layout_toStartOf="@+id/buttonMusicNext"
-            android:focusable="false"
-            android:src="@drawable/ic_play_arrow_black_24dp"/>
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/buttonMusicToggle"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/buttonMusicToggle"
-            android:layout_toStartOf="@+id/buttonMusicToggle"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageViewAlbumArt"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/alexander" />
 
             <TextView
-                android:id="@+id/textViewMusicTitle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/imageViewAlbumArt"
+                android:layout_toEndOf="@+id/imageViewAlbumArt"
                 android:ellipsize="marquee"
-                android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="Shake it off" />
 
             <TextView
-                android:id="@+id/textViewMusicArtist"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:id="@+id/textViewArtist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@+id/textViewTitle"
+                android:layout_below="@+id/textViewTitle"
+                android:layout_toEndOf="@+id/imageViewAlbumArt"
                 android:ellipsize="marquee"
-                android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="Taylor Swift" />
-        </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_alignEnd="@+id/buttonMusicNext"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout">
-
-            <TextView
-                android:id="@+id/textViewTimeElapsed"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center_vertical|start"
-                tools:text="99:99" />
-
-            <TextView
-                android:id="@+id/textViewTimeTotal"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center_vertical|end"
-                tools:text="99:99" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_toEndOf="@+id/textViewTimeElapsed"
-                android:layout_toStartOf="@+id/textViewTimeTotal"
-                android:indeterminate="false" />
+                android:layout_alignBottom="@+id/imageViewAlbumArt"
+                android:layout_alignStart="@+id/textViewArtist"
+                android:layout_below="@+id/textViewArtist"
+                android:gravity="center_vertical|start">
+
+                <TextView
+                    android:id="@+id/textViewTimeElapsed"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="88:88" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/textViewTimeElapsed"
+                    android:layout_toStartOf="@+id/textViewTimeTotal" />
+
+                <TextView
+                    android:id="@+id/textViewTimeTotal"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical|end"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="88:88" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/buttonStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_alexander"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/buttonMusicBox"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_music_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/buttonPlay"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_play_arrow_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/buttonNext"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_skip_next_black_24dp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

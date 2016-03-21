@@ -6,6 +6,6 @@ package nl.sjtek.client.android.fragments;
 public class FragmentSonarr extends BaseFragmentWeb {
     @Override
     protected String getUrl() {
-        return "http://sjtek.nl/sonarr";
+        return "https://sjtek.nl/sonarr";
     }
 }

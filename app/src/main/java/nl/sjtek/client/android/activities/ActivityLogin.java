@@ -3,7 +3,6 @@ package nl.sjtek.client.android.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +17,11 @@ import com.android.volley.toolbox.Volley;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.AuthenticationRequest;
 import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.control.data.settings.DataCollection;
 
 public class ActivityLogin extends AppCompatActivity implements
         View.OnClickListener,
-        Response.Listener<Boolean>,
+        Response.Listener<DataCollection>,
         Response.ErrorListener {
 
     private static final String REQUEST_TAG = ActivityLogin.class.getSimpleName() + "_login";
@@ -72,11 +72,12 @@ public class ActivityLogin extends AppCompatActivity implements
     }
 
     @Override
-    public void onResponse(Boolean response) {
+    public void onResponse(DataCollection response) {
         progressDialog.dismiss();
         String username = holder.editTextUsername.getText().toString();
         String password = holder.editTextPassword.getText().toString();
         Storage.getInstance().setCredentials(username, password);
+        Storage.getInstance().setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
         finish();
     }
 
@@ -85,17 +86,17 @@ public class ActivityLogin extends AppCompatActivity implements
         progressDialog.dismiss();
         String message = String.format(getString(R.string.sign_in_error),
                 (error.networkResponse != null ? "" + error.networkResponse.statusCode : "-"), error.getMessage());
-        new AlertDialog.Builder(getApplicationContext())
-                .setTitle(getString(R.string.oops))
-                .setMessage(message)
-                .create()
-                .show();
+//        new AlertDialog.Builder(getApplicationContext())
+//                .setTitle(getString(R.string.oops))
+//                .setMessage(message)
+//                .create()
+//                .show();
     }
 
     private class Holder {
-        private EditText editTextUsername;
-        private EditText editTextPassword;
-        private Button buttonSignIn;
+        private final EditText editTextUsername;
+        private final EditText editTextPassword;
+        private final Button buttonSignIn;
 
         private Holder() {
             this.editTextUsername = (EditText) findViewById(R.id.editTextUsername);

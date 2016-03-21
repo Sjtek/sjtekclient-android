@@ -14,6 +14,7 @@ public class Storage {
     private static final String SHARED_PREFERENCES_NAME = "shared_preferences";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_EXTRA_LIGHTS = "extra_lights";
 
     private static Storage instance = new Storage();
     private SharedPreferences sharedPreferences;
@@ -29,12 +30,13 @@ public class Storage {
 
     public void clearCredentials() {
         setCredentials("", "");
+        setCheckExtraLights(false);
     }
 
-    public void setCredentials(String username, String pasword) {
+    public void setCredentials(String username, String password) {
         sharedPreferences.edit()
                 .putString(KEY_USERNAME, username)
-                .putString(KEY_PASSWORD, pasword)
+                .putString(KEY_PASSWORD, password)
                 .apply();
     }
 
@@ -53,5 +55,15 @@ public class Storage {
     public String getCredentials() {
         String credentials = String.format("%s:%s", getUsername(), getPassword());
         return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
+    }
+
+    public boolean getCheckExtraLights() {
+        return sharedPreferences.getBoolean(KEY_EXTRA_LIGHTS, false);
+    }
+
+    public void setCheckExtraLights(boolean doCheck) {
+        sharedPreferences.edit()
+                .putBoolean(KEY_EXTRA_LIGHTS, doCheck)
+                .apply();
     }
 }

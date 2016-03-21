@@ -2,12 +2,14 @@ package nl.sjtek.client.android.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,36 +26,46 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.UpdateRequest;
-import nl.sjtek.client.android.api.VoiceParsingRequest;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
+import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
-import nl.sjtek.client.android.update.Update;
 import nl.sjtek.client.android.utils.Storage;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
+    public static final String ACTION_CHANGE_FRAGMENT = "nl.sjtek.client.android.ACTION_CHANGE_FRAGMENT";
+    public static final String TARGET_DASHBOARD = "target_dashboard";
+    public static final String TARGET_MUSIC = "target_music";
+    public static final String TARGET_SONARR = "target_sonarr";
+    public static final String TARGET_TRANSMISSION = "target_transmission";
+    public static final String TARGET_LED = "target_led";
     private static final int REQUEST_VOICE_RECOGNITION = 8001;
-    private static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
-    private static final int TARGET_MUSIC = 1;
-    private static final int TARGET_SONARR = 2;
-    private static final int TARGET_TRANSMISSION = 3;
-
+    private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private OnVolumePressListener volumeListener = null;
     private FloatingActionButton fab;
+    private BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equals(ACTION_CHANGE_FRAGMENT)) {
+                String target = intent.getStringExtra(EXTRA_TARGET_FRAGMENT);
+                if (target != null && !target.isEmpty()) {
+                    replaceFragment(target);
+                }
+            }
+        }
+    };
     private RequestQueue requestQueue;
 
     private ProgressDialog progressDialog;
@@ -66,6 +77,12 @@ public class ActivityMain extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        String username = Storage.getInstance().getUsername().toLowerCase();
+        if (!username.isEmpty()) {
+            toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
+        }
+
         setSupportActionBar(toolbar);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -89,27 +106,27 @@ public class ActivityMain extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
 
-        int target = -1;
+        String target = TARGET_DASHBOARD;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            target = bundle.getInt(EXTRA_TARGET_FRAGMENT);
+            target = bundle.getString(EXTRA_TARGET_FRAGMENT, TARGET_DASHBOARD);
         }
 
-        switch (target) {
-            case TARGET_MUSIC:
-                replaceFragment(new FragmentMusic());
-                break;
-            case TARGET_SONARR:
-                replaceFragment(new FragmentSonarr());
-                break;
-            case TARGET_TRANSMISSION:
-                replaceFragment(new FragmentTransmission());
-                break;
-            default:
-                replaceFragment(new FragmentDashboard());
-        }
+        replaceFragment(target);
 
         WiFiReceiver.updateNotification(this.getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(fragmentBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(fragmentBroadcastReceiver);
     }
 
     private void initNavigationHeader(NavigationView navigationView) {
@@ -189,6 +206,28 @@ public class ActivityMain extends AppCompatActivity
         replaceFragment(fragment, false);
     }
 
+    public void replaceFragment(String target) {
+        switch (target) {
+            case TARGET_DASHBOARD:
+                replaceFragment(new FragmentDashboard());
+                break;
+            case TARGET_MUSIC:
+                replaceFragment(new FragmentMusic());
+                break;
+            case TARGET_SONARR:
+                replaceFragment(new FragmentSonarr());
+                break;
+            case TARGET_TRANSMISSION:
+                replaceFragment(new FragmentTransmission());
+                break;
+            case TARGET_LED:
+                replaceFragment(new FragmentLED(), true);
+                break;
+            default:
+                replaceFragment(new FragmentDashboard());
+        }
+    }
+
     public void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
@@ -253,6 +292,7 @@ public class ActivityMain extends AppCompatActivity
     }
 
     private void executeVoiceCommand(final String text) {
+        /*
         showLoadingDialog("Emma is thinking...", text);
         requestQueue.add(new VoiceParsingRequest(text, new Response.Listener<String>() {
             @Override
@@ -288,6 +328,7 @@ public class ActivityMain extends AppCompatActivity
                         Snackbar.LENGTH_SHORT).show();
             }
         }));
+        */
     }
 
     private void showLoadingDialog(String title, String message) {

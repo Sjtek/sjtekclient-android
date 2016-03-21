@@ -4,31 +4,36 @@ import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import nl.sjtek.control.data.settings.DataCollection;
 
 /**
  * Created by Wouter Habets on 4-12-15.
  */
-public class AuthenticationRequest extends Request<Boolean> {
+public class AuthenticationRequest extends Request<DataCollection> {
 
-    private static final String URL = Action.API_BASE + "";
+    private static final String URL = Action.DATA.toString();
 
-    private final Response.Listener<Boolean> responseListener;
+    private final Response.Listener<DataCollection> responseListener;
     private final String username;
     private final String password;
 
     public AuthenticationRequest(String username, String password,
-                                 Response.Listener<Boolean> responseListener,
+                                 Response.Listener<DataCollection> responseListener,
                                  Response.ErrorListener listener) {
         super(Method.GET, URL, listener);
         this.responseListener = responseListener;
         this.username = username;
         this.password = password;
+        setShouldCache(false);
     }
 
     @Override
@@ -41,13 +46,19 @@ public class AuthenticationRequest extends Request<Boolean> {
     }
 
     @Override
-    protected Response<Boolean> parseNetworkResponse(NetworkResponse response) {
-        if (response.statusCode == 200) return Response.success(true, null);
-        return Response.error(new VolleyError("Wrong status code"));
+    protected Response<DataCollection> parseNetworkResponse(NetworkResponse response) {
+        try {
+            String data = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            DataCollection dataCollection = DataCollection.fromJson(data);
+            return Response.success(dataCollection, null);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return Response.error(new ParseError(e));
+        }
     }
 
     @Override
-    protected void deliverResponse(Boolean response) {
+    protected void deliverResponse(DataCollection response) {
         responseListener.onResponse(response);
     }
 }

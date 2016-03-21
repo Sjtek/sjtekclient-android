@@ -1,8 +1,8 @@
 package nl.sjtek.client.android.fragments;
 
-import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.UpdateRequest;
+import nl.sjtek.client.android.api.InfoRequest;
+import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 
 /**
  * Created by Wouter Habets on 21-10-15.
@@ -11,16 +11,16 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
 
     @Override
     protected String getUrl() {
-        return "http://sjtek.nl/music";
+        return "http://music.sjtek.nl/spotmop";
     }
 
     @Override
     public void onVolumeRaise() {
-        addRequest(new UpdateRequest(Action.Music.VOLUME_RAISE, this, this));
+        addRequest(new InfoRequest(Action.Music.VOLUME_RAISE, this, this));
     }
 
     @Override
     public void onVolumeLower() {
-        addRequest(new UpdateRequest(Action.Music.VOLUME_LOWER, this, this));
+        addRequest(new InfoRequest(Action.Music.VOLUME_LOWER, this, this));
     }
 }
