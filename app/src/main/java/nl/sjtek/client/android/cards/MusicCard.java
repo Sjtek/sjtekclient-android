@@ -23,6 +23,8 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 public class MusicCard extends BaseCard implements View.OnClickListener {
 
+    private View viewMusicInfo;
+
     private TextView textViewTitle;
     private TextView textViewArtist;
     private TextView textViewElapsed;
@@ -53,6 +55,9 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
     @Override
     protected void onShouldInflate(Context context) {
         inflate(context, R.layout.card_music, this);
+
+        viewMusicInfo = findViewById(R.id.musicInfo);
+
         textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewArtist = (TextView) findViewById(R.id.textViewArtist);
         textViewElapsed = (TextView) findViewById(R.id.textViewTimeElapsed);
@@ -92,6 +97,12 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
         }
 
         state = music.getState();
+
+        if (state == MusicResponse.State.ERROR || state == MusicResponse.State.STATUS_STOPPED) {
+            viewMusicInfo.setVisibility(View.GONE);
+        } else {
+            viewMusicInfo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
