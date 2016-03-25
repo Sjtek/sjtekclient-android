@@ -34,7 +34,7 @@ public class InfoRequest extends Request<ResponseCollection> {
         this(action.getUrl(), responseListener, errorListener);
     }
 
-    protected InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
+    public InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
                           Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
         Log.d(this.getClass().getSimpleName(), "URL: " + url);
