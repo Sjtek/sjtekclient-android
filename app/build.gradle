@@ -8,8 +8,8 @@ android {
         applicationId "nl.sjtek.client.android"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1002
-        versionName "4.1"
+        versionCode 2000
+        versionName "5.0"
     }
     buildTypes {
         release {
@@ -22,8 +22,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

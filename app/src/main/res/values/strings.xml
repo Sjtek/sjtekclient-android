@@ -6,6 +6,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_shuffle">Shuffle queue</string>
+    <string name="action_clear">Clear queue</string>
+    <string name="action_toggle">Toggle</string>
 
     <string name="nav_title_services">Sjtek services</string>
     <string name="nav_dashboard">Dashboard</string>
@@ -33,4 +36,6 @@
         Http code: %s\n
         Message: %s
     </string>
+
+    <string name="led_title">LED controller</string>
 </resources>

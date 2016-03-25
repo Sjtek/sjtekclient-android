@@ -14,8 +14,18 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <include
-            layout="@layout/card_lights"
+        <nl.sjtek.client.android.cards.UserCard
+            android:id="@+id/userCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:visibility="gone" />
+
+        <nl.sjtek.client.android.cards.LightsCard
+            android:id="@+id/lightsCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -23,9 +33,8 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-        <include
-            android:id="@+id/cardMusic"
-            layout="@layout/card_music"
+        <nl.sjtek.client.android.cards.MusicCard
+            android:id="@+id/musicCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -33,17 +42,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-        <include
-            layout="@layout/card_temperature"
+        <nl.sjtek.client.android.cards.TemperatureCard
+            android:id="@+id/temperatureCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="64dp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

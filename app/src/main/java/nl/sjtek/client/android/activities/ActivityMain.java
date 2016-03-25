@@ -2,9 +2,14 @@ package nl.sjtek.client.android.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,10 +21,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -29,43 +34,73 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.UpdateRequest;
-import nl.sjtek.client.android.api.VoiceParsingRequest;
+import nl.sjtek.client.android.api.InfoRequest;
+import nl.sjtek.client.android.api.ToggleRequest;
+import nl.sjtek.client.android.api.WatsonRequest;
+import nl.sjtek.client.android.api.WatsonResponse;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
+import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
-import nl.sjtek.client.android.update.Update;
 import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.control.data.responses.ResponseCollection;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
+    public static final String ACTION_CHANGE_FRAGMENT = "nl.sjtek.client.android.ACTION_CHANGE_FRAGMENT";
+    public static final String TARGET_DASHBOARD = "target_dashboard";
+    public static final String TARGET_MUSIC = "target_music";
+    public static final String TARGET_SONARR = "target_sonarr";
+    public static final String TARGET_TRANSMISSION = "target_transmission";
+    public static final String TARGET_LED = "target_led";
     private static final int REQUEST_VOICE_RECOGNITION = 8001;
-    private static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
-    private static final int TARGET_MUSIC = 1;
-    private static final int TARGET_SONARR = 2;
-    private static final int TARGET_TRANSMISSION = 3;
 
+    private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private OnVolumePressListener volumeListener = null;
     private FloatingActionButton fab;
+    private BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction().equals(ACTION_CHANGE_FRAGMENT)) {
+                String target = intent.getStringExtra(EXTRA_TARGET_FRAGMENT);
+                if (target != null && !target.isEmpty()) {
+                    replaceFragment(target);
+                }
+            }
+        }
+    };
     private RequestQueue requestQueue;
 
     private ProgressDialog progressDialog;
 
     private TextView textViewTemp;
 
+    private TextToSpeech textToSpeech;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        String username = Storage.getInstance().getUsername().toLowerCase();
+        if (Storage.getInstance().isCredentialsSet() && toolbar != null) {
+            toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
+        }
+
         setSupportActionBar(toolbar);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -89,27 +124,73 @@ public class ActivityMain extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
 
-        int target = -1;
+        String target = TARGET_DASHBOARD;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            target = bundle.getInt(EXTRA_TARGET_FRAGMENT);
+            target = bundle.getString(EXTRA_TARGET_FRAGMENT, TARGET_DASHBOARD);
         }
 
-        switch (target) {
-            case TARGET_MUSIC:
-                replaceFragment(new FragmentMusic());
-                break;
-            case TARGET_SONARR:
-                replaceFragment(new FragmentSonarr());
-                break;
-            case TARGET_TRANSMISSION:
-                replaceFragment(new FragmentTransmission());
-                break;
-            default:
-                replaceFragment(new FragmentDashboard());
-        }
+        replaceFragment(target);
 
         WiFiReceiver.updateNotification(this.getApplicationContext());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_led).setVisible(Storage.getInstance().getCheckExtraLights());
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_led:
+                replaceFragment(new FragmentLED(), true);
+                return true;
+            case R.id.action_toggle:
+                requestQueue.add(new ToggleRequest(new Response.Listener<ResponseCollection>() {
+                    @Override
+                    public void onResponse(ResponseCollection response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(fragmentBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(fragmentBroadcastReceiver);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
     }
 
     private void initNavigationHeader(NavigationView navigationView) {
@@ -124,11 +205,6 @@ public class ActivityMain extends AppCompatActivity
         navigationView.addHeaderView(headerView);
     }
 
-    public void setTemperature(int temperature) {
-        if (textViewTemp != null)
-            textViewTemp.setText(String.format("%d ºC", temperature));
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,28 +213,6 @@ public class ActivityMain extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -189,6 +243,28 @@ public class ActivityMain extends AppCompatActivity
         replaceFragment(fragment, false);
     }
 
+    public void replaceFragment(String target) {
+        switch (target) {
+            case TARGET_DASHBOARD:
+                replaceFragment(new FragmentDashboard());
+                break;
+            case TARGET_MUSIC:
+                replaceFragment(new FragmentMusic());
+                break;
+            case TARGET_SONARR:
+                replaceFragment(new FragmentSonarr());
+                break;
+            case TARGET_TRANSMISSION:
+                replaceFragment(new FragmentTransmission());
+                break;
+            case TARGET_LED:
+                replaceFragment(new FragmentLED(), true);
+                break;
+            default:
+                replaceFragment(new FragmentDashboard());
+        }
+    }
+
     public void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
@@ -215,8 +291,6 @@ public class ActivityMain extends AppCompatActivity
     }
 
     private void fabAction(View view) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
         startVoiceRecognition();
     }
 
@@ -248,46 +322,69 @@ public class ActivityMain extends AppCompatActivity
         if (requestCode == REQUEST_VOICE_RECOGNITION && resultCode == Activity.RESULT_OK) {
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String text = results.get(0);
-            executeVoiceCommand(text);
+            try {
+                voiceCommand(text);
+            } catch (UnsupportedEncodingException | JSONException e) {
+                e.printStackTrace();
+                Snackbar.make(findViewById(android.R.id.content), "Watson can't process " + text,
+                        Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 
-    private void executeVoiceCommand(final String text) {
-        showLoadingDialog("Emma is thinking...", text);
-        requestQueue.add(new VoiceParsingRequest(text, new Response.Listener<String>() {
+    private void voiceCommand(final String text) throws UnsupportedEncodingException, JSONException {
+        showLoadingDialog("Watson is thinking", text);
+        requestQueue.add(new WatsonRequest(text, new Response.Listener<WatsonResponse>() {
             @Override
-            public void onResponse(String response) {
-                showLoadingDialog("Emma is working for you", response);
-                Log.i("URL Request", "Response: " + response);
-                requestQueue.add(new UpdateRequest(response, new Response.Listener<Update>() {
+            public void onResponse(WatsonResponse response) {
+                hideLoadingDialog();
+                speak(response.getText());
+                requestQueue.add(new InfoRequest(response.getUrl(), new Response.Listener<ResponseCollection>() {
                     @Override
-                    public void onResponse(Update response) {
-                        Log.i("Update Request", "Response: " + response.toString());
-                        hideLoadingDialog();
+                    public void onResponse(ResponseCollection response) {
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Update Request", "Error: " + error.getMessage());
-                        hideLoadingDialog();
-                        Snackbar.make(
-                                findViewById(android.R.id.content),
-                                "Emma couldn't complete your request.",
-                                Snackbar.LENGTH_SHORT).show();
+
                     }
                 }));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("URL Request", "Error: " + error.getMessage());
                 hideLoadingDialog();
-                Snackbar.make(
-                        findViewById(android.R.id.content),
-                        "Emma doesn't understand " + text,
-                        Snackbar.LENGTH_SHORT).show();
+                speak("I don't understand, " + text);
+                Snackbar.make(findViewById(android.R.id.content), "Watson doesn't understand " + text,
+                        Snackbar.LENGTH_LONG).show();
             }
         }));
+    }
+
+    @SuppressWarnings("deprecation")
+    private void speak(final String text) {
+        if (textToSpeech == null) {
+            textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status != TextToSpeech.ERROR) {
+                        textToSpeech.setLanguage(Locale.UK);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+                        } else {
+                            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                    }
+                }
+            });
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            } else {
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        }
     }
 
     private void showLoadingDialog(String title, String message) {

@@ -6,6 +6,6 @@ package nl.sjtek.client.android.fragments;
 public class FragmentTransmission extends BaseFragmentWeb {
     @Override
     protected String getUrl() {
-        return "http://sjtek.nl/transmission";
+        return "https://sjtek.nl/transmission";
     }
 }

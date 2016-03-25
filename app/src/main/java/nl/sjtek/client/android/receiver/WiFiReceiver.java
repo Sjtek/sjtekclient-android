@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -20,23 +21,14 @@ public class WiFiReceiver extends BroadcastReceiver {
     }
 
     public static void updateNotification(Context context) {
-//        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-//        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//        String ssid = wifiInfo.getSSID();
-//
-//        ConnectivityManager cm =
-//                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//
-//        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-//        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-//        boolean isWiFi = (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI);
-//
-//        if (isWiFi && ssid != null && (ssid.contains("Routers of Rohan") || ssid.contains("Routers of Rohan - 5GHz"))) {
-//            dismissNotification(context);
-//        } else {
-//            showNotification(context);
-//        }
-        showNotification(context);
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        String ssid = wifiInfo.getSSID();
+        if (ssid != null && (ssid.contains("Routers of Rohan"))) {
+            showNotification(context);
+        } else {
+            dismissNotification(context);
+        }
     }
 
     private static void showNotification(Context context) {
