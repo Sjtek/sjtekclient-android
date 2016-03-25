@@ -50,11 +50,12 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
         switch (item.getItemId()) {
             case R.id.action_shuffle:
                 addRequest(new InfoRequest(Action.Music.SHUFFLE, this, this));
-                break;
+                return true;
             case R.id.action_clear:
                 addRequest(new InfoRequest(Action.Music.CLEAR, this, this));
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

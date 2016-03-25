@@ -1,4 +1,19 @@
-<menu xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.ActivityMain">
 
+    <item
+        android:id="@+id/action_led"
+        android:icon="@drawable/ic_led_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/led_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_toggle"
+        android:icon="@drawable/ic_power_white_24dp"
+        android:orderInCategory="200"
+        android:title="@string/action_toggle"
+        app:showAsAction="ifRoom" />
 </menu>

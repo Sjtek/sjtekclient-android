@@ -23,6 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ import java.util.Random;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.InfoRequest;
+import nl.sjtek.client.android.api.ToggleRequest;
 import nl.sjtek.client.android.api.WatsonRequest;
 import nl.sjtek.client.android.api.WatsonResponse;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
@@ -64,6 +67,7 @@ public class ActivityMain extends AppCompatActivity
     public static final String TARGET_TRANSMISSION = "target_transmission";
     public static final String TARGET_LED = "target_led";
     private static final int REQUEST_VOICE_RECOGNITION = 8001;
+
     private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private OnVolumePressListener volumeListener = null;
     private FloatingActionButton fab;
@@ -93,7 +97,7 @@ public class ActivityMain extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         String username = Storage.getInstance().getUsername().toLowerCase();
-        if (!username.isEmpty()) {
+        if (Storage.getInstance().isCredentialsSet() && toolbar != null) {
             toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
         }
 
@@ -132,6 +136,43 @@ public class ActivityMain extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_led).setVisible(Storage.getInstance().getCheckExtraLights());
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_led:
+                replaceFragment(new FragmentLED(), true);
+                return true;
+            case R.id.action_toggle:
+                requestQueue.add(new ToggleRequest(new Response.Listener<ResponseCollection>() {
+                    @Override
+                    public void onResponse(ResponseCollection response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
@@ -162,11 +203,6 @@ public class ActivityMain extends AppCompatActivity
         textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
 
         navigationView.addHeaderView(headerView);
-    }
-
-    public void setTemperature(int temperature) {
-        if (textViewTemp != null)
-            textViewTemp.setText(String.format("%d ºC", temperature));
     }
 
     @Override
@@ -255,8 +291,6 @@ public class ActivityMain extends AppCompatActivity
     }
 
     private void fabAction(View view) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
         startVoiceRecognition();
     }
 
