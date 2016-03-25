@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +15,7 @@ import android.webkit.WebViewClient;
 import com.android.volley.VolleyError;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
@@ -39,7 +41,16 @@ public abstract class BaseFragmentWeb extends BaseFragment {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedHttpAuthRequest(WebView view,
+                                                  HttpAuthHandler handler,
+                                                  String host,
+                                                  String realm) {
+                Storage storage = Storage.getInstance();
+                handler.proceed(storage.getUsername(), storage.getPassword());
+            }
+        });
         webView.loadUrl(getUrl());
 
         return rootView;

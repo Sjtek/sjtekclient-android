@@ -44,7 +44,7 @@ public class Storage {
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
 
-    private String getPassword() {
+    public String getPassword() {
         return sharedPreferences.getString(KEY_PASSWORD, "");
     }
 
