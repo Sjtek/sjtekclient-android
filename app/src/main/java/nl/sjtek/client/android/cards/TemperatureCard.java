@@ -44,8 +44,8 @@ public class TemperatureCard extends BaseCard {
     @Override
     public void onUpdate(ResponseCollection update) {
         TemperatureResponse temperature = update.getTemperature();
-        textViewTempIn.setText(String.format("%s", temperature.getInside()));
-        textViewTempOut.setText(String.format("%s", temperature.getOutside()));
+        textViewTempIn.setText(String.format("%s", (int) temperature.getInside()));
+        textViewTempOut.setText(String.format("%s", (int) temperature.getOutside()));
         String newUrl = temperature.getIcon();
         if (!weatherUrl.equals(newUrl)) {
             weatherUrl = newUrl;
