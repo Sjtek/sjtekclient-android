@@ -60,6 +60,7 @@ public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
+    public static final String EXTRA_BACKSTACK = "add_to_backstack";
     public static final String ACTION_CHANGE_FRAGMENT = "nl.sjtek.client.android.ACTION_CHANGE_FRAGMENT";
     public static final String TARGET_DASHBOARD = "target_dashboard";
     public static final String TARGET_MUSIC = "target_music";
@@ -76,8 +77,9 @@ public class ActivityMain extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction().equals(ACTION_CHANGE_FRAGMENT)) {
                 String target = intent.getStringExtra(EXTRA_TARGET_FRAGMENT);
+                boolean addToBackStack = intent.getBooleanExtra(EXTRA_BACKSTACK, false);
                 if (target != null && !target.isEmpty()) {
-                    replaceFragment(target);
+                    replaceFragment(target, addToBackStack);
                 }
             }
         }
@@ -244,24 +246,28 @@ public class ActivityMain extends AppCompatActivity
     }
 
     public void replaceFragment(String target) {
+        replaceFragment(target, false);
+    }
+
+    public void replaceFragment(String target, boolean addToBackStack) {
         switch (target) {
             case TARGET_DASHBOARD:
-                replaceFragment(new FragmentDashboard());
+                replaceFragment(new FragmentDashboard(), addToBackStack);
                 break;
             case TARGET_MUSIC:
-                replaceFragment(new FragmentMusic());
+                replaceFragment(new FragmentMusic(), addToBackStack);
                 break;
             case TARGET_SONARR:
-                replaceFragment(new FragmentSonarr());
+                replaceFragment(new FragmentSonarr(), addToBackStack);
                 break;
             case TARGET_TRANSMISSION:
-                replaceFragment(new FragmentTransmission());
+                replaceFragment(new FragmentTransmission(), addToBackStack);
                 break;
             case TARGET_LED:
                 replaceFragment(new FragmentLED(), true);
                 break;
             default:
-                replaceFragment(new FragmentDashboard());
+                replaceFragment(new FragmentDashboard(), addToBackStack);
         }
     }
 

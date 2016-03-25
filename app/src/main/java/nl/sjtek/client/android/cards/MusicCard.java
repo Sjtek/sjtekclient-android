@@ -114,6 +114,7 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
                 musicIntent.putExtra(ActivityMain.EXTRA_TARGET_FRAGMENT, ActivityMain.TARGET_MUSIC);
+                musicIntent.putExtra(ActivityMain.EXTRA_BACKSTACK, true);
                 getContext().sendBroadcast(musicIntent);
                 break;
             case R.id.buttonPlay:
