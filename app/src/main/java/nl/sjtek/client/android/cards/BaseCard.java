@@ -33,7 +33,13 @@ public abstract class BaseCard extends CardView {
 
     protected void postAction(ActionInterface action) {
         if (onClickListener != null) {
-            onClickListener.onClick(action);
+            onClickListener.onClick(action, null);
+        }
+    }
+
+    protected void postAction(ActionInterface action, String url) {
+        if (onClickListener != null) {
+            onClickListener.onClick(action, url);
         }
     }
 
@@ -42,6 +48,6 @@ public abstract class BaseCard extends CardView {
     public abstract void onUpdate(ResponseCollection update);
 
     public interface OnClickListener {
-        void onClick(ActionInterface action);
+        void onClick(ActionInterface action, String paramUrl);
     }
 }

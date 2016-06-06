@@ -71,7 +71,8 @@ public enum Action implements ActionInterface {
         VOLUME_LOWER("/volumelower"),
         VOLUME_RAISE("/volumeraise"),
         VOLUME_NEUTRAL("/volumeneutral"),
-        INFO("/info?voice");
+        INFO("/info?voice"),
+        START("/start");
 
         private static final String BASE = API_BASE + "/music";
         private final String url;

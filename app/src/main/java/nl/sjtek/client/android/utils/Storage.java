@@ -15,6 +15,7 @@ public class Storage {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EXTRA_LIGHTS = "extra_lights";
+    private static final String KEY_PLAYLIST = "playlist";
 
     private static Storage instance = new Storage();
     private SharedPreferences sharedPreferences;
@@ -64,6 +65,16 @@ public class Storage {
     public void setCheckExtraLights(boolean doCheck) {
         sharedPreferences.edit()
                 .putBoolean(KEY_EXTRA_LIGHTS, doCheck)
+                .apply();
+    }
+
+    public String getDefaultPlaylist() {
+        return sharedPreferences.getString(KEY_PLAYLIST, null);
+    }
+
+    public void setDefaultPlaylist(String playlist) {
+        sharedPreferences.edit()
+                .putString(KEY_PLAYLIST, playlist)
                 .apply();
     }
 }

@@ -78,6 +78,7 @@ public class ActivityLogin extends AppCompatActivity implements
         String password = holder.editTextPassword.getText().toString();
         Storage.getInstance().setCredentials(username, password);
         Storage.getInstance().setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
+        Storage.getInstance().setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
         finish();
     }
 

@@ -113,8 +113,12 @@ public class FragmentDashboard extends BaseFragment {
         }
 
         @Override
-        public void onClick(ActionInterface action) {
-            addRequest(new InfoRequest(action, FragmentDashboard.this, FragmentDashboard.this));
+        public void onClick(ActionInterface action, String paramUrl) {
+            String urlString = action.getUrl();
+            if (paramUrl != null) {
+                urlString += "?url=" + paramUrl;
+            }
+            addRequest(new InfoRequest(urlString, FragmentDashboard.this, FragmentDashboard.this));
         }
     }
 }

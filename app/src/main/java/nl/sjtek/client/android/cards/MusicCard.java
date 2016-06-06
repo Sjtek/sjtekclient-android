@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -109,7 +110,7 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                // TODO: 3-2-16 Start playlist selection
+                postAction(Action.Music.START, Storage.getInstance().getDefaultPlaylist());
                 break;
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
