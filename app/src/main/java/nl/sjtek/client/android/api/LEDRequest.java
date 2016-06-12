@@ -1,21 +1,32 @@
 package nl.sjtek.client.android.api;
 
-import com.android.volley.Response;
+import android.util.Log;
 
-import nl.sjtek.control.data.responses.ResponseCollection;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
 
 /**
  * Created by Wouter Habets on 20-3-16.
  */
-public class LEDRequest extends InfoRequest {
+public class LEDRequest extends Request<Boolean> {
 
-    public LEDRequest(int code, boolean enable,
-                      Response.Listener<ResponseCollection> responseListener,
-                      Response.ErrorListener errorListener) {
-        super(buildUrl(code, enable), responseListener, errorListener);
+    private Response.Listener<Boolean> responseListener;
+
+
+    public LEDRequest(int code, Response.Listener<Boolean> responseListener, Response.ErrorListener errorListener) {
+        super(Method.GET, "http://10.10.0.4:8000/led?code=" + code, errorListener);
+        Log.d(this.getClass().getSimpleName(), "URL: " + getUrl());
+        this.responseListener = responseListener;
     }
 
-    private static String buildUrl(int code, boolean enable) {
-        return (enable ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF) + "?code=" + code;
+    @Override
+    protected Response<Boolean> parseNetworkResponse(NetworkResponse response) {
+        return Response.success(true, null);
+    }
+
+    @Override
+    protected void deliverResponse(Boolean response) {
+        this.responseListener.onResponse(response);
     }
 }

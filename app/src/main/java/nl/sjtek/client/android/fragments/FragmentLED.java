@@ -1,8 +1,10 @@
 package nl.sjtek.client.android.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,13 +12,74 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.InfoRequest;
 import nl.sjtek.client.android.api.LEDRequest;
+import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
  * Created by Wouter Habets on 20-3-16.
  */
-public class FragmentLED extends BaseFragment implements View.OnTouchListener {
+public class FragmentLED extends Fragment implements View.OnTouchListener {
+
+    private static final int SEND_INTERVAL = 100;
+    private RequestQueue ledRequestQueue;
+    private boolean requestsRunning = false;
+    private Response.Listener<ResponseCollection> infoListener = new Response.Listener<ResponseCollection>() {
+        @Override
+        public void onResponse(ResponseCollection response) {
+
+        }
+    };
+    private Response.ErrorListener infoErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+    private Response.Listener<Boolean> ledListener = new Response.Listener<Boolean>() {
+        @Override
+        public void onResponse(Boolean response) {
+            requestsRunning = false;
+        }
+    };
+    private Response.ErrorListener ledErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
+    private int previousCode = 0;
+    private int currentCode = 0;
+
+    private CountDownTimer countDownTimer = new CountDownTimer(SEND_INTERVAL, SEND_INTERVAL) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            if (previousCode != currentCode && !requestsRunning) {
+                previousCode = currentCode;
+                sendCode(currentCode);
+            }
+            countDownTimer.start();
+        }
+    };
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ledRequestQueue = Volley.newRequestQueue(context);
+    }
 
     @Nullable
     @Override
@@ -30,7 +93,7 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         buttonEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCode(2, true);
+                ledRequestQueue.add(new InfoRequest(Action.Light.TOGGLE_3_ON, infoListener, infoErrorListener));
             }
         });
 
@@ -38,7 +101,7 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         buttonDisable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCode(1, false);
+                ledRequestQueue.add(new InfoRequest(Action.Light.TOGGLE_3_OFF, infoListener, infoErrorListener));
             }
         });
 
@@ -46,7 +109,7 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         buttonDemoEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCode(3, true);
+                sendCode(3);
             }
         });
 
@@ -54,11 +117,23 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         buttonDemoDisable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCode(4, true);
+                sendCode(4);
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        countDownTimer.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        countDownTimer.cancel();
     }
 
     @Override
@@ -67,15 +142,20 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 return true;
-            case MotionEvent.ACTION_MOVE:
-                return true;
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_MOVE: {
                 float width = v.getWidth();
                 float x = event.getX();
                 float code = map(x, 0f, width, 100f, 699f);
-                Log.d(this.getClass().getSimpleName(), "Width: " + width + " X: " + x + " Code: " + code);
-                sendCode((int) code, true);
-                return true;
+                currentCode = (int) code;
+            }
+            return true;
+            case MotionEvent.ACTION_UP: {
+                float width = v.getWidth();
+                float x = event.getX();
+                float code = map(x, 0f, width, 100f, 699f);
+                currentCode = (int) code;
+            }
+            return true;
         }
         return false;
     }
@@ -84,7 +164,9 @@ public class FragmentLED extends BaseFragment implements View.OnTouchListener {
         return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
 
-    private void sendCode(int code, boolean enable) {
-        if (!areRequestsRunning()) addRequest(new LEDRequest(code, enable, this, this));
+    private void sendCode(int code) {
+        if (!requestsRunning) {
+            ledRequestQueue.add(new LEDRequest(code, ledListener, ledErrorListener));
+        }
     }
 }
