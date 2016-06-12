@@ -28,7 +28,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 public class FragmentLED extends Fragment implements View.OnTouchListener {
 
-    private static final int SEND_INTERVAL = 100;
+    private static final int SEND_INTERVAL = 50;
     private RequestQueue ledRequestQueue;
     private boolean requestsRunning = false;
     private Response.Listener<ResponseCollection> infoListener = new Response.Listener<ResponseCollection>() {
@@ -141,23 +141,23 @@ public class FragmentLED extends Fragment implements View.OnTouchListener {
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                parseEvent(v, event);
                 return true;
-            case MotionEvent.ACTION_MOVE: {
-                float width = v.getWidth();
-                float x = event.getX();
-                float code = map(x, 0f, width, 100f, 699f);
-                currentCode = (int) code;
-            }
-            return true;
-            case MotionEvent.ACTION_UP: {
-                float width = v.getWidth();
-                float x = event.getX();
-                float code = map(x, 0f, width, 100f, 699f);
-                currentCode = (int) code;
-            }
-            return true;
+            case MotionEvent.ACTION_MOVE:
+                parseEvent(v, event);
+                return true;
+            case MotionEvent.ACTION_UP:
+                parseEvent(v, event);
+                return true;
         }
         return false;
+    }
+
+    private void parseEvent(View v, MotionEvent event) {
+        float width = v.getWidth();
+        float x = event.getX();
+        float code = map(x, 0f, width, 100f, 699f);
+        currentCode = (int) code;
     }
 
     private float map(float x, float inMin, float inMax, float outMin, float outMax) {
