@@ -19,6 +19,8 @@
     <string name="nav_title_account">Account</string>
     <string name="nav_sign_in">Sign in</string>
     <string name="nav_sign_out">Sign out</string>
+    <string name="nav_title_settings">Settings</string>
+    <string name="nav_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -39,4 +41,24 @@
     </string>
 
     <string name="led_title">LED controller</string>
+
+    <string name="pref_title">Settings</string>
+
+    <string name="pref_cat_account">Account</string>
+    <string name="pref_title_sign_in">Sign in</string>
+    <string name="pref_title_sign_out">Sign out</string>
+    <string name="pref_summary_signed_in">Currently signed in as %s.</string>
+    <string name="pref_key_account">pref_key_account</string>
+
+    <string name="pref_cat_notification">Notification</string>
+    <string name="pref_summary_notification_enable">Enable the shortcuts notification.</string>
+    <string name="pref_title_notification_enable">Enable</string>
+    <string name="pref_key_notification_enable">pref_key_notification_enable</string>
+
+    <string name="pref_cat_widget">Widget</string>
+    <string name="pref_summary_widget_transparent">Make the widget background transparent.</string>
+    <string name="pref_title_widget_transparent">Transparent background</string>
+    <string name="pref_key_widget_transparent">pref_key_widget_transparent</string>
+
+
 </resources>

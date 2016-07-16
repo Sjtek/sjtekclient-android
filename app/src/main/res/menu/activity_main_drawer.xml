@@ -22,13 +22,13 @@
             android:title="@string/nav_transmission"/>
     </group>
 
-    <item android:title="@string/nav_title_account">
-        <menu>
-            <item
-                android:id="@+id/nav_sign_in"
-                android:icon="@drawable/ic_account_black_24dp"
-                android:title="@string/nav_sign_in"/>
-        </menu>
-    </item>
+    <group
+        android:checkableBehavior="single"
+        android:title="@string/nav_title_settings">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/nav_settings" />
+    </group>
 
 </menu>

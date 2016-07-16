@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_cat_account">
+        <Preference
+            android:key="@string/pref_key_account"
+            android:title="@string/pref_title_sign_in" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_cat_notification">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_enable"
+            android:summary="@string/pref_summary_notification_enable"
+            android:title="@string/pref_title_notification_enable" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_cat_widget">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_widget_transparent"
+            android:summary="@string/pref_summary_widget_transparent"
+            android:title="@string/pref_title_widget_transparent" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -72,7 +72,7 @@
         <activity
             android:name=".activities.ActivityLogin"
             android:label="@string/sign_in_title"
-            android:parentActivityName=".activities.ActivityMain"
+            android:parentActivityName=".activities.ActivitySettings"
             android:theme="@style/AppTheme" />
 
         <receiver
@@ -87,6 +87,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget" />
         </receiver>
+
+        <activity
+            android:name=".activities.ActivitySettings"
+            android:label="@string/pref_title"
+            android:parentActivityName=".activities.ActivityMain"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

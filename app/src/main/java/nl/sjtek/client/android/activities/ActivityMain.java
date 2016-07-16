@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
@@ -136,6 +137,7 @@ public class ActivityMain extends AppCompatActivity
 
         replaceFragment(target);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         WiFiReceiver.updateNotification(this.getApplicationContext());
     }
 
@@ -233,9 +235,8 @@ public class ActivityMain extends AppCompatActivity
             replaceFragment(new FragmentSonarr());
         } else if (id == R.id.nav_transmission) {
             replaceFragment(new FragmentTransmission());
-        } else if (id == R.id.nav_sign_in) {
-            Storage.getInstance().clearCredentials();
-            startActivity(new Intent(this, ActivityLogin.class));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(this, ActivitySettings.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
