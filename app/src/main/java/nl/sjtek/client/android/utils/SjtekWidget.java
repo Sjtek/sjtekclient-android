@@ -3,6 +3,7 @@ package nl.sjtek.client.android.utils;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
@@ -20,7 +21,7 @@ public class SjtekWidget {
 
     }
 
-    public static RemoteViews getWidget(Context context, boolean background) {
+    public static RemoteViews getWidget(Context context, boolean widget) {
         Intent viewIntent = new Intent(context, ActivityMain.class);
         PendingIntent viewPendingIntent =
                 PendingIntent.getActivity(context, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -38,8 +39,12 @@ public class SjtekWidget {
         PendingIntent pendingIntentSwitch = PendingIntent.getService(context, 30, intentSwitch, 0);
 
         @LayoutRes int layoutRes;
-        if (background) {
-            layoutRes = R.layout.widget;
+        if (widget) {
+            if (PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getBoolean(context.getString(R.string.pref_key_widget_transparent), false)) {
+                layoutRes = R.layout.widget_transparent;
+            } else {
+                layoutRes = R.layout.widget;
+            }
         } else {
             layoutRes = R.layout.notification;
         }
