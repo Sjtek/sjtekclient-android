@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,11 @@ public class WiFiReceiver extends BroadcastReceiver {
     }
 
     public static void updateNotification(Context context) {
+        if (!PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+                .getBoolean(context.getString(R.string.pref_key_notification_enable), true)) {
+            dismissNotification(context);
+            return;
+        }
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         String ssid = wifiInfo.getSSID();
