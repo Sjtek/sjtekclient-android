@@ -8,6 +8,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.receiver.SjtekWidgetProvider;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.utils.Storage;
 
@@ -61,7 +62,8 @@ public class ActivitySettings extends AppCompatActivity {
                 if (getActivity() != null)
                     WiFiReceiver.updateNotification(getActivity().getApplicationContext());
             } else if (key.equals(getString(R.string.pref_key_widget_transparent))) {
-                // TODO: 16-7-16 Trigger widget
+                if (getActivity() != null)
+                    SjtekWidgetProvider.updateAllWidgets(getActivity().getApplicationContext());
             }
         }
 
