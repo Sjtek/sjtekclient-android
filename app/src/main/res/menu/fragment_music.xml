@@ -15,4 +15,10 @@
         android:orderInCategory="200"
         android:title="@string/action_clear"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_start"
+        android:icon="@drawable/ic_library_music_white_24dp"
+        android:orderInCategory="300"
+        android:title="@string/action_start"
+        app:showAsAction="ifRoom" />
 </menu>

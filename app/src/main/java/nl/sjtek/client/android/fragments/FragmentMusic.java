@@ -12,6 +12,7 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.InfoRequest;
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
+import nl.sjtek.client.android.utils.Storage;
 
 /**
  * Created by Wouter Habets on 21-10-15.
@@ -26,7 +27,7 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
 
     @Override
     protected String getUrl() {
-        return "http://music.sjtek.nl/spotmop";
+        return "http://music.sjtek.nl/musicbox_webclient/index.html#home";
     }
 
     @Override
@@ -54,6 +55,9 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
             case R.id.action_clear:
                 addRequest(new InfoRequest(Action.Music.CLEAR, this, this));
                 return true;
+            case R.id.action_start:
+                addRequest(new InfoRequest(Action.Music.START
+                        + "?url=" + Storage.getInstance().getDefaultPlaylist(), this, this));
             default:
                 return super.onOptionsItemSelected(item);
         }
