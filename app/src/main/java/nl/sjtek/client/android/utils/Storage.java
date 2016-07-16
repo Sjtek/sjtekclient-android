@@ -16,6 +16,7 @@ public class Storage {
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_EXTRA_LIGHTS = "extra_lights";
     private static final String KEY_PLAYLIST = "playlist";
+    private static final String KEY_CREDENTIALS_CHANGED = "credentials_changed";
 
     private static Storage instance = new Storage();
     private SharedPreferences sharedPreferences;
@@ -38,6 +39,7 @@ public class Storage {
         sharedPreferences.edit()
                 .putString(KEY_USERNAME, username)
                 .putString(KEY_PASSWORD, password)
+                .putBoolean(KEY_CREDENTIALS_CHANGED, true)
                 .apply();
     }
 
@@ -75,6 +77,16 @@ public class Storage {
     public void setDefaultPlaylist(String playlist) {
         sharedPreferences.edit()
                 .putString(KEY_PLAYLIST, playlist)
+                .apply();
+    }
+
+    public boolean areCredentialsChanged() {
+        return sharedPreferences.getBoolean(KEY_CREDENTIALS_CHANGED, false);
+    }
+
+    public void setCredentialsChanged(boolean changed) {
+        sharedPreferences.edit()
+                .putBoolean(KEY_CREDENTIALS_CHANGED, changed)
                 .apply();
     }
 }

@@ -181,6 +181,10 @@ public class ActivityMain extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (Storage.getInstance().areCredentialsChanged()) {
+            Storage.getInstance().setCredentialsChanged(false);
+            recreate();
+        }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
     }
 
