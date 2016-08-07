@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "nl.sjtek.client.android"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 2000
         versionName "5.0"
