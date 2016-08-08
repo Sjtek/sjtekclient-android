@@ -32,12 +32,12 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
 
     @Override
     public void onVolumeRaise() {
-        addRequest(new InfoRequest(Action.Music.VOLUME_RAISE, this, this));
+        addRequest(new InfoRequest(Action.Music.VOLUME_RAISE, this, this, Storage.getInstance(getActivity()).getCredentials()));
     }
 
     @Override
     public void onVolumeLower() {
-        addRequest(new InfoRequest(Action.Music.VOLUME_LOWER, this, this));
+        addRequest(new InfoRequest(Action.Music.VOLUME_LOWER, this, this, Storage.getInstance(getActivity()).getCredentials()));
     }
 
     @Override
@@ -50,14 +50,14 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_shuffle:
-                addRequest(new InfoRequest(Action.Music.SHUFFLE, this, this));
+                addRequest(new InfoRequest(Action.Music.SHUFFLE, this, this, Storage.getInstance(getActivity()).getCredentials()));
                 return true;
             case R.id.action_clear:
-                addRequest(new InfoRequest(Action.Music.CLEAR, this, this));
+                addRequest(new InfoRequest(Action.Music.CLEAR, this, this, Storage.getInstance(getActivity()).getCredentials()));
                 return true;
             case R.id.action_start:
                 addRequest(new InfoRequest(Action.Music.START
-                        + "?url=" + Storage.getInstance().getDefaultPlaylist(), this, this));
+                        + "?url=" + Storage.getInstance(getContext()).getDefaultPlaylist(), this, this, Storage.getInstance(getActivity()).getCredentials()));
             default:
                 return super.onOptionsItemSelected(item);
         }

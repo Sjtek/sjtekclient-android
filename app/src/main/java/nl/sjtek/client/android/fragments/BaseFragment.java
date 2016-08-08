@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 
 import nl.sjtek.client.android.activities.ActivityLogin;
 import nl.sjtek.client.android.api.InfoRequest;
+import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 public abstract class BaseFragment extends Fragment implements
@@ -31,7 +32,7 @@ public abstract class BaseFragment extends Fragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         requestQueue = Volley.newRequestQueue(context);
-        addRequest(new InfoRequest(this, this));
+        addRequest(new InfoRequest(this, this, Storage.getInstance(context).getCredentials()));
     }
 
     protected void addRequest(InfoRequest request) {

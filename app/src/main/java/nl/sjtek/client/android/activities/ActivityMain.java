@@ -101,8 +101,8 @@ public class ActivityMain extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        String username = Storage.getInstance().getUsername().toLowerCase();
-        if (Storage.getInstance().isCredentialsSet() && toolbar != null) {
+        String username = Storage.getInstance(this).getUsername().toLowerCase();
+        if (Storage.getInstance(this).isCredentialsSet() && toolbar != null) {
             toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
         }
 
@@ -150,7 +150,7 @@ public class ActivityMain extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_led).setVisible(Storage.getInstance().getCheckExtraLights());
+        menu.findItem(R.id.action_led).setVisible(Storage.getInstance(this).getCheckExtraLights());
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -161,6 +161,7 @@ public class ActivityMain extends AppCompatActivity
                 replaceFragment(new FragmentLED(), true);
                 return true;
             case R.id.action_toggle:
+                Storage storage = Storage.getInstance(this);
                 requestQueue.add(new ToggleRequest(new Response.Listener<ResponseCollection>() {
                     @Override
                     public void onResponse(ResponseCollection response) {
@@ -171,7 +172,7 @@ public class ActivityMain extends AppCompatActivity
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                }));
+                }, storage.getCredentials(), storage.getUsername()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -181,8 +182,8 @@ public class ActivityMain extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (Storage.getInstance().areCredentialsChanged()) {
-            Storage.getInstance().setCredentialsChanged(false);
+        if (Storage.getInstance(this).areCredentialsChanged()) {
+            Storage.getInstance(this).setCredentialsChanged(false);
             recreate();
         }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
@@ -362,7 +363,7 @@ public class ActivityMain extends AppCompatActivity
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                }));
+                }, Storage.getInstance(getApplicationContext()).getCredentials()));
             }
         }, new Response.ErrorListener() {
             @Override

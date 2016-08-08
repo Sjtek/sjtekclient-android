@@ -47,7 +47,7 @@ public abstract class BaseFragmentWeb extends BaseFragment {
                                                   HttpAuthHandler handler,
                                                   String host,
                                                   String realm) {
-                Storage storage = Storage.getInstance();
+                Storage storage = Storage.getInstance(getContext());
                 handler.proceed(storage.getUsername(), storage.getPassword());
             }
         });

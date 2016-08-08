@@ -15,6 +15,7 @@ import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.InfoRequest;
 import nl.sjtek.client.android.cards.BaseCard;
 import nl.sjtek.client.android.cards.UserCard;
+import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
@@ -34,8 +35,8 @@ public class FragmentDashboard extends BaseFragment {
 
         @Override
         public void onFinish() {
-            if (!areRequestsRunning())
-                addRequest(new InfoRequest(FragmentDashboard.this, FragmentDashboard.this));
+            if (!areRequestsRunning() && getActivity() != null)
+                addRequest(new InfoRequest(FragmentDashboard.this, FragmentDashboard.this, Storage.getInstance(getActivity()).getCredentials()));
 
             updateTimer.start();
         }
@@ -118,7 +119,7 @@ public class FragmentDashboard extends BaseFragment {
             if (paramUrl != null) {
                 urlString += "?url=" + paramUrl;
             }
-            addRequest(new InfoRequest(urlString, FragmentDashboard.this, FragmentDashboard.this));
+            addRequest(new InfoRequest(urlString, FragmentDashboard.this, FragmentDashboard.this, Storage.getInstance(getActivity()).getCredentials()));
         }
     }
 }

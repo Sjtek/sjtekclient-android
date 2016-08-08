@@ -47,9 +47,9 @@ public class ActivitySettings extends AppCompatActivity {
 
         private void setAccountPreference() {
             Preference accountPref = findPreference(getString(R.string.pref_key_account));
-            if (Storage.getInstance().isCredentialsSet()) {
+            if (Storage.getInstance(getActivity()).isCredentialsSet()) {
                 accountPref.setTitle(getString(R.string.pref_title_sign_out));
-                accountPref.setSummary(getString(R.string.pref_summary_signed_in, Storage.getInstance().getUsername()));
+                accountPref.setSummary(getString(R.string.pref_summary_signed_in, Storage.getInstance(getActivity()).getUsername()));
             } else {
                 accountPref.setTitle(getString(R.string.pref_title_sign_in));
                 accountPref.setSummary("");
@@ -69,8 +69,8 @@ public class ActivitySettings extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if (Storage.getInstance().isCredentialsSet()) {
-                Storage.getInstance().clearCredentials();
+            if (Storage.getInstance(getActivity()).isCredentialsSet()) {
+                Storage.getInstance(getActivity()).clearCredentials();
                 setAccountPreference();
             } else {
                 startActivity(new Intent(getActivity().getApplicationContext(), ActivityLogin.class));

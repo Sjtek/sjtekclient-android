@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-import nl.sjtek.client.android.SjtekApp;
-
 /**
  * Created by Wouter Habets on 4-12-15.
  */
@@ -18,15 +16,21 @@ public class Storage {
     private static final String KEY_PLAYLIST = "playlist";
     private static final String KEY_CREDENTIALS_CHANGED = "credentials_changed";
 
-    private static Storage instance = new Storage();
+    private static Storage instance;
     private SharedPreferences sharedPreferences;
 
-    private Storage() {
-        Context context = SjtekApp.getContext();
-        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+    private Storage(Context context) {
+        sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
     public static Storage getInstance() {
+        return instance;
+    }
+
+    public static synchronized Storage getInstance(Context context) {
+        if (instance == null) {
+            instance = new Storage(context);
+        }
         return instance;
     }
 
@@ -56,6 +60,7 @@ public class Storage {
     }
 
     public String getCredentials() {
+        if (!isCredentialsSet()) return null;
         String credentials = String.format("%s:%s", getUsername(), getPassword());
         return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
     }

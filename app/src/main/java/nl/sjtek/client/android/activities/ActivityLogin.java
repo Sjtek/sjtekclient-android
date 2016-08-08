@@ -76,9 +76,9 @@ public class ActivityLogin extends AppCompatActivity implements
         progressDialog.dismiss();
         String username = holder.editTextUsername.getText().toString();
         String password = holder.editTextPassword.getText().toString();
-        Storage.getInstance().setCredentials(username, password);
-        Storage.getInstance().setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
-        Storage.getInstance().setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
+        Storage.getInstance(this).setCredentials(username, password);
+        Storage.getInstance(this).setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
+        Storage.getInstance(this).setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
         finish();
     }
 
