@@ -35,7 +35,7 @@ public class CommandService extends IntentService {
         } else if (ACTION_MUSIC_NEXT.equals(action)) {
             execute(Action.Music.NEXT.toString());
         } else if (ACTION_SWITCH.equals(action)) {
-            execute(Action.SWITCH.toString() + "?user=" + Storage.getInstance().getUsername().toLowerCase() + "&voice");
+            execute(Action.SWITCH.toString() + "?user=" + Storage.getInstance(getApplicationContext()).getUsername().toLowerCase() + "&voice");
         }
     }
 
@@ -44,8 +44,8 @@ public class CommandService extends IntentService {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            if (Storage.getInstance().isCredentialsSet()) {
-                connection.setRequestProperty("Authorization", Storage.getInstance().getCredentials());
+            if (Storage.getInstance(getApplicationContext()).isCredentialsSet()) {
+                connection.setRequestProperty("Authorization", Storage.getInstance(getApplicationContext()).getCredentials());
             }
             connection.connect();
             connection.getResponseCode();

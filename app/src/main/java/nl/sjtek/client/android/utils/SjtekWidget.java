@@ -8,7 +8,6 @@ import android.support.annotation.LayoutRes;
 import android.widget.RemoteViews;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.SjtekApp;
 import nl.sjtek.client.android.activities.ActivityMain;
 import nl.sjtek.client.android.services.CommandService;
 
@@ -49,7 +48,7 @@ public class SjtekWidget {
             layoutRes = R.layout.notification;
         }
 
-        RemoteViews view = new RemoteViews(SjtekApp.getContext().getPackageName(), layoutRes);
+        RemoteViews view = new RemoteViews(context.getPackageName(), layoutRes);
         view.setOnClickPendingIntent(R.id.buttonApp, viewPendingIntent);
         view.setOnClickPendingIntent(R.id.buttonPlay, pendingIntentMusicToggle);
         view.setOnClickPendingIntent(R.id.buttonNext, pendingIntentMusicNext);

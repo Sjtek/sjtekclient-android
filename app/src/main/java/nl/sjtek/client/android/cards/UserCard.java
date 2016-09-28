@@ -29,7 +29,7 @@ public class UserCard extends BaseCard {
     protected void onShouldInflate(Context context) {
         inflate(context, R.layout.card_user, this);
         TextView textView = (TextView) findViewById(R.id.textView);
-        String username = Storage.getInstance().getUsername().toLowerCase();
+        String username = Storage.getInstance(getContext()).getUsername().toLowerCase();
         if (username.isEmpty()) {
             textView.setText("Niet ingelogd.");
         } else {

@@ -42,7 +42,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         switch4 = (SwitchCompat) findViewById(R.id.switch4);
         switch4.setOnClickListener(this);
 
-        if (Storage.getInstance().getCheckExtraLights()) {
+        if (Storage.getInstance(getContext()).getCheckExtraLights()) {
             switch3.setVisibility(View.VISIBLE);
         }
 

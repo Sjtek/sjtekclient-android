@@ -110,7 +110,7 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                postAction(Action.Music.START, Storage.getInstance().getDefaultPlaylist());
+                postAction(Action.Music.START, Storage.getInstance(getContext()).getDefaultPlaylist());
                 break;
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);

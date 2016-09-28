@@ -13,7 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
@@ -21,31 +20,35 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 public class InfoRequest extends Request<ResponseCollection> {
 
+    private final String credentials;
     private Response.Listener<ResponseCollection> responseListener;
 
     public InfoRequest(Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener) {
-        this(Action.REFRESH, responseListener, errorListener);
+                       Response.ErrorListener errorListener,
+                       String credentials) {
+        this(Action.REFRESH, responseListener, errorListener, credentials);
     }
 
     public InfoRequest(ActionInterface action,
                        Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener) {
-        this(action.getUrl(), responseListener, errorListener);
+                       Response.ErrorListener errorListener,
+                       String credentials) {
+        this(action.getUrl(), responseListener, errorListener, credentials);
     }
 
     public InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
-                          Response.ErrorListener errorListener) {
+                       Response.ErrorListener errorListener,
+                       String credentials) {
         super(Method.GET, url, errorListener);
         Log.d(this.getClass().getSimpleName(), "URL: " + url);
         this.responseListener = responseListener;
         setShouldCache(false);
+        this.credentials = credentials;
     }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        String credentials = Storage.getInstance().getCredentials();
-        if (Storage.getInstance().isCredentialsSet()) {
+        if (credentials != null) {
             HashMap<String, String> params = new HashMap<>();
             params.put("Authorization", credentials);
             return params;

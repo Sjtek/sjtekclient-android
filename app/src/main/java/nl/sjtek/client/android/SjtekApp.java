@@ -1,22 +1,22 @@
 package nl.sjtek.client.android;
 
 import android.app.Application;
-import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
+
+import nl.sjtek.client.android.utils.Storage;
 
 /**
  * Created by Wouter Habets on 4-12-15.
  */
 public class SjtekApp extends Application {
 
-    private static Context context;
+    static {
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
-    }
-
-    public static Context getContext() {
-        return context;
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        Storage.getInstance(this);
     }
 }
