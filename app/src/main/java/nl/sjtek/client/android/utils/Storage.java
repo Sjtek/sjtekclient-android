@@ -23,10 +23,6 @@ public class Storage {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public static Storage getInstance() {
-        return instance;
-    }
-
     public static synchronized Storage getInstance(Context context) {
         if (instance == null) {
             instance = new Storage(context);
