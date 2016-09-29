@@ -1,20 +1,25 @@
 package nl.sjtek.client.android.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.VolleyError;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.InfoRequest;
 import nl.sjtek.client.android.cards.BaseCard;
 import nl.sjtek.client.android.cards.UserCard;
+import nl.sjtek.client.android.events.ConnectionEvent;
+import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -23,24 +28,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 public class FragmentDashboard extends BaseFragment {
 
-    private static final long REFRESH_INTERVAL = 1000;
-
     private Holder holder;
-
-    private CountDownTimer updateTimer = new CountDownTimer(REFRESH_INTERVAL, REFRESH_INTERVAL) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            if (!areRequestsRunning() && getActivity() != null)
-                addRequest(new InfoRequest(FragmentDashboard.this, FragmentDashboard.this, Storage.getInstance(getActivity()).getCredentials()));
-
-            updateTimer.start();
-        }
-    };
 
     public FragmentDashboard() {
         // Required empty public constructor
@@ -51,42 +39,33 @@ public class FragmentDashboard extends BaseFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         holder = new Holder(rootView);
+        EventBus.getDefault().register(this);
+        getContext().startService(new Intent(getContext(), SjtekService.class));
         return rootView;
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        updateTimer.cancel();
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        getContext().stopService(new Intent(getContext(), SjtekService.class));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTimer.start();
-    }
-
-    @Override
-    protected void onError(VolleyError error) {
-        super.onError(error);
-    }
-
-    @Override
-    protected void onCannotConnect(VolleyError error) {
-        super.onCannotConnect(error);
-        updateTimer.cancel();
-    }
-
-    @Override
-    protected void onRetry() {
-        super.onRetry();
-        updateTimer.start();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSocketUpdate(ResponseCollection responseCollection) {
+        onUpdate(responseCollection);
     }
 
     @Override
     protected void onUpdate(ResponseCollection update) {
         super.onUpdate(update);
         if (holder != null && !areRequestsRunning()) holder.onUpdate(update);
+    }
+
+    @Subscribe
+    public void onConnectionChanged(ConnectionEvent event) {
+        if (getView() != null && !event.isConnected())
+            Snackbar.make(getView(), "Disconnected", Snackbar.LENGTH_SHORT).show();
     }
 
     private class Holder implements BaseCard.OnClickListener {
