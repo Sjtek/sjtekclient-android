@@ -93,6 +93,11 @@
             android:label="@string/pref_title"
             android:parentActivityName=".activities.ActivityMain"
             android:theme="@style/AppTheme" />
+
+        <service
+            android:name=".services.SjtekService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
