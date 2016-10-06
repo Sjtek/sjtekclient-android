@@ -16,10 +16,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 
 public class SjtekService extends Service {
 
-    private Client client = new Client();
-
-    public SjtekService() throws URISyntaxException {
-    }
+    private Client client;
 
     @Override
     public void onCreate() {
@@ -28,14 +25,24 @@ public class SjtekService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        client.connect();
+        if (client != null) {
+            client.close();
+        }
+
+        try {
+            client = new Client();
+            client.connect();
+        } catch (URISyntaxException ignored) {
+
+        }
+
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        client.close();
+        if (client != null) client.close();
     }
 
     @Override
