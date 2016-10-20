@@ -61,7 +61,7 @@
         <service
             android:name=".services.CommandService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="@string/service_action_music_toggle" />
                 <action android:name="@string/service_action_music_next" />

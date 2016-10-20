@@ -60,5 +60,6 @@
     <string name="pref_title_widget_transparent">Transparent background</string>
     <string name="pref_key_widget_transparent">pref_key_widget_transparent</string>
 
-
+    <string name="shortcut_toggle">Toggle all</string>
+    <string name="shortcut_music">Music</string>
 </resources>
