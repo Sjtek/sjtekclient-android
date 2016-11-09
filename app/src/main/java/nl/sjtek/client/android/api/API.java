@@ -26,7 +26,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
     private RequestQueue requestQueue;
 
     private API(Context context) {
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
     private static synchronized API getInstance(Context context) {

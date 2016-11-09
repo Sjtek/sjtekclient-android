@@ -37,6 +37,7 @@ import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
+import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.utils.Storage;
 
 public class ActivityMain extends AppCompatActivity
@@ -155,12 +156,15 @@ public class ActivityMain extends AppCompatActivity
             recreate();
         }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
+        startService(new Intent(this, SjtekService.class));
+        API.info(getApplicationContext());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(fragmentBroadcastReceiver);
+        stopService(new Intent(this, SjtekService.class));
     }
 
     private void initNavigationHeader(NavigationView navigationView) {

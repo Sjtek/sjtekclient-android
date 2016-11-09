@@ -25,7 +25,7 @@ public class Storage {
 
     public static synchronized Storage getInstance(Context context) {
         if (instance == null) {
-            instance = new Storage(context);
+            instance = new Storage(context.getApplicationContext());
         }
         return instance;
     }
