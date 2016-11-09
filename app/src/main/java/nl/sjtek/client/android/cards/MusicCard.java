@@ -14,7 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
+import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
@@ -110,7 +112,7 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                postAction(Action.Music.START, Storage.getInstance(getContext()).getDefaultPlaylist());
+                API.action(getContext(), Action.Music.START, new Arguments().setUrl(Storage.getInstance(getContext()).getDefaultPlaylist()));
                 break;
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
@@ -120,13 +122,13 @@ public class MusicCard extends BaseCard implements View.OnClickListener {
                 break;
             case R.id.buttonPlay:
                 if (state == MusicResponse.State.STATUS_PLAYING) {
-                    postAction(Action.Music.PAUSE);
+                    API.action(getContext(), Action.Music.PAUSE);
                 } else {
-                    postAction(Action.Music.PLAY);
+                    API.action(getContext(), Action.Music.PLAY);
                 }
                 break;
             case R.id.buttonNext:
-                postAction(Action.Music.NEXT);
+                API.action(getContext(), Action.Music.NEXT);
         }
     }
 }

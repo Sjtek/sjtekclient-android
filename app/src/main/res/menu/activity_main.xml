@@ -9,11 +9,4 @@
         android:orderInCategory="1001"
         android:title="@string/led_title"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_toggle"
-        android:icon="@drawable/ic_power_white_24dp"
-        android:orderInCategory="1002"
-        android:title="@string/action_toggle"
-        app:showAsAction="ifRoom" />
 </menu>

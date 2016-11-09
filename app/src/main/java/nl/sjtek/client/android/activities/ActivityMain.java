@@ -1,19 +1,13 @@
 package nl.sjtek.client.android.activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,23 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.InfoRequest;
-import nl.sjtek.client.android.api.ToggleRequest;
-import nl.sjtek.client.android.api.WatsonRequest;
-import nl.sjtek.client.android.api.WatsonResponse;
+import nl.sjtek.client.android.api.API;
+import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
 import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
@@ -56,7 +39,6 @@ import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.utils.Storage;
-import nl.sjtek.control.data.responses.ResponseCollection;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +51,6 @@ public class ActivityMain extends AppCompatActivity
     public static final String TARGET_SONARR = "target_sonarr";
     public static final String TARGET_TRANSMISSION = "target_transmission";
     public static final String TARGET_LED = "target_led";
-    private static final int REQUEST_VOICE_RECOGNITION = 8001;
 
     private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private OnVolumePressListener volumeListener = null;
@@ -86,13 +67,6 @@ public class ActivityMain extends AppCompatActivity
             }
         }
     };
-    private RequestQueue requestQueue;
-
-    private ProgressDialog progressDialog;
-
-    private TextView textViewTemp;
-
-    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +83,23 @@ public class ActivityMain extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.start();
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabAction(view);
+                API.action(getApplicationContext(), Action.SWITCH, new Arguments().setDefaultUser(getApplicationContext()));
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Context context = getApplicationContext();
+                API.action(context, Action.SWITCH,
+                        new Arguments()
+                                .setDefaultUser(context)
+                                .setUseVoice(true)
+                                .setDefaultPlaylist(context));
+                return true;
             }
         });
 
@@ -161,20 +144,6 @@ public class ActivityMain extends AppCompatActivity
             case R.id.action_led:
                 replaceFragment(new FragmentLED(), true);
                 return true;
-            case R.id.action_toggle:
-                Storage storage = Storage.getInstance(this);
-                requestQueue.add(new ToggleRequest(new Response.Listener<ResponseCollection>() {
-                    @Override
-                    public void onResponse(ResponseCollection response) {
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }, storage.getCredentials(), storage.getUsername()));
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -196,18 +165,9 @@ public class ActivityMain extends AppCompatActivity
         unregisterReceiver(fragmentBroadcastReceiver);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (textToSpeech != null) {
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
-    }
-
     private void initNavigationHeader(NavigationView navigationView) {
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, null);
-        textViewTemp = (TextView) headerView.findViewById(R.id.textViewHeaderTemp);
+//        textViewTemp = (TextView) headerView.findViewById(R.id.textViewHeaderTemp);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
 
         String[] lines = getResources().getStringArray(R.array.sjtek_lines);
@@ -305,10 +265,6 @@ public class ActivityMain extends AppCompatActivity
         }
     }
 
-    private void fabAction(View view) {
-        startVoiceRecognition();
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (volumeListener == null) return super.onKeyDown(keyCode, event);
@@ -322,101 +278,5 @@ public class ActivityMain extends AppCompatActivity
         } else {
             return super.onKeyDown(keyCode, event);
         }
-    }
-
-    private void startVoiceRecognition() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-        startActivityForResult(intent, REQUEST_VOICE_RECOGNITION);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_VOICE_RECOGNITION && resultCode == Activity.RESULT_OK) {
-            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            String text = results.get(0);
-            try {
-                voiceCommand(text);
-            } catch (UnsupportedEncodingException | JSONException e) {
-                e.printStackTrace();
-                Snackbar.make(findViewById(android.R.id.content), "Watson can't process " + text,
-                        Snackbar.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private void voiceCommand(final String text) throws UnsupportedEncodingException, JSONException {
-        showLoadingDialog("Watson is thinking", text);
-        requestQueue.add(new WatsonRequest(text, new Response.Listener<WatsonResponse>() {
-            @Override
-            public void onResponse(WatsonResponse response) {
-                hideLoadingDialog();
-                speak(response.getText());
-                requestQueue.add(new InfoRequest(response.getUrl(), new Response.Listener<ResponseCollection>() {
-                    @Override
-                    public void onResponse(ResponseCollection response) {
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }, Storage.getInstance(getApplicationContext()).getCredentials()));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                hideLoadingDialog();
-                speak("I don't understand, " + text);
-                Snackbar.make(findViewById(android.R.id.content), "Watson doesn't understand " + text,
-                        Snackbar.LENGTH_LONG).show();
-            }
-        }));
-    }
-
-    @SuppressWarnings("deprecation")
-    private void speak(final String text) {
-        if (textToSpeech == null) {
-            textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if (status != TextToSpeech.ERROR) {
-                        textToSpeech.setLanguage(Locale.UK);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-                        } else {
-                            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-                        }
-                    }
-                }
-            });
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-            } else {
-                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-            }
-        }
-    }
-
-    private void showLoadingDialog(String title, String message) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-        } else {
-            progressDialog.dismiss();
-        }
-
-        progressDialog.setIndeterminate(true);
-        progressDialog.setTitle(title);
-        progressDialog.setMessage(message);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-    private void hideLoadingDialog() {
-        if (progressDialog != null) progressDialog.dismiss();
     }
 }

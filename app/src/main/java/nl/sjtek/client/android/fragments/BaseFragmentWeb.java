@@ -12,11 +12,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.android.volley.VolleyError;
-
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.utils.Storage;
-import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +21,6 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 public abstract class BaseFragmentWeb extends BaseFragment {
 
     private WebView webView;
-    private View loadingView;
 
     public BaseFragmentWeb() {
         // Required empty public constructor
@@ -37,7 +33,6 @@ public abstract class BaseFragmentWeb extends BaseFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_web, container, false);
         webView = (WebView) rootView.findViewById(R.id.webView);
-        loadingView = rootView.findViewById(R.id.progressBar);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -69,16 +64,4 @@ public abstract class BaseFragmentWeb extends BaseFragment {
     }
 
     protected abstract String getUrl();
-
-    @Override
-    protected void onUpdate(ResponseCollection update) {
-        webView.setVisibility(View.VISIBLE);
-        loadingView.setVisibility(View.GONE);
-    }
-
-    @Override
-    protected void onError(VolleyError error) {
-        webView.setVisibility(View.GONE);
-        loadingView.setVisibility(View.VISIBLE);
-    }
 }

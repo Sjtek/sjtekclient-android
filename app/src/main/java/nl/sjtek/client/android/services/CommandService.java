@@ -3,13 +3,10 @@ package nl.sjtek.client.android.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.api.Arguments;
 
 
 public class CommandService extends IntentService {
@@ -31,26 +28,11 @@ public class CommandService extends IntentService {
         final String action = intent.getAction();
 
         if (ACTION_MUSIC_TOGGLE.equals(action)) {
-            execute(Action.Music.TOGGLE.toString());
+            API.action(getApplicationContext(), Action.Music.TOGGLE);
         } else if (ACTION_MUSIC_NEXT.equals(action)) {
-            execute(Action.Music.NEXT.toString());
+            API.action(getApplicationContext(), Action.Music.NEXT);
         } else if (ACTION_SWITCH.equals(action)) {
-            execute(Action.SWITCH.toString() + "?user=" + Storage.getInstance(getApplicationContext()).getUsername().toLowerCase() + "&voice");
-        }
-    }
-
-    private void execute(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            if (Storage.getInstance(getApplicationContext()).isCredentialsSet()) {
-                connection.setRequestProperty("Authorization", Storage.getInstance(getApplicationContext()).getCredentials());
-            }
-            connection.connect();
-            connection.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
+            API.action(getApplicationContext(), Action.SWITCH, new Arguments().setUseVoice(true).setDefaultUser(getApplicationContext()));
         }
     }
 }

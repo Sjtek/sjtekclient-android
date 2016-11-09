@@ -9,7 +9,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 /**
  * Created by Wouter Habets on 25-3-16.
  */
-public class ToggleRequest extends InfoRequest {
+class ToggleRequest extends InfoRequest {
 
     private static final String BASE_URL = Action.SWITCH.getUrl() + "?voice&music&user=%s";
 

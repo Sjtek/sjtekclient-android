@@ -18,7 +18,7 @@ import nl.sjtek.control.data.settings.DataCollection;
 /**
  * Created by Wouter Habets on 4-12-15.
  */
-public class AuthenticationRequest extends Request<DataCollection> {
+class AuthenticationRequest extends Request<DataCollection> {
 
     private static final String URL = Action.DATA.toString();
 

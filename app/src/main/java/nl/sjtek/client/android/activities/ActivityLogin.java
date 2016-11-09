@@ -1,32 +1,29 @@
 package nl.sjtek.client.android.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.AuthenticationRequest;
+import nl.sjtek.client.android.api.API;
+import nl.sjtek.client.android.events.AuthFailedEvent;
+import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.settings.DataCollection;
 
 public class ActivityLogin extends AppCompatActivity implements
-        View.OnClickListener,
-        Response.Listener<DataCollection>,
-        Response.ErrorListener {
+        View.OnClickListener {
 
-    private static final String REQUEST_TAG = ActivityLogin.class.getSimpleName() + "_login";
     private Holder holder;
-    private RequestQueue requestQueue;
     private ProgressDialog progressDialog;
 
     @Override
@@ -34,21 +31,24 @@ public class ActivityLogin extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.start();
-
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                requestQueue.cancelAll(REQUEST_TAG);
-            }
-        });
 
         holder = new Holder();
         initClickListeners();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initClickListeners() {
@@ -66,13 +66,12 @@ public class ActivityLogin extends AppCompatActivity implements
 
         progressDialog.show();
 
-        Request request = new AuthenticationRequest(username, password, this, this);
-        request.setTag(REQUEST_TAG);
-        requestQueue.add(request);
+        API.authenticate(getApplicationContext(), username, password);
     }
 
-    @Override
-    public void onResponse(DataCollection response) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSuccess(AuthSuccessfulEvent event) {
+        DataCollection response = event.getDataCollection();
         progressDialog.dismiss();
         String username = holder.editTextUsername.getText().toString();
         String password = holder.editTextPassword.getText().toString();
@@ -82,8 +81,9 @@ public class ActivityLogin extends AppCompatActivity implements
         finish();
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onErrorResponse(AuthFailedEvent event) {
+        VolleyError error = event.getVolleyError();
         progressDialog.dismiss();
         String message = String.format(getString(R.string.sign_in_error),
                 (error.networkResponse != null ? "" + error.networkResponse.statusCode : "-"), error.getMessage());

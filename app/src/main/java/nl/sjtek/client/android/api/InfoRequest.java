@@ -18,7 +18,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 /**
  * Created by Wouter Habets on 29-1-16.
  */
-public class InfoRequest extends Request<ResponseCollection> {
+class InfoRequest extends Request<ResponseCollection> {
 
     private final String credentials;
     private Response.Listener<ResponseCollection> responseListener;

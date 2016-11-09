@@ -6,14 +6,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
-/**
- * Created by Wouter Habets on 24-1-16.
- */
 public class LightsCard extends BaseCard implements View.OnClickListener {
 
     private SwitchCompat switch1, switch2, switch3, switch4;
@@ -65,16 +63,16 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         boolean enabled = switchCompat.isChecked();
         switch (id) {
             case R.id.switch1:
-                postAction(enabled ? Action.Light.TOGGLE_1_ON : Action.Light.TOGGLE_1_OFF);
+                API.action(getContext(), enabled ? Action.Light.TOGGLE_1_ON : Action.Light.TOGGLE_1_OFF);
                 break;
             case R.id.switch2:
-                postAction(enabled ? Action.Light.TOGGLE_2_ON : Action.Light.TOGGLE_2_OFF);
+                API.action(getContext(), enabled ? Action.Light.TOGGLE_2_ON : Action.Light.TOGGLE_2_OFF);
                 break;
             case R.id.switch3:
-                postAction(enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
+                API.action(getContext(), enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
                 break;
             case R.id.switch4:
-                postAction(enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
+                API.action(getContext(), enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
                 break;
         }
     }

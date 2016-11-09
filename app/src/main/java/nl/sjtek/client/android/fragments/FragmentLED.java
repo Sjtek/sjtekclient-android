@@ -18,10 +18,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.InfoRequest;
 import nl.sjtek.client.android.api.LEDRequest;
-import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
@@ -94,7 +93,7 @@ public class FragmentLED extends Fragment implements View.OnTouchListener {
         buttonEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ledRequestQueue.add(new InfoRequest(Action.Light.TOGGLE_3_ON, infoListener, infoErrorListener, Storage.getInstance(getActivity()).getCredentials()));
+                API.action(getContext(), Action.Light.TOGGLE_3_ON);
             }
         });
 
@@ -102,7 +101,7 @@ public class FragmentLED extends Fragment implements View.OnTouchListener {
         buttonDisable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ledRequestQueue.add(new InfoRequest(Action.Light.TOGGLE_3_OFF, infoListener, infoErrorListener, Storage.getInstance(getActivity()).getCredentials()));
+                API.action(getContext(), Action.Light.TOGGLE_3_OFF);
             }
         });
 
