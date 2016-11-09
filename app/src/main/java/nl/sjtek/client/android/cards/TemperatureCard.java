@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import nl.sjtek.client.android.R;
 import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.responses.TemperatureResponse;
@@ -16,9 +18,12 @@ import nl.sjtek.control.data.responses.TemperatureResponse;
  */
 public class TemperatureCard extends BaseCard {
 
-    private TextView textViewTempIn;
-    private TextView textViewTempOut;
-    private ImageView imageViewWeather;
+    @BindView(R.id.textViewTempInside)
+    TextView textViewTempIn;
+    @BindView(R.id.textViewTempOutside)
+    TextView textViewTempOut;
+    @BindView(R.id.imageViewWeather)
+    ImageView imageViewWeather;
     private String weatherUrl = "";
 
     public TemperatureCard(Context context) {
@@ -36,9 +41,7 @@ public class TemperatureCard extends BaseCard {
     @Override
     protected void onShouldInflate(Context context) {
         inflate(context, R.layout.card_temperature, this);
-        textViewTempIn = (TextView) findViewById(R.id.textViewTempInside);
-        textViewTempOut = (TextView) findViewById(R.id.textViewTempOutside);
-        imageViewWeather = (ImageView) findViewById(R.id.imageViewWeather);
+        ButterKnife.bind(this);
     }
 
     @Override

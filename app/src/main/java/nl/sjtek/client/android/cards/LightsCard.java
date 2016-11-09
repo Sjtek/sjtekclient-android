@@ -5,16 +5,27 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 public class LightsCard extends BaseCard implements View.OnClickListener {
 
-    private SwitchCompat switch1, switch2, switch3, switch4;
+    @BindView(R.id.switch1)
+    SwitchCompat switch1;
+    @BindView(R.id.switch2)
+    SwitchCompat switch2;
+    @BindView(R.id.switch3)
+    SwitchCompat switch3;
+    @BindView(R.id.switch4)
+    SwitchCompat switch4;
 
     public LightsCard(Context context) {
         super(context);
@@ -31,14 +42,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
     @Override
     protected void onShouldInflate(Context context) {
         inflate(context, R.layout.card_lights, this);
-        switch1 = (SwitchCompat) findViewById(R.id.switch1);
-        switch1.setOnClickListener(this);
-        switch2 = (SwitchCompat) findViewById(R.id.switch2);
-        switch2.setOnClickListener(this);
-        switch3 = (SwitchCompat) findViewById(R.id.switch3);
-        switch3.setOnClickListener(this);
-        switch4 = (SwitchCompat) findViewById(R.id.switch4);
-        switch4.setOnClickListener(this);
+        ButterKnife.bind(this);
 
         if (Storage.getInstance(getContext()).getCheckExtraLights()) {
             switch3.setVisibility(View.VISIBLE);
@@ -56,24 +60,26 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         switch4.setChecked(lights.isLight4());
     }
 
-    @Override
+    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.switch4})
     public void onClick(View v) {
-        int id = v.getId();
-        SwitchCompat switchCompat = (SwitchCompat) v;
-        boolean enabled = switchCompat.isChecked();
-        switch (id) {
+        boolean enabled = ((SwitchCompat) v).isChecked();
+        switch (v.getId()) {
             case R.id.switch1:
-                API.action(getContext(), enabled ? Action.Light.TOGGLE_1_ON : Action.Light.TOGGLE_1_OFF);
+                toggle(enabled ? Action.Light.TOGGLE_1_ON : Action.Light.TOGGLE_1_OFF);
                 break;
             case R.id.switch2:
-                API.action(getContext(), enabled ? Action.Light.TOGGLE_2_ON : Action.Light.TOGGLE_2_OFF);
+                toggle(enabled ? Action.Light.TOGGLE_2_ON : Action.Light.TOGGLE_2_OFF);
                 break;
             case R.id.switch3:
-                API.action(getContext(), enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
+                toggle(enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
                 break;
             case R.id.switch4:
-                API.action(getContext(), enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
+                toggle(enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
                 break;
         }
+    }
+
+    private void toggle(ActionInterface action) {
+        API.action(getContext(), action);
     }
 }
