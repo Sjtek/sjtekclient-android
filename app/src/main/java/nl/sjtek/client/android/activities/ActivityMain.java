@@ -36,7 +36,6 @@ import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
-import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.utils.Storage;
 
@@ -53,7 +52,6 @@ public class ActivityMain extends AppCompatActivity
     public static final String TARGET_LED = "target_led";
 
     private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
-    private OnVolumePressListener volumeListener = null;
     private FloatingActionButton fab;
     private BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -257,23 +255,15 @@ public class ActivityMain extends AppCompatActivity
         } else {
             fab.setVisibility(View.GONE);
         }
-
-        if (fragment instanceof FragmentMusic) {
-            volumeListener = (FragmentMusic) fragment;
-        } else {
-            volumeListener = null;
-        }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (volumeListener == null) return super.onKeyDown(keyCode, event);
-
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            volumeListener.onVolumeLower();
+            API.action(getApplicationContext(), Action.Music.VOLUME_LOWER);
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            volumeListener.onVolumeRaise();
+            API.action(getApplicationContext(), Action.Music.VOLUME_RAISE);
             return true;
         } else {
             return super.onKeyDown(keyCode, event);

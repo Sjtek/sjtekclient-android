@@ -12,12 +12,11 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
-import nl.sjtek.client.android.interfaces.OnVolumePressListener;
 
 /**
  * Created by Wouter Habets on 21-10-15.
  */
-public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListener {
+public class FragmentMusic extends BaseFragmentWeb {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,16 +27,6 @@ public class FragmentMusic extends BaseFragmentWeb implements OnVolumePressListe
     @Override
     protected String getUrl() {
         return "http://music.sjtek.nl/musicbox_webclient/index.html#home";
-    }
-
-    @Override
-    public void onVolumeRaise() {
-        API.action(getContext(), Action.Music.VOLUME_RAISE);
-    }
-
-    @Override
-    public void onVolumeLower() {
-        API.action(getContext(), Action.Music.VOLUME_LOWER);
     }
 
     @Override
