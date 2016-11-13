@@ -1,0 +1,103 @@
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nl.sjtek.client.wear.fragments.LightsFragment"
+    tools:deviceIds="wear">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_padding_vertical"
+        android:paddingEnd="@dimen/activity_padding_horizontal"
+        android:paddingStart="@dimen/activity_padding_horizontal"
+        android:paddingTop="@dimen/activity_padding_vertical"
+        app:layout_box="all">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonToggle"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_blue"
+                    android:src="@drawable/ic_power_white_24dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonPlayPause"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_blue"
+                    android:src="@drawable/ic_play_pause_white" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonLightsOff"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_red"
+                    android:src="@drawable/ic_lightbulb_outline_white" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonLightsOn"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_green"
+                    android:src="@drawable/ic_lightbulb_outline_white" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.wearable.view.BoxInsetLayout>
