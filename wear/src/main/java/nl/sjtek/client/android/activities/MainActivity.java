@@ -1,4 +1,4 @@
-package nl.sjtek.client.wear.activities;
+package nl.sjtek.client.android.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -7,12 +7,12 @@ import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.GridViewPager;
 
-import nl.sjtek.client.wear.R;
-import nl.sjtek.client.wear.fragments.FragmentGrid;
-import nl.sjtek.client.wear.fragments.LightsFragment;
-import nl.sjtek.client.wear.fragments.MusicFragment;
-import nl.sjtek.client.wear.fragments.PlaylistFragment;
-import nl.sjtek.client.wear.fragments.WeatherFragment;
+import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.fragments.FragmentGrid;
+import nl.sjtek.client.android.fragments.LightsFragment;
+import nl.sjtek.client.android.fragments.MusicFragment;
+import nl.sjtek.client.android.fragments.PlaylistFragment;
+import nl.sjtek.client.android.fragments.WeatherFragment;
 
 public class MainActivity extends WearableActivity {
 

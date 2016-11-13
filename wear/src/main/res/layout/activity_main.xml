@@ -4,6 +4,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nl.sjtek.client.wear.activities.MainActivity"
+    tools:context="nl.sjtek.client.android.activities.MainActivity"
     tools:deviceIds="wear" />
 

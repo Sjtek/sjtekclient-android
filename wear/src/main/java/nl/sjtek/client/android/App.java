@@ -1,4 +1,4 @@
-package nl.sjtek.client.wear;
+package nl.sjtek.client.android;
 
 import android.app.Application;
 

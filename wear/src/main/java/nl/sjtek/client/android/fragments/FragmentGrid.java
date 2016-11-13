@@ -1,4 +1,4 @@
-package nl.sjtek.client.wear.fragments;
+package nl.sjtek.client.android.fragments;
 
 import android.app.Fragment;
 
