@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "nl.sjtek.client.wear"
+        applicationId "nl.sjtek.client.android"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
