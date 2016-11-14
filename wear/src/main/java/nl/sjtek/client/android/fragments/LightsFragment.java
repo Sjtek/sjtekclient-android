@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.ActionSender;
 
 public class LightsFragment extends Fragment implements View.OnClickListener {
 
@@ -43,6 +44,6 @@ public class LightsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendCommand(String action) {
-
+        ((ActionSender) getActivity()).sendAction(action);
     }
 }

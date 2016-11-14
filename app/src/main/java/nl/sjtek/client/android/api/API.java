@@ -68,7 +68,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
     }
 
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
-        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, Storage.getInstance(context).getCredentials()));
+        requestQueue.add(new InfoRequest(action.getUrl() + arguments.build(), this, this, Storage.getInstance(context).getCredentials()));
     }
 
     @Override

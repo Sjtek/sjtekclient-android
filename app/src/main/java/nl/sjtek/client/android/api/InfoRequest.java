@@ -9,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +62,7 @@ class InfoRequest extends Request<ResponseCollection> {
             String data = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             ResponseCollection responseCollection = new ResponseCollection(data);
             return Response.success(responseCollection, null);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.error(new ParseError(e));
         }
