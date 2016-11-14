@@ -40,6 +40,10 @@ public abstract class BaseCard extends CardView {
     protected abstract void onShouldInflate(Context context);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ResponseCollection update) {
+        onUpdate(update);
+    }
+
     protected void onUpdate(ResponseCollection update) {
 
     }
