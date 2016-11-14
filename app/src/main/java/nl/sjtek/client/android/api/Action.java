@@ -117,4 +117,25 @@ public enum Action implements ActionInterface {
             return url;
         }
     }
+
+    public enum Coffee implements ActionInterface {
+        START("/start");
+
+        private static final String BASE = API_BASE + "/coffee";
+        private final String url;
+
+        Coffee(String urlAction) {
+            this.url = BASE + urlAction;
+        }
+
+        @Override
+        public String toString() {
+            return url;
+        }
+
+        @Override
+        public String getUrl() {
+            return url;
+        }
+    }
 }

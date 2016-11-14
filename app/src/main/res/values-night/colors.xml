@@ -3,4 +3,7 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorBackground">#303030</color>
+
+    <color name="coffee_cold">#bdbdbd</color>
+    <color name="coffee_heated">#ffffff</color>
 </resources>
