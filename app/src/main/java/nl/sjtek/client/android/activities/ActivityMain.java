@@ -38,7 +38,7 @@ import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.services.SjtekService;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -75,8 +75,8 @@ public class ActivityMain extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        String username = Storage.getInstance(this).getUsername().toLowerCase();
-        if (Storage.getInstance(this).isCredentialsSet() && toolbar != null) {
+        String username = Preferences.getInstance(this).getUsername().toLowerCase();
+        if (Preferences.getInstance(this).isCredentialsSet() && toolbar != null) {
             toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
         }
 
@@ -133,7 +133,7 @@ public class ActivityMain extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_led).setVisible(Storage.getInstance(this).getCheckExtraLights());
+        menu.findItem(R.id.action_led).setVisible(Preferences.getInstance(this).getCheckExtraLights());
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -151,8 +151,8 @@ public class ActivityMain extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (Storage.getInstance(this).areCredentialsChanged()) {
-            Storage.getInstance(this).setCredentialsChanged(false);
+        if (Preferences.getInstance(this).areCredentialsChanged()) {
+            Preferences.getInstance(this).setCredentialsChanged(false);
             recreate();
         }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);

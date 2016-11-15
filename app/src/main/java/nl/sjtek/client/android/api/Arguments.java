@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 
 
 public class Arguments implements Serializable {
@@ -57,7 +57,7 @@ public class Arguments implements Serializable {
     }
 
     public Arguments setDefaultUser(Context context) {
-        String user = Storage.getInstance(context).getUsername();
+        String user = Preferences.getInstance(context).getUsername();
         if (TextUtils.isEmpty(user)) return this;
         setUser(user.toLowerCase());
         return this;
@@ -82,7 +82,7 @@ public class Arguments implements Serializable {
     }
 
     public Arguments setDefaultPlaylist(Context context) {
-        setUrl(Storage.getInstance(context).getDefaultPlaylist());
+        setUrl(Preferences.getInstance(context).getDefaultPlaylist());
         return this;
     }
 

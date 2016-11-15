@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
@@ -29,7 +29,7 @@ public class UserCard extends BaseCard {
     protected void onShouldInflate(Context context) {
         inflate(context, R.layout.card_user, this);
         TextView textView = (TextView) findViewById(R.id.textView);
-        String username = Storage.getInstance(getContext()).getUsername().toLowerCase();
+        String username = Preferences.getInstance(getContext()).getUsername().toLowerCase();
         if (username.isEmpty()) {
             textView.setText("Niet ingelogd.");
         } else {

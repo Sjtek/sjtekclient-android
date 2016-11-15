@@ -19,7 +19,7 @@ import nl.sjtek.client.android.activities.ActivityMain;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -99,7 +99,7 @@ public class MusicCard extends BaseCard {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                API.action(getContext(), Action.Music.START, new Arguments().setUrl(Storage.getInstance(getContext()).getDefaultPlaylist()));
+                API.action(getContext(), Action.Music.START, new Arguments().setUrl(Preferences.getInstance(getContext()).getDefaultPlaylist()));
                 break;
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);

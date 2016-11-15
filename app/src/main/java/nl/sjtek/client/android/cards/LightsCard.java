@@ -12,7 +12,7 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.ActionInterface;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -44,7 +44,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         inflate(context, R.layout.card_lights, this);
         ButterKnife.bind(this);
 
-        if (Storage.getInstance(getContext()).getCheckExtraLights()) {
+        if (Preferences.getInstance(getContext()).getCheckExtraLights()) {
             switch3.setVisibility(View.VISIBLE);
         }
 

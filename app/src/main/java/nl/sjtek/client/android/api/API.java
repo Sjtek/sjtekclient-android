@@ -13,7 +13,7 @@ import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.settings.DataCollection;
 
@@ -83,7 +83,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
     }
 
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
-        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, Storage.getInstance(context).getCredentials()));
+        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, Preferences.getInstance(context).getCredentials()));
     }
 
     @Override

@@ -18,7 +18,7 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.settings.DataCollection;
 
 public class ActivityLogin extends AppCompatActivity {
@@ -68,9 +68,9 @@ public class ActivityLogin extends AppCompatActivity {
         progressDialog.dismiss();
         String username = editTextUsername.getText().toString();
         String password = editTextPassword.getText().toString();
-        Storage.getInstance(this).setCredentials(username, password);
-        Storage.getInstance(this).setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
-        Storage.getInstance(this).setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
+        Preferences.getInstance(this).setCredentials(username, password);
+        Preferences.getInstance(this).setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
+        Preferences.getInstance(this).setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
         finish();
     }
 

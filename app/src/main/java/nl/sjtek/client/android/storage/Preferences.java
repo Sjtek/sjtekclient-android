@@ -1,4 +1,4 @@
-package nl.sjtek.client.android.utils;
+package nl.sjtek.client.android.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,7 +7,7 @@ import android.util.Base64;
 /**
  * Created by Wouter Habets on 4-12-15.
  */
-public class Storage {
+public class Preferences {
 
     private static final String SHARED_PREFERENCES_NAME = "shared_preferences";
     private static final String KEY_USERNAME = "username";
@@ -16,16 +16,16 @@ public class Storage {
     private static final String KEY_PLAYLIST = "playlist";
     private static final String KEY_CREDENTIALS_CHANGED = "credentials_changed";
 
-    private static Storage instance;
+    private static Preferences instance;
     private SharedPreferences sharedPreferences;
 
-    private Storage(Context context) {
+    private Preferences(Context context) {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public static synchronized Storage getInstance(Context context) {
+    public static synchronized Preferences getInstance(Context context) {
         if (instance == null) {
-            instance = new Storage(context.getApplicationContext());
+            instance = new Preferences(context.getApplicationContext());
         }
         return instance;
     }
