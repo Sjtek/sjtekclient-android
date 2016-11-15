@@ -24,7 +24,7 @@ import nl.sjtek.control.data.settings.DataCollection;
 public class API implements Response.Listener<ResponseCollection>, Response.ErrorListener {
 
     private static API instance;
-    private RequestQueue requestQueue;
+    private final RequestQueue requestQueue;
 
     private API(Context context) {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());

@@ -15,12 +15,12 @@ import java.io.UnsupportedEncodingException;
  * Created by wouter on 15-11-16.
  */
 
-public class MealRequest extends Request<String> {
+class MealRequest extends Request<String> {
 
     private static final String URL = "https://sjtekfood.habets.io/api/dinners/next";
     private final Response.Listener<String> listener;
 
-    public MealRequest(Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    MealRequest(Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Method.GET, URL, errorListener);
         this.listener = listener;
     }

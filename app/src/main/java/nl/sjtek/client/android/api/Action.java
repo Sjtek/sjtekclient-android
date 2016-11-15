@@ -8,7 +8,7 @@ public enum Action implements ActionInterface {
     SWITCH("/toggle"),
     DATA("/data");
 
-    public static final String API_BASE = "https://sjtek.nl/api";
+    private static final String API_BASE = "https://sjtek.nl/api";
     private final String url;
 
     Action(String urlAction) {
@@ -17,11 +17,6 @@ public enum Action implements ActionInterface {
 
     @Override
     public String toString() {
-        return url;
-    }
-
-    @Override
-    public String getUrl() {
         return url;
     }
 
@@ -53,10 +48,6 @@ public enum Action implements ActionInterface {
             return url;
         }
 
-        @Override
-        public String getUrl() {
-            return url;
-        }
     }
 
     public enum Music implements ActionInterface {
@@ -87,10 +78,6 @@ public enum Action implements ActionInterface {
             return url;
         }
 
-        @Override
-        public String getUrl() {
-            return url;
-        }
     }
 
     public enum TV implements ActionInterface {
@@ -112,10 +99,6 @@ public enum Action implements ActionInterface {
             return url;
         }
 
-        @Override
-        public String getUrl() {
-            return url;
-        }
     }
 
     public enum Coffee implements ActionInterface {
@@ -133,9 +116,5 @@ public enum Action implements ActionInterface {
             return url;
         }
 
-        @Override
-        public String getUrl() {
-            return url;
-        }
     }
 }

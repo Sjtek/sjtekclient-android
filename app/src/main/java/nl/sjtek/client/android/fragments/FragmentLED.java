@@ -29,33 +29,32 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 public class FragmentLED extends Fragment implements View.OnTouchListener {
 
     private static final int SEND_INTERVAL = 50;
+    private final Response.ErrorListener infoErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+    private final Response.ErrorListener ledErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
     private RequestQueue ledRequestQueue;
     private boolean requestsRunning = false;
+    private final Response.Listener<Boolean> ledListener = new Response.Listener<Boolean>() {
+        @Override
+        public void onResponse(Boolean response) {
+            requestsRunning = false;
+        }
+    };
     private Response.Listener<ResponseCollection> infoListener = new Response.Listener<ResponseCollection>() {
         @Override
         public void onResponse(ResponseCollection response) {
 
         }
     };
-    private Response.ErrorListener infoErrorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-
-        }
-    };
-    private Response.Listener<Boolean> ledListener = new Response.Listener<Boolean>() {
-        @Override
-        public void onResponse(Boolean response) {
-            requestsRunning = false;
-        }
-    };
-    private Response.ErrorListener ledErrorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-
-        }
-    };
-
     private int previousCode = 0;
     private int currentCode = 0;
 

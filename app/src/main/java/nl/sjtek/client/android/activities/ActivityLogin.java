@@ -2,9 +2,12 @@ package nl.sjtek.client.android.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,10 +83,17 @@ public class ActivityLogin extends AppCompatActivity {
         progressDialog.dismiss();
         String message = String.format(getString(R.string.sign_in_error),
                 (error.networkResponse != null ? "" + error.networkResponse.statusCode : "-"), error.getMessage());
-//        new AlertDialog.Builder(getApplicationContext())
-//                .setTitle(getString(R.string.oops))
-//                .setMessage(message)
-//                .create()
-//                .show();
+        new MaterialDialog.Builder(this)
+                .title("Authentication error")
+                .content(message)
+                .neutralText("OK")
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build()
+                .show();
     }
 }

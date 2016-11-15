@@ -16,7 +16,7 @@ import nl.sjtek.client.android.services.CommandService;
  */
 public class SjtekWidget {
 
-    public SjtekWidget() {
+    private SjtekWidget() {
 
     }
 

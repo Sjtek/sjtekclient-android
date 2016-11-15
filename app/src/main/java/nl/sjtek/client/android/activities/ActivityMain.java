@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -53,9 +54,9 @@ public class ActivityMain extends AppCompatActivity
     public static final String TARGET_TRANSMISSION = "target_transmission";
     public static final String TARGET_LED = "target_led";
 
-    private IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
+    private final IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private FloatingActionButton fab;
-    private BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction().equals(ACTION_CHANGE_FRAGMENT)) {
@@ -67,6 +68,7 @@ public class ActivityMain extends AppCompatActivity
             }
         }
     };
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +105,7 @@ public class ActivityMain extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -159,7 +161,7 @@ public class ActivityMain extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         if (Preferences.getInstance(this).areCredentialsChanged()) {
-            Preferences.getInstance(this).setCredentialsChanged(false);
+            Preferences.getInstance(this).clearCredentialsChangedFlag();
             recreate();
         }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
@@ -180,8 +182,7 @@ public class ActivityMain extends AppCompatActivity
     }
 
     private void initNavigationHeader(NavigationView navigationView) {
-        View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, null);
-//        textViewTemp = (TextView) headerView.findViewById(R.id.textViewHeaderTemp);
+        View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
 
         String[] lines = getResources().getStringArray(R.array.sjtek_lines);
@@ -203,7 +204,7 @@ public class ActivityMain extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

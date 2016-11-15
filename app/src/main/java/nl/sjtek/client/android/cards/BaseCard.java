@@ -56,11 +56,11 @@ public abstract class BaseCard extends CardView {
         onDataUpdate(data);
     }
 
-    protected void onDataUpdate(DataCollection data) {
+    void onDataUpdate(DataCollection data) {
 
     }
 
-    protected void onUpdate(ResponseCollection update) {
+    void onUpdate(ResponseCollection update) {
 
     }
 }
