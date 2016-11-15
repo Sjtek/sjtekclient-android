@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +49,7 @@ public class MusicCard extends BaseCard {
     ImageView imageViewAlbumArt;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    private String[] playlistNames = new String[]{};
     private String albumArtUrl = "";
     private MusicResponse.State state = MusicResponse.State.ERROR;
 
@@ -102,13 +105,15 @@ public class MusicCard extends BaseCard {
     protected void onDataUpdate(DataCollection data) {
         String user = Preferences.getInstance(getContext()).getUsername();
         playlistMap.putAll(data.getUsers().get(user).getPlaylists());
+        Set<String> names = playlistMap.keySet();
+        playlistNames = names.toArray(new String[names.size()]);
     }
 
     @OnClick({R.id.buttonStart, R.id.buttonMusicBox, R.id.buttonPlay, R.id.buttonNext})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                API.action(getContext(), Action.Music.START, new Arguments().setUrl(Preferences.getInstance(getContext()).getDefaultPlaylist()));
+                showPlaylists();
                 break;
             case R.id.buttonMusicBox:
                 Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
@@ -126,5 +131,21 @@ public class MusicCard extends BaseCard {
             case R.id.buttonNext:
                 API.action(getContext(), Action.Music.NEXT);
         }
+    }
+
+    private void showPlaylists() {
+        new MaterialDialog.Builder(getContext())
+                .title("Start muziek")
+                .items(playlistNames)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        dialog.dismiss();
+                        String playlist = playlistMap.get(playlistNames[position]);
+                        API.action(getContext(), Action.Music.START, new Arguments().setUrl(playlist));
+                    }
+                })
+                .build()
+                .show();
     }
 }
