@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:text="Avond eten"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textViewMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTitle"
+            android:text="Bluffer"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/buttonRefresh"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewMeal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textViewMeal"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="8dp"
+            android:text="pls no"
+            android:textAllCaps="false" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

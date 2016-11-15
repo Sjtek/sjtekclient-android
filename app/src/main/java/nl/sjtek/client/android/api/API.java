@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
+import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
 import nl.sjtek.client.android.utils.Storage;
 import nl.sjtek.control.data.responses.ResponseCollection;
@@ -65,6 +66,20 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
 
     public static void info(Context context) {
         getInstance(context).addRequest(context, Action.REFRESH, Arguments.empty());
+    }
+
+    public static void meal(Context context) {
+        getInstance(context).requestQueue.add(new MealRequest(new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                EventBus.getDefault().post(new MealEvent(response));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new MealEvent(""));
+            }
+        }));
     }
 
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
