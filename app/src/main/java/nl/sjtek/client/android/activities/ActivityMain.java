@@ -39,6 +39,7 @@ import nl.sjtek.client.android.fragments.FragmentTransmission;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -170,6 +171,12 @@ public class ActivityMain extends AppCompatActivity
         super.onPause();
         unregisterReceiver(fragmentBroadcastReceiver);
         stopService(new Intent(this, SjtekService.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        StateManager.getInstance(getApplicationContext()).save(getApplicationContext());
     }
 
     private void initNavigationHeader(NavigationView navigationView) {
