@@ -1,9 +1,7 @@
 package nl.sjtek.client.android.activities;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -26,12 +24,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
 import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
@@ -45,29 +47,8 @@ import nl.sjtek.client.android.storage.StateManager;
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String EXTRA_TARGET_FRAGMENT = "extra_target_fragment";
-    public static final String EXTRA_BACKSTACK = "add_to_backstack";
-    public static final String ACTION_CHANGE_FRAGMENT = "nl.sjtek.client.android.ACTION_CHANGE_FRAGMENT";
-    public static final String TARGET_DASHBOARD = "target_dashboard";
-    public static final String TARGET_MUSIC = "target_music";
-    public static final String TARGET_SONARR = "target_sonarr";
-    public static final String TARGET_TRANSMISSION = "target_transmission";
-    public static final String TARGET_LED = "target_led";
-
-    private final IntentFilter intentFilter = new IntentFilter(ACTION_CHANGE_FRAGMENT);
     private FloatingActionButton fab;
-    private final BroadcastReceiver fragmentBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null && intent.getAction().equals(ACTION_CHANGE_FRAGMENT)) {
-                String target = intent.getStringExtra(EXTRA_TARGET_FRAGMENT);
-                boolean addToBackStack = intent.getBooleanExtra(EXTRA_BACKSTACK, false);
-                if (target != null && !target.isEmpty()) {
-                    replaceFragment(target, addToBackStack);
-                }
-            }
-        }
-    };
+
     private DrawerLayout drawer;
 
     @Override
@@ -115,13 +96,7 @@ public class ActivityMain extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
 
-        String target = TARGET_DASHBOARD;
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            target = bundle.getString(EXTRA_TARGET_FRAGMENT, TARGET_DASHBOARD);
-        }
-
-        replaceFragment(target);
+        replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         WiFiReceiver.updateNotification(this.getApplicationContext());
@@ -154,6 +129,7 @@ public class ActivityMain extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         API.data(getApplicationContext());
     }
 
@@ -164,20 +140,19 @@ public class ActivityMain extends AppCompatActivity
             Preferences.getInstance(this).clearCredentialsChangedFlag();
             recreate();
         }
-        registerReceiver(fragmentBroadcastReceiver, intentFilter);
         startService(new Intent(this, SjtekService.class));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(fragmentBroadcastReceiver);
         stopService(new Intent(this, SjtekService.class));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
         StateManager.getInstance(getApplicationContext()).save(getApplicationContext());
     }
 
@@ -185,7 +160,7 @@ public class ActivityMain extends AppCompatActivity
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
 
-        String[] lines = getResources().getStringArray(R.array.sjtek_lines);
+        String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
         Random random = new Random();
         textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
 
@@ -209,13 +184,13 @@ public class ActivityMain extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_dashboard) {
-            replaceFragment(new FragmentDashboard());
+            replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
         } else if (id == R.id.nav_music) {
-            replaceFragment(new FragmentMusic());
+            replaceFragment(FragmentChangeEvent.Type.MUSIC, false);
         } else if (id == R.id.nav_sonarr) {
-            replaceFragment(new FragmentSonarr());
+            replaceFragment(FragmentChangeEvent.Type.SONARR, false);
         } else if (id == R.id.nav_transmission) {
-            replaceFragment(new FragmentTransmission());
+            replaceFragment(FragmentChangeEvent.Type.TRANSMISSION, false);
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, ActivitySettings.class));
         }
@@ -225,30 +200,24 @@ public class ActivityMain extends AppCompatActivity
         return true;
     }
 
-    public void replaceFragment(Fragment fragment) {
-        replaceFragment(fragment, false);
+    @Subscribe
+    public void replaceFragment(FragmentChangeEvent event) {
+        replaceFragment(event.getType(), event.isAddToBackstack());
     }
 
-    public void replaceFragment(String target) {
-        replaceFragment(target, false);
-    }
-
-    public void replaceFragment(String target, boolean addToBackStack) {
+    public void replaceFragment(FragmentChangeEvent.Type target, boolean addToBackStack) {
         switch (target) {
-            case TARGET_DASHBOARD:
+            case DASHBOARD:
                 replaceFragment(new FragmentDashboard(), addToBackStack);
                 break;
-            case TARGET_MUSIC:
+            case MUSIC:
                 replaceFragment(new FragmentMusic(), addToBackStack);
                 break;
-            case TARGET_SONARR:
+            case SONARR:
                 replaceFragment(new FragmentSonarr(), addToBackStack);
                 break;
-            case TARGET_TRANSMISSION:
+            case TRANSMISSION:
                 replaceFragment(new FragmentTransmission(), addToBackStack);
-                break;
-            case TARGET_LED:
-                replaceFragment(new FragmentLED(), true);
                 break;
             default:
                 replaceFragment(new FragmentDashboard(), addToBackStack);
