@@ -44,6 +44,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical|end"
             android:paddingEnd="8dp"
+            android:paddingStart="0dp"
             android:text="pls no"
             android:textAllCaps="false" />
     </RelativeLayout>
