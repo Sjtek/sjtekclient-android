@@ -157,7 +157,6 @@ public class ActivityMain extends AppCompatActivity
         }
         registerReceiver(fragmentBroadcastReceiver, intentFilter);
         startService(new Intent(this, SjtekService.class));
-        API.info(getApplicationContext());
     }
 
     @Override

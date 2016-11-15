@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,15 +25,16 @@ import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
+import nl.sjtek.control.data.settings.DataCollection;
 
 /**
  * Created by Wouter Habets on 26-1-16.
  */
 public class MusicCard extends BaseCard {
 
+    private final Map<String, String> playlistMap = new HashMap<>();
     @BindView(R.id.musicInfo)
     View viewMusicInfo;
-
     @BindView(R.id.textViewTitle)
     TextView textViewTitle;
     @BindView(R.id.textViewArtist)
@@ -43,7 +47,6 @@ public class MusicCard extends BaseCard {
     ImageView imageViewAlbumArt;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
     private String albumArtUrl = "";
     private MusicResponse.State state = MusicResponse.State.ERROR;
 
@@ -93,6 +96,12 @@ public class MusicCard extends BaseCard {
         } else {
             viewMusicInfo.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    protected void onDataUpdate(DataCollection data) {
+        String user = Preferences.getInstance(getContext()).getUsername();
+        playlistMap.putAll(data.getUsers().get(user).getPlaylists());
     }
 
     @OnClick({R.id.buttonStart, R.id.buttonMusicBox, R.id.buttonPlay, R.id.buttonNext})

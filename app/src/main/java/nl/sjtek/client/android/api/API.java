@@ -56,6 +56,16 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         }));
     }
 
+    public static void data(Context context) {
+        API instance = getInstance(context);
+        instance.requestQueue.add(new DataRequest(new Response.Listener<DataCollection>() {
+            @Override
+            public void onResponse(DataCollection response) {
+                EventBus.getDefault().post(response);
+            }
+        }, instance));
+    }
+
     public static void action(Context context, ActionInterface action, Arguments arguments) {
         getInstance(context).addRequest(context, action, arguments);
     }

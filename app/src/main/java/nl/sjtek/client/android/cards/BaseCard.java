@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import nl.sjtek.control.data.responses.ResponseCollection;
+import nl.sjtek.control.data.settings.DataCollection;
 
 public abstract class BaseCard extends CardView {
 
@@ -40,8 +41,17 @@ public abstract class BaseCard extends CardView {
     protected abstract void onShouldInflate(Context context);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(ResponseCollection update) {
+    public void onResponseCollectionEvent(ResponseCollection update) {
         onUpdate(update);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDataCollectionEvent(DataCollection data) {
+        onDataUpdate(data);
+    }
+
+    protected void onDataUpdate(DataCollection data) {
+
     }
 
     protected void onUpdate(ResponseCollection update) {
