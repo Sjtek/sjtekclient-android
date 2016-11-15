@@ -3,6 +3,7 @@ package nl.sjtek.client.android.api;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -20,6 +21,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 class InfoRequest extends Request<ResponseCollection> {
 
+    public static final int INITIAL_TIMEOUT_MS = 10000;
     private final String credentials;
     private Response.Listener<ResponseCollection> responseListener;
 
@@ -44,6 +46,7 @@ class InfoRequest extends Request<ResponseCollection> {
         this.responseListener = responseListener;
         setShouldCache(false);
         this.credentials = credentials;
+        setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override
