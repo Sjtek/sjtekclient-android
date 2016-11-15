@@ -149,6 +149,12 @@ public class ActivityMain extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        API.data(getApplicationContext());
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (Preferences.getInstance(this).areCredentialsChanged()) {

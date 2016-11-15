@@ -27,7 +27,6 @@ public class SjtekService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         API.info(getApplicationContext());
-        API.data(getApplicationContext());
         if (client != null) {
             client.close();
         }
