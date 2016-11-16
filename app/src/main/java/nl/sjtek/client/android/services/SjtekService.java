@@ -20,11 +20,6 @@ public class SjtekService extends Service {
     private Client client;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         API.info(getApplicationContext());
         if (client != null) {

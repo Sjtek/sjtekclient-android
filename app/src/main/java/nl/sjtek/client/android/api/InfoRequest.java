@@ -21,26 +21,13 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 class InfoRequest extends Request<ResponseCollection> {
 
-    public static final int INITIAL_TIMEOUT_MS = 10000;
+    private static final int INITIAL_TIMEOUT_MS = 10000;
     private final String credentials;
-    private Response.Listener<ResponseCollection> responseListener;
+    private final Response.Listener<ResponseCollection> responseListener;
 
-    public InfoRequest(Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
-        this(Action.REFRESH, responseListener, errorListener, credentials);
-    }
-
-    public InfoRequest(ActionInterface action,
-                       Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
-        this(action.getUrl(), responseListener, errorListener, credentials);
-    }
-
-    public InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
+    InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
+                Response.ErrorListener errorListener,
+                String credentials) {
         super(Method.GET, url, errorListener);
         Log.d(this.getClass().getSimpleName(), "URL: " + url);
         this.responseListener = responseListener;

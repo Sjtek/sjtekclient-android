@@ -47,7 +47,7 @@
                 android:layout_alignTop="@+id/imageViewAlbumArt"
                 android:layout_toEndOf="@+id/imageViewAlbumArt"
                 android:ellipsize="marquee"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="Shake it off" />
 
@@ -60,7 +60,7 @@
                 android:layout_below="@+id/textViewTitle"
                 android:layout_toEndOf="@+id/imageViewAlbumArt"
                 android:ellipsize="marquee"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="Taylor Swift" />
 

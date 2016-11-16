@@ -17,7 +17,7 @@ public class Preferences {
     private static final String KEY_CREDENTIALS_CHANGED = "credentials_changed";
 
     private static Preferences instance;
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     private Preferences(Context context) {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -85,9 +85,9 @@ public class Preferences {
         return sharedPreferences.getBoolean(KEY_CREDENTIALS_CHANGED, false);
     }
 
-    public void setCredentialsChanged(boolean changed) {
+    public void clearCredentialsChangedFlag() {
         sharedPreferences.edit()
-                .putBoolean(KEY_CREDENTIALS_CHANGED, changed)
+                .putBoolean(KEY_CREDENTIALS_CHANGED, false)
                 .apply();
     }
 }

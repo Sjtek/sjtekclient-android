@@ -48,6 +48,20 @@
                     android:scheme="android-app" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.ActivityLogin"
+            android:label="@string/sign_in_title"
+            android:parentActivityName=".activities.ActivitySettings"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ActivitySettings"
+            android:label="@string/pref_title"
+            android:parentActivityName=".activities.ActivityMain"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ActivityPlaylists"
+            android:label="Start playlist"
+            android:theme="@style/AppTheme.Dialog" />
 
         <receiver
             android:name=".receiver.WiFiReceiver"
@@ -57,24 +71,6 @@
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <service
-            android:name=".services.CommandService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="@string/service_action_music_toggle" />
-                <action android:name="@string/service_action_music_next" />
-                <action android:name="@string/service_action_switch" />
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name=".activities.ActivityLogin"
-            android:label="@string/sign_in_title"
-            android:parentActivityName=".activities.ActivitySettings"
-            android:theme="@style/AppTheme" />
-
         <receiver
             android:name=".receiver.SjtekWidgetProvider"
             android:enabled="true"
@@ -88,16 +84,20 @@
                 android:resource="@xml/app_widget" />
         </receiver>
 
-        <activity
-            android:name=".activities.ActivitySettings"
-            android:label="@string/pref_title"
-            android:parentActivityName=".activities.ActivityMain"
-            android:theme="@style/AppTheme" />
-
+        <service
+            android:name=".services.CommandService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="@string/service_action_music_toggle" />
+                <action android:name="@string/service_action_music_next" />
+                <action android:name="@string/service_action_switch" />
+            </intent-filter>
+        </service>
         <service
             android:name=".services.SjtekService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

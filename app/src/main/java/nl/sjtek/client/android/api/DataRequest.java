@@ -14,11 +14,11 @@ import nl.sjtek.control.data.settings.DataCollection;
  * Created by wouter on 15-11-16.
  */
 
-public class DataRequest extends Request<DataCollection> {
+class DataRequest extends Request<DataCollection> {
 
     private final Response.Listener<DataCollection> listener;
 
-    public DataRequest(Response.Listener<DataCollection> listener, Response.ErrorListener errorListener) {
+    DataRequest(Response.Listener<DataCollection> listener, Response.ErrorListener errorListener) {
         super(Method.GET, Action.DATA.toString(), errorListener);
         this.listener = listener;
     }

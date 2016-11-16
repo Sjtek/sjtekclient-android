@@ -9,32 +9,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.activities.ActivityMain;
+import nl.sjtek.client.android.activities.ActivityPlaylists;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
-import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
-import nl.sjtek.control.data.settings.DataCollection;
 
 /**
  * Created by Wouter Habets on 26-1-16.
  */
 public class MusicCard extends BaseCard {
 
-    private final Map<String, String> playlistMap = new HashMap<>();
     @BindView(R.id.musicInfo)
     View viewMusicInfo;
     @BindView(R.id.textViewTitle)
@@ -49,7 +43,6 @@ public class MusicCard extends BaseCard {
     ImageView imageViewAlbumArt;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    private String[] playlistNames = new String[]{};
     private String albumArtUrl = "";
     private MusicResponse.State state = MusicResponse.State.ERROR;
 
@@ -64,6 +57,7 @@ public class MusicCard extends BaseCard {
     public MusicCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     @Override
     protected void onShouldInflate(Context context) {
@@ -101,25 +95,14 @@ public class MusicCard extends BaseCard {
         }
     }
 
-    @Override
-    protected void onDataUpdate(DataCollection data) {
-        String user = Preferences.getInstance(getContext()).getUsername();
-        playlistMap.putAll(data.getUsers().get(user).getPlaylists());
-        Set<String> names = playlistMap.keySet();
-        playlistNames = names.toArray(new String[names.size()]);
-    }
-
     @OnClick({R.id.buttonStart, R.id.buttonMusicBox, R.id.buttonPlay, R.id.buttonNext})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                showPlaylists();
+                getContext().startActivity(new Intent(getContext(), ActivityPlaylists.class));
                 break;
             case R.id.buttonMusicBox:
-                Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
-                musicIntent.putExtra(ActivityMain.EXTRA_TARGET_FRAGMENT, ActivityMain.TARGET_MUSIC);
-                musicIntent.putExtra(ActivityMain.EXTRA_BACKSTACK, true);
-                getContext().sendBroadcast(musicIntent);
+                EventBus.getDefault().post(new FragmentChangeEvent(FragmentChangeEvent.Type.MUSIC, true));
                 break;
             case R.id.buttonPlay:
                 if (state == MusicResponse.State.STATUS_PLAYING) {
@@ -131,21 +114,5 @@ public class MusicCard extends BaseCard {
             case R.id.buttonNext:
                 API.action(getContext(), Action.Music.NEXT);
         }
-    }
-
-    private void showPlaylists() {
-        new MaterialDialog.Builder(getContext())
-                .title("Start muziek")
-                .items(playlistNames)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        dialog.dismiss();
-                        String playlist = playlistMap.get(playlistNames[position]);
-                        API.action(getContext(), Action.Music.START, new Arguments().setUrl(playlist));
-                    }
-                })
-                .build()
-                .show();
     }
 }
