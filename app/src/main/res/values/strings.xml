@@ -1,14 +1,11 @@
 <resources>
     <string name="app_name">Sjtek</string>
-    <string name="oops">Oops</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="action_shuffle">Shuffle queue</string>
     <string name="action_clear">Clear queue</string>
-    <string name="action_toggle">Toggle</string>
     <string name="action_start">Start music</string>
 
     <string name="nav_title_services">Sjtek services</string>
@@ -16,14 +13,10 @@
     <string name="nav_music">Music</string>
     <string name="nav_sonarr">Sonarr</string>
     <string name="nav_transmission">Transmission</string>
-    <string name="nav_title_account">Account</string>
-    <string name="nav_sign_in">Sign in</string>
-    <string name="nav_sign_out">Sign out</string>
     <string name="nav_title_settings">Settings</string>
     <string name="nav_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="service_action_music_toggle" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_TOGGLE</string>
     <string name="service_action_music_next" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_NEXT</string>

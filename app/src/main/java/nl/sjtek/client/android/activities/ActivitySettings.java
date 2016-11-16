@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.receiver.SjtekWidgetProvider;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 
 public class ActivitySettings extends AppCompatActivity {
 
@@ -47,9 +47,9 @@ public class ActivitySettings extends AppCompatActivity {
 
         private void setAccountPreference() {
             Preference accountPref = findPreference(getString(R.string.pref_key_account));
-            if (Storage.getInstance(getActivity()).isCredentialsSet()) {
+            if (Preferences.getInstance(getActivity()).isCredentialsSet()) {
                 accountPref.setTitle(getString(R.string.pref_title_sign_out));
-                accountPref.setSummary(getString(R.string.pref_summary_signed_in, Storage.getInstance(getActivity()).getUsername()));
+                accountPref.setSummary(getString(R.string.pref_summary_signed_in, Preferences.getInstance(getActivity()).getUsername()));
             } else {
                 accountPref.setTitle(getString(R.string.pref_title_sign_in));
                 accountPref.setSummary("");
@@ -69,8 +69,8 @@ public class ActivitySettings extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if (Storage.getInstance(getActivity()).isCredentialsSet()) {
-                Storage.getInstance(getActivity()).clearCredentials();
+            if (Preferences.getInstance(getActivity()).isCredentialsSet()) {
+                Preferences.getInstance(getActivity()).clearCredentials();
                 setAccountPreference();
             } else {
                 startActivity(new Intent(getActivity().getApplicationContext(), ActivityLogin.class));

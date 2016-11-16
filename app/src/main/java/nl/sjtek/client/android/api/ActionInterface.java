@@ -5,5 +5,4 @@ package nl.sjtek.client.android.api;
  */
 public interface ActionInterface {
 
-    String getUrl();
 }

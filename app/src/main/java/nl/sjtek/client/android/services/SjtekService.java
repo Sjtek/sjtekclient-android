@@ -11,6 +11,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.ConnectionEvent;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -19,12 +20,8 @@ public class SjtekService extends Service {
     private Client client;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        API.info(getApplicationContext());
         if (client != null) {
             client.close();
         }

@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
+import nl.sjtek.client.android.activities.ActivityPlaylists;
 import nl.sjtek.client.android.services.CommandService;
 
 /**
@@ -16,7 +17,7 @@ import nl.sjtek.client.android.services.CommandService;
  */
 public class SjtekWidget {
 
-    public SjtekWidget() {
+    private SjtekWidget() {
 
     }
 
@@ -37,6 +38,9 @@ public class SjtekWidget {
         intentSwitch.setAction(context.getString(R.string.service_action_switch));
         PendingIntent pendingIntentSwitch = PendingIntent.getService(context, 30, intentSwitch, 0);
 
+        Intent playlistsIntent = new Intent(context, ActivityPlaylists.class);
+        PendingIntent pendingIntentPlaylists = PendingIntent.getActivity(context, 0, playlistsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         @LayoutRes int layoutRes;
         if (widget) {
             if (PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getBoolean(context.getString(R.string.pref_key_widget_transparent), false)) {
@@ -53,6 +57,7 @@ public class SjtekWidget {
         view.setOnClickPendingIntent(R.id.buttonPlay, pendingIntentMusicToggle);
         view.setOnClickPendingIntent(R.id.buttonNext, pendingIntentMusicNext);
         view.setOnClickPendingIntent(R.id.buttonToggle, pendingIntentSwitch);
+        view.setOnClickPendingIntent(R.id.buttonPlaylists, pendingIntentPlaylists);
         return view;
     }
 }

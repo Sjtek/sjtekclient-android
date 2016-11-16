@@ -8,7 +8,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.responses.ResponseCollection;
+import nl.sjtek.control.data.settings.DataCollection;
 
 public abstract class BaseCard extends CardView {
 
@@ -28,6 +30,11 @@ public abstract class BaseCard extends CardView {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        StateManager stateManager = StateManager.getInstance(getContext());
+        if (stateManager.isReady()) {
+            onUpdate(stateManager.getResponseCollection());
+            onDataUpdate(stateManager.getDataCollection());
+        }
         EventBus.getDefault().register(this);
     }
 
@@ -40,7 +47,20 @@ public abstract class BaseCard extends CardView {
     protected abstract void onShouldInflate(Context context);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void onUpdate(ResponseCollection update) {
+    public void onResponseCollectionEvent(ResponseCollection update) {
+        onUpdate(update);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDataCollectionEvent(DataCollection data) {
+        onDataUpdate(data);
+    }
+
+    void onDataUpdate(DataCollection data) {
+
+    }
+
+    void onUpdate(ResponseCollection update) {
 
     }
 }

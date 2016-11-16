@@ -11,7 +11,7 @@ import com.android.volley.Response;
  */
 public class LEDRequest extends Request<Boolean> {
 
-    private Response.Listener<Boolean> responseListener;
+    private final Response.Listener<Boolean> responseListener;
 
 
     public LEDRequest(int code, Response.Listener<Boolean> responseListener, Response.ErrorListener errorListener) {

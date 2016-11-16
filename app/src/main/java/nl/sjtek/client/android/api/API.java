@@ -11,8 +11,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
+import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.settings.DataCollection;
 
@@ -23,7 +24,7 @@ import nl.sjtek.control.data.settings.DataCollection;
 public class API implements Response.Listener<ResponseCollection>, Response.ErrorListener {
 
     private static API instance;
-    private RequestQueue requestQueue;
+    private final RequestQueue requestQueue;
 
     private API(Context context) {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
@@ -55,6 +56,16 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         }));
     }
 
+    public static void data(Context context) {
+        API instance = getInstance(context);
+        instance.requestQueue.add(new DataRequest(new Response.Listener<DataCollection>() {
+            @Override
+            public void onResponse(DataCollection response) {
+                EventBus.getDefault().post(response);
+            }
+        }, instance));
+    }
+
     public static void action(Context context, ActionInterface action, Arguments arguments) {
         getInstance(context).addRequest(context, action, arguments);
     }
@@ -67,8 +78,22 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         getInstance(context).addRequest(context, Action.REFRESH, Arguments.empty());
     }
 
+    public static void meal(Context context) {
+        getInstance(context).requestQueue.add(new MealRequest(new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                EventBus.getDefault().post(new MealEvent(response));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                EventBus.getDefault().post(new MealEvent(""));
+            }
+        }));
+    }
+
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
-        requestQueue.add(new InfoRequest(action.getUrl() + arguments.build(), this, this, Storage.getInstance(context).getCredentials()));
+        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, Preferences.getInstance(context).getCredentials()));
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.storage.Preferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,8 +42,8 @@ public abstract class BaseFragmentWeb extends BaseFragment {
                                                   HttpAuthHandler handler,
                                                   String host,
                                                   String realm) {
-                Storage storage = Storage.getInstance(getContext());
-                handler.proceed(storage.getUsername(), storage.getPassword());
+                Preferences preferences = Preferences.getInstance(getContext());
+                handler.proceed(preferences.getUsername(), preferences.getPassword());
             }
         });
         webView.loadUrl(getUrl());

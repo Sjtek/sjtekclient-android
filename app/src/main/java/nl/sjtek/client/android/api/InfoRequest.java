@@ -3,6 +3,7 @@ package nl.sjtek.client.android.api;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -19,30 +20,19 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  */
 class InfoRequest extends Request<ResponseCollection> {
 
+    private static final int INITIAL_TIMEOUT_MS = 10000;
     private final String credentials;
-    private Response.Listener<ResponseCollection> responseListener;
+    private final Response.Listener<ResponseCollection> responseListener;
 
-    public InfoRequest(Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
-        this(Action.REFRESH, responseListener, errorListener, credentials);
-    }
-
-    public InfoRequest(ActionInterface action,
-                       Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
-        this(action.getUrl(), responseListener, errorListener, credentials);
-    }
-
-    public InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
-                       Response.ErrorListener errorListener,
-                       String credentials) {
+    InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
+                Response.ErrorListener errorListener,
+                String credentials) {
         super(Method.GET, url, errorListener);
         Log.d(this.getClass().getSimpleName(), "URL: " + url);
         this.responseListener = responseListener;
         setShouldCache(false);
         this.credentials = credentials;
+        setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override

@@ -11,15 +11,16 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.activities.ActivityMain;
+import nl.sjtek.client.android.activities.ActivityPlaylists;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
-import nl.sjtek.client.android.utils.Storage;
+import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -30,7 +31,6 @@ public class MusicCard extends BaseCard {
 
     @BindView(R.id.musicInfo)
     View viewMusicInfo;
-
     @BindView(R.id.textViewTitle)
     TextView textViewTitle;
     @BindView(R.id.textViewArtist)
@@ -43,7 +43,6 @@ public class MusicCard extends BaseCard {
     ImageView imageViewAlbumArt;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
     private String albumArtUrl = "";
     private MusicResponse.State state = MusicResponse.State.ERROR;
 
@@ -58,6 +57,7 @@ public class MusicCard extends BaseCard {
     public MusicCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     @Override
     protected void onShouldInflate(Context context) {
@@ -99,13 +99,10 @@ public class MusicCard extends BaseCard {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonStart:
-                API.action(getContext(), Action.Music.START, new Arguments().setUrl(Storage.getInstance(getContext()).getDefaultPlaylist()));
+                getContext().startActivity(new Intent(getContext(), ActivityPlaylists.class));
                 break;
             case R.id.buttonMusicBox:
-                Intent musicIntent = new Intent(ActivityMain.ACTION_CHANGE_FRAGMENT);
-                musicIntent.putExtra(ActivityMain.EXTRA_TARGET_FRAGMENT, ActivityMain.TARGET_MUSIC);
-                musicIntent.putExtra(ActivityMain.EXTRA_BACKSTACK, true);
-                getContext().sendBroadcast(musicIntent);
+                EventBus.getDefault().post(new FragmentChangeEvent(FragmentChangeEvent.Type.MUSIC, true));
                 break;
             case R.id.buttonPlay:
                 if (state == MusicResponse.State.STATUS_PLAYING) {
