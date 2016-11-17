@@ -51,7 +51,7 @@ public class MealCard extends BaseCard {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefresh(MealEvent event) {
         if (TextUtils.isEmpty(event.getName())) {
-            textView.setText("Bluffer");
+            textView.setText(R.string.card_meal_default);
         } else {
             textView.setText(event.getName());
         }

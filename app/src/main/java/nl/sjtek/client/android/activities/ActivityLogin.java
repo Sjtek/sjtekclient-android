@@ -84,9 +84,9 @@ public class ActivityLogin extends AppCompatActivity {
         String message = String.format(getString(R.string.sign_in_error),
                 (error.networkResponse != null ? "" + error.networkResponse.statusCode : "-"), error.getMessage());
         new MaterialDialog.Builder(this)
-                .title("Authentication error")
+                .title(getString(R.string.sign_in_title))
                 .content(message)
-                .neutralText("OK")
+                .neutralText(getString(android.R.string.ok))
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

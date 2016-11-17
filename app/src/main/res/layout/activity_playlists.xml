@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="Start playlist"
+        android:text="@string/dialog_music"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <android.support.v7.widget.RecyclerView

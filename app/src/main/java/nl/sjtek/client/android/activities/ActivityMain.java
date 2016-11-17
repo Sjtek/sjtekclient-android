@@ -61,7 +61,7 @@ public class ActivityMain extends AppCompatActivity
 
         String username = Preferences.getInstance(this).getUsername().toLowerCase();
         if (Preferences.getInstance(this).isCredentialsSet() && toolbar != null) {
-            toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
+            toolbar.setSubtitle(String.format(getString(R.string.toolbar_user), username.substring(0, 1).toUpperCase(), username.substring(1)));
         }
 
         setSupportActionBar(toolbar);

@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperatuur"
+            android:text="@string/card_temperature_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewTempInside"
                     android:layout_centerHorizontal="true"
-                    android:text="Binnen"
+                    android:text="@string/card_temperature_inside"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewTempOutside"
                     android:layout_centerHorizontal="true"
-                    android:text="Buiten"
+                    android:text="@string/card_temperature_outside"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </RelativeLayout>
 

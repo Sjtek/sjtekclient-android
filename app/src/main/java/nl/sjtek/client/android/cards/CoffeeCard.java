@@ -59,9 +59,12 @@ public class CoffeeCard extends BaseCard {
     }
 
     private void updateViews() {
-        int color = ContextCompat.getColor(getContext(), heated ? R.color.coffee_heated : R.color.coffee_cold);
+        int color = ContextCompat.getColor(getContext(), heated ?
+                R.color.coffee_heated : R.color.coffee_cold);
         textViewStatus.setTextColor(color);
-        textViewStatus.setText(heated ? "Aan" : "Uit");
+        textViewStatus.setText(heated ?
+                getContext().getString(R.string.card_coffee_heated_true) :
+                getContext().getString(R.string.card_coffee_heated_false));
         imageView.setColorFilter(color);
     }
 }

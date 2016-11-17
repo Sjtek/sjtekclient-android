@@ -21,13 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Sonarr" />
+            android:text="@string/card_sonarr_title" />
 
         <TextView
             android:id="@+id/textViewUpcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upcoming"
+            android:text="@string/card_sonarr_upcoming_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <TextView
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disk usage"
+            android:text="@string/card_sonarr_disk_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <LinearLayout
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="52dp"
                 android:layout_height="wrap_content"
-                android:text="root" />
+                android:text="@string/card_sonarr_disk_root" />
 
             <TextView
                 android:id="@+id/textViewDiskRootPercentage"
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="52dp"
                 android:layout_height="wrap_content"
-                android:text="data" />
+                android:text="@string/card_sonarr_disk_data" />
 
             <TextView
                 android:id="@+id/textViewDiskDataPercentage"
