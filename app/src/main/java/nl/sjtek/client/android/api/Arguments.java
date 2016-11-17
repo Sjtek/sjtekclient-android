@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 
 
 public class Arguments implements Serializable {
@@ -82,7 +83,7 @@ public class Arguments implements Serializable {
     }
 
     public Arguments setDefaultPlaylist(Context context) {
-        setUrl(Preferences.getInstance(context).getDefaultPlaylist());
+        setUrl(StateManager.getInstance(context).getDefaultPlaylist(context));
         return this;
     }
 

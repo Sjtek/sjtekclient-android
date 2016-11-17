@@ -114,7 +114,7 @@ public class ActivityMain extends AppCompatActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_led).setVisible(Preferences.getInstance(this).getCheckExtraLights());
+        menu.findItem(R.id.action_led).setVisible(StateManager.getInstance(this).areExtraLightsEnabled(this));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -163,9 +163,11 @@ public class ActivityMain extends AppCompatActivity implements
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
 
-        String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
-        Random random = new Random();
-        textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
+        if (StateManager.getInstance(this).isReady()) {
+            String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
+            Random random = new Random();
+            textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
+        }
 
         navigationView.addHeaderView(headerView);
     }

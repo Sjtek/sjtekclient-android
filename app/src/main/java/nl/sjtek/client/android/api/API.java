@@ -58,7 +58,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
 
     public static void data(Context context) {
         API instance = getInstance(context);
-        instance.requestQueue.add(new DataRequest(getCredentials(context),
+        instance.requestQueue.add(new DataRequest(getToken(context),
                 new Response.Listener<DataCollection>() {
                     @Override
                     public void onResponse(DataCollection response) {
@@ -107,12 +107,12 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         }));
     }
 
-    private static String getCredentials(Context context) {
-        return Preferences.getInstance(context).getCredentials();
+    private static String getToken(Context context) {
+        return Preferences.getInstance(context).getToken();
     }
 
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
-        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, getCredentials(context)));
+        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, getToken(context)));
     }
 
     @Override

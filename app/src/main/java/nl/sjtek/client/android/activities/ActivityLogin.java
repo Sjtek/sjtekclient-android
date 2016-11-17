@@ -22,6 +22,7 @@ import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.settings.DataCollection;
 
 public class ActivityLogin extends AppCompatActivity {
@@ -68,12 +69,15 @@ public class ActivityLogin extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSuccess(AuthSuccessfulEvent event) {
         DataCollection response = event.getDataCollection();
-        progressDialog.dismiss();
+        StateManager stateManager = StateManager.getInstance(this);
+        stateManager.onDataUpdated(response);
+        stateManager.save(this);
+
         String username = editTextUsername.getText().toString();
         String password = editTextPassword.getText().toString();
         Preferences.getInstance(this).setCredentials(username, password);
-        Preferences.getInstance(this).setCheckExtraLights(response.getUsers().get(username).isCheckExtraLight());
-        Preferences.getInstance(this).setDefaultPlaylist(response.getUsers().get(username).getDefaultPlaylist());
+
+        progressDialog.dismiss();
         finish();
     }
 

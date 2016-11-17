@@ -7,13 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.HttpAuthHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.storage.Preferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,16 +33,6 @@ public abstract class BaseFragmentWeb extends BaseFragment {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedHttpAuthRequest(WebView view,
-                                                  HttpAuthHandler handler,
-                                                  String host,
-                                                  String realm) {
-                Preferences preferences = Preferences.getInstance(getContext());
-                handler.proceed(preferences.getUsername(), preferences.getPassword());
-            }
-        });
         webView.loadUrl(getUrl());
 
         return rootView;
