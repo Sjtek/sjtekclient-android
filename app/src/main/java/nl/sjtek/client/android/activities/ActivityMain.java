@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -35,7 +38,6 @@ import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
-import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
@@ -44,8 +46,9 @@ import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 
-public class ActivityMain extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ActivityMain extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ColorChooserDialog.ColorCallback {
 
     private FloatingActionButton fab;
 
@@ -119,7 +122,7 @@ public class ActivityMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_led:
-                replaceFragment(new FragmentLED(), true);
+                showLedDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -254,5 +257,21 @@ public class ActivityMain extends AppCompatActivity
         } else {
             return super.onKeyDown(keyCode, event);
         }
+    }
+
+    private void showLedDialog() {
+        new ColorChooserDialog.Builder(this, R.string.dialog_led_title)
+                .doneButton(R.string.dialog_led_done)
+                .cancelButton(R.string.dialog_led_cancel)
+                .show();
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+        String hex = String.format("#%06X", 0xFFFFFF & selectedColor);
+        API.led(this,
+                Integer.valueOf(hex.substring(1, 3), 16),
+                Integer.valueOf(hex.substring(3, 5), 16),
+                Integer.valueOf(hex.substring(5, 7), 16));
     }
 }

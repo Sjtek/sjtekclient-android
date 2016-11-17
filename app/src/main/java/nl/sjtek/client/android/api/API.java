@@ -66,6 +66,20 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         }, instance));
     }
 
+    public static void led(Context context, int r, int g, int b) {
+        getInstance(context).requestQueue.add(new LEDRequest(r, g, b, new Response.Listener<Boolean>() {
+            @Override
+            public void onResponse(Boolean response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }));
+    }
+
     public static void action(Context context, ActionInterface action, Arguments arguments) {
         getInstance(context).addRequest(context, action, arguments);
     }

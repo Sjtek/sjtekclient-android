@@ -61,7 +61,9 @@
 
     <string name="dialog_music">Start playlist</string>
 
-    <string name="led_title">LED controller</string>
+    <string name="dialog_led_title">LED strip</string>
+    <string name="dialog_led_done">Apply</string>
+    <string name="dialog_led_cancel">Cancel</string>
 
     <string name="pref_title">Settings</string>
 
