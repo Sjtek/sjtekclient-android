@@ -10,7 +10,7 @@ import com.android.volley.Response;
 /**
  * Created by Wouter Habets on 20-3-16.
  */
-public class LEDRequest extends Request<Boolean> {
+class LEDRequest extends Request<Boolean> {
 
     private static final String URL = "http://10.10.0.4:8000/led?rgb=%d,%d,%d";
 
@@ -18,7 +18,7 @@ public class LEDRequest extends Request<Boolean> {
 
 
     @SuppressLint("DefaultLocale")
-    public LEDRequest(int r, int g, int b, Response.Listener<Boolean> responseListener, Response.ErrorListener errorListener) {
+    LEDRequest(int r, int g, int b, Response.Listener<Boolean> responseListener, Response.ErrorListener errorListener) {
         super(Method.GET, String.format(URL, r, g, b), errorListener);
         Log.d(this.getClass().getSimpleName(), "URL: " + getUrl());
         this.responseListener = responseListener;

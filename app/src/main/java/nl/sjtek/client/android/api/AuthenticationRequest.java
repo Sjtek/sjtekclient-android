@@ -15,9 +15,6 @@ import java.util.Map;
 
 import nl.sjtek.control.data.settings.DataCollection;
 
-/**
- * Created by Wouter Habets on 4-12-15.
- */
 class AuthenticationRequest extends Request<DataCollection> {
 
     private static final String URL = Action.DATA.toString();
@@ -26,9 +23,9 @@ class AuthenticationRequest extends Request<DataCollection> {
     private final String username;
     private final String password;
 
-    public AuthenticationRequest(String username, String password,
-                                 Response.Listener<DataCollection> responseListener,
-                                 Response.ErrorListener listener) {
+    AuthenticationRequest(String username, String password,
+                          Response.Listener<DataCollection> responseListener,
+                          Response.ErrorListener listener) {
         super(Method.GET, URL, listener);
         this.responseListener = responseListener;
         this.username = username;
