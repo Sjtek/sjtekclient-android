@@ -1,6 +1,7 @@
 package nl.sjtek.client.android.storage;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,6 +63,24 @@ public class StateManager {
 
     public DataCollection getDataCollection() {
         return dataCollection;
+    }
+
+
+    public boolean areExtraLightsEnabled(Context context) {
+        String user = Preferences.getInstance(context).getUsername();
+        return !TextUtils.isEmpty(user) && isReady() && dataCollection.getUsers().get(user).isCheckExtraLight();
+    }
+
+    public String getDefaultPlaylist(Context context) {
+        String user = Preferences.getInstance(context).getUsername();
+        if (isReady()) {
+            if (TextUtils.isEmpty(user)) {
+                user = "default";
+            }
+            return dataCollection.getUsers().get(user).getDefaultPlaylist();
+        } else {
+            return "";
+        }
     }
 
     public void save(Context context) {

@@ -6,4 +6,7 @@
 
     <color name="coffee_cold">#757575</color>
     <color name="coffee_heated">#000000</color>
+
+    <color name="background_card">#fff</color>
+    <color name="background_window">#f2f2f2</color>
 </resources>

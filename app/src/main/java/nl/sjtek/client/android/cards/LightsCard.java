@@ -12,7 +12,7 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.ActionInterface;
-import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -24,8 +24,6 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
     SwitchCompat switch2;
     @BindView(R.id.switch3)
     SwitchCompat switch3;
-    @BindView(R.id.switch4)
-    SwitchCompat switch4;
 
     public LightsCard(Context context) {
         super(context);
@@ -44,11 +42,9 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         inflate(context, R.layout.card_lights, this);
         ButterKnife.bind(this);
 
-        if (Preferences.getInstance(getContext()).getCheckExtraLights()) {
+        if (StateManager.getInstance(getContext()).areExtraLightsEnabled(getContext())) {
             switch3.setVisibility(View.VISIBLE);
         }
-
-        switch4.setVisibility(View.GONE);
     }
 
     @Override
@@ -57,10 +53,9 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         switch1.setChecked(lights.isLight1());
         switch2.setChecked(lights.isLight2());
         switch3.setChecked(lights.isLight3());
-        switch4.setChecked(lights.isLight4());
     }
 
-    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.switch4})
+    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3})
     public void onClick(View v) {
         boolean enabled = ((SwitchCompat) v).isChecked();
         switch (v.getId()) {
@@ -72,9 +67,6 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
                 break;
             case R.id.switch3:
                 toggle(enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
-                break;
-            case R.id.switch4:
-                toggle(enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
                 break;
         }
     }

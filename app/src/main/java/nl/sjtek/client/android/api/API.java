@@ -58,12 +58,27 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
 
     public static void data(Context context) {
         API instance = getInstance(context);
-        instance.requestQueue.add(new DataRequest(new Response.Listener<DataCollection>() {
+        instance.requestQueue.add(new DataRequest(getToken(context),
+                new Response.Listener<DataCollection>() {
+                    @Override
+                    public void onResponse(DataCollection response) {
+                        EventBus.getDefault().post(response);
+                    }
+                }, instance));
+    }
+
+    public static void led(Context context, int r, int g, int b) {
+        getInstance(context).requestQueue.add(new LEDRequest(r, g, b, new Response.Listener<Boolean>() {
             @Override
-            public void onResponse(DataCollection response) {
-                EventBus.getDefault().post(response);
+            public void onResponse(Boolean response) {
+
             }
-        }, instance));
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }));
     }
 
     public static void action(Context context, ActionInterface action, Arguments arguments) {
@@ -92,8 +107,12 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
         }));
     }
 
+    private static String getToken(Context context) {
+        return Preferences.getInstance(context).getToken();
+    }
+
     private void addRequest(Context context, ActionInterface action, Arguments arguments) {
-        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, Preferences.getInstance(context).getCredentials()));
+        requestQueue.add(new InfoRequest(action.toString() + arguments.build(), this, this, getToken(context)));
     }
 
     @Override

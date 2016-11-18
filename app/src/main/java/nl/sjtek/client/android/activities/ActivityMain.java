@@ -1,11 +1,11 @@
 package nl.sjtek.client.android.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -32,10 +34,9 @@ import java.util.Random;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.cards.MusicSheetCard;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
-import nl.sjtek.client.android.fragments.FragmentLED;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
@@ -44,12 +45,27 @@ import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 
-public class ActivityMain extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private FloatingActionButton fab;
+public class ActivityMain extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
 
     private DrawerLayout drawer;
+    private MusicSheetCard musicSheetCard;
+    private View viewShade;
+
+    private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            musicSheetCard.onSlide(slideOffset);
+            viewShade.setAlpha(slideOffset);
+        }
+    };
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,30 +77,10 @@ public class ActivityMain extends AppCompatActivity
 
         String username = Preferences.getInstance(this).getUsername().toLowerCase();
         if (Preferences.getInstance(this).isCredentialsSet() && toolbar != null) {
-            toolbar.setSubtitle(String.format("Hallo %s%s", username.substring(0, 1).toUpperCase(), username.substring(1)));
+            toolbar.setSubtitle(String.format(getString(R.string.toolbar_user), username.substring(0, 1).toUpperCase(), username.substring(1)));
         }
 
         setSupportActionBar(toolbar);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                API.action(getApplicationContext(), Action.SWITCH, new Arguments().setDefaultUser(getApplicationContext()));
-            }
-        });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Context context = getApplicationContext();
-                API.action(context, Action.SWITCH,
-                        new Arguments()
-                                .setDefaultUser(context)
-                                .setUseVoice(true)
-                                .setDefaultPlaylist(context));
-                return true;
-            }
-        });
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,6 +91,13 @@ public class ActivityMain extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
+
+        viewShade = findViewById(R.id.viewShade);
+
+        musicSheetCard = (MusicSheetCard) findViewById(R.id.bottom_sheet_music);
+        musicSheetCard.setSheetClickListener(this);
+        bottomSheetBehavior = BottomSheetBehavior.from(musicSheetCard);
+        bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
 
         replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
 
@@ -111,7 +114,7 @@ public class ActivityMain extends AppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_led).setVisible(Preferences.getInstance(this).getCheckExtraLights());
+        menu.findItem(R.id.action_led).setVisible(StateManager.getInstance(this).areExtraLightsEnabled(this));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -119,7 +122,7 @@ public class ActivityMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_led:
-                replaceFragment(new FragmentLED(), true);
+                showLedDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -160,9 +163,11 @@ public class ActivityMain extends AppCompatActivity
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
 
-        String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
-        Random random = new Random();
-        textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
+        if (StateManager.getInstance(this).isReady()) {
+            String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
+            Random random = new Random();
+            textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
+        }
 
         navigationView.addHeaderView(headerView);
     }
@@ -235,12 +240,6 @@ public class ActivityMain extends AppCompatActivity
         }
 
         transaction.commit();
-
-        if (fragment instanceof FragmentDashboard) {
-            fab.setVisibility(View.VISIBLE);
-        } else {
-            fab.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -253,6 +252,34 @@ public class ActivityMain extends AppCompatActivity
             return true;
         } else {
             return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    private void showLedDialog() {
+        new ColorChooserDialog.Builder(this, R.string.dialog_led_title)
+                .doneButton(R.string.dialog_led_done)
+                .cancelButton(R.string.dialog_led_cancel)
+                .show();
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+        String hex = String.format("#%06X", 0xFFFFFF & selectedColor);
+        API.led(this,
+                Integer.valueOf(hex.substring(1, 3), 16),
+                Integer.valueOf(hex.substring(3, 5), 16),
+                Integer.valueOf(hex.substring(5, 7), 16));
+    }
+
+    @Override
+    public void onSheetClick() {
+        switch (bottomSheetBehavior.getState()) {
+            case BottomSheetBehavior.STATE_COLLAPSED:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                break;
+            case BottomSheetBehavior.STATE_EXPANDED:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                break;
         }
     }
 }

@@ -21,7 +21,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="16dp"
-            android:text="Avond eten"
+            android:text="@string/card_meal_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textViewTitle"
-            android:text="Bluffer"
+            android:text="@string/card_meal_default"
             android:textColor="?android:textColorPrimary"
             android:textSize="30sp" />
 
@@ -45,7 +45,7 @@
             android:gravity="center_vertical|end"
             android:paddingEnd="8dp"
             android:paddingStart="0dp"
-            android:text="pls no"
+            android:text="@string/card_meal_refresh"
             android:textAllCaps="false" />
     </RelativeLayout>
 

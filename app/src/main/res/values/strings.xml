@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Sjtek</string>
 
+    <string name="service_action_music_toggle" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_TOGGLE</string>
+    <string name="service_action_music_next" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_NEXT</string>
+    <string name="service_action_switch" translatable="false">nl.sjtek.client.android.ACTION_SWITCH</string>
+    <string name="service_action_custom" translatable="false">nl.sjtek.client.android.ACTION_CUSTOM</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -16,25 +21,50 @@
     <string name="nav_title_settings">Settings</string>
     <string name="nav_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <string name="service_action_music_toggle" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_TOGGLE</string>
-    <string name="service_action_music_next" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_NEXT</string>
-    <string name="service_action_switch" translatable="false">nl.sjtek.client.android.ACTION_SWITCH</string>
-    <string name="service_action_custom" translatable="false">nl.sjtek.client.android.ACTION_CUSTOM</string>
+    <string name="toolbar_user">Hello %1$s%2$s</string>
 
     <string name="sign_in_title">Sign in</string>
     <string name="sign_in_description">To use the Sjtek app outside the Sjtek, you need to be signed in. Ask Wouter to create an account.</string>
     <string name="sign_in_username">Username</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_button">Sign in</string>
+    <string name="sign_in_error_title">Authentication error</string>
     <string name="sign_in_error" formatted="false">
         Something went wrong while signing in. Check your username and password.\n\n
         Http code: %s\n
         Message: %s
     </string>
 
-    <string name="led_title">LED controller</string>
+    <string name="card_coffee_title">Coffee</string>
+    <string name="card_coffee_heated_true">Heated</string>
+    <string name="card_coffee_heated_false">Cold</string>
+
+    <string name="card_lights_title">Lights</string>
+    <string name="card_lights_switch1">Living room</string>
+    <string name="card_lights_switch2">Kitchen</string>
+    <string name="card_lights_switch3">Wouters room</string>
+
+    <string name="card_meal_title">Dinner</string>
+    <string name="card_meal_default" translatable="false">Bluffer</string>
+    <string name="card_meal_refresh" translatable="false">pls no</string>
+
+    <string name="card_music_title">Music livingroom</string>
+
+    <string name="card_sonarr_title">Sonarr</string>
+    <string name="card_sonarr_upcoming_title">Upcoming</string>
+    <string name="card_sonarr_disk_title">Disk usage</string>
+    <string name="card_sonarr_disk_root" translatable="false">root</string>
+    <string name="card_sonarr_disk_data" translatable="false">data</string>
+
+    <string name="card_temperature_title">Temperature</string>
+    <string name="card_temperature_inside">Inside</string>
+    <string name="card_temperature_outside">Outside</string>
+
+    <string name="dialog_music">Start playlist</string>
+
+    <string name="dialog_led_title">LED strip</string>
+    <string name="dialog_led_done">Apply</string>
+    <string name="dialog_led_cancel">Cancel</string>
 
     <string name="pref_title">Settings</string>
 
@@ -56,4 +86,7 @@
 
     <string name="shortcut_toggle">Toggle all</string>
     <string name="shortcut_music">Music</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
