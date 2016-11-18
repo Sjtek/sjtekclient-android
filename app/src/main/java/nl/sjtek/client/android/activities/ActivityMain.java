@@ -1,12 +1,11 @@
 package nl.sjtek.client.android.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,7 +34,7 @@ import java.util.Random;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.cards.MusicSheetCard;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
 import nl.sjtek.client.android.fragments.FragmentMusic;
@@ -48,11 +47,25 @@ import nl.sjtek.client.android.storage.StateManager;
 
 public class ActivityMain extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        ColorChooserDialog.ColorCallback {
-
-    private FloatingActionButton fab;
+        ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
 
     private DrawerLayout drawer;
+    private MusicSheetCard musicSheetCard;
+    private View viewShade;
+
+    private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            musicSheetCard.onSlide(slideOffset);
+            viewShade.setAlpha(slideOffset);
+        }
+    };
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,26 +82,6 @@ public class ActivityMain extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                API.action(getApplicationContext(), Action.SWITCH, new Arguments().setDefaultUser(getApplicationContext()));
-            }
-        });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Context context = getApplicationContext();
-                API.action(context, Action.SWITCH,
-                        new Arguments()
-                                .setDefaultUser(context)
-                                .setUseVoice(true)
-                                .setDefaultPlaylist(context));
-                return true;
-            }
-        });
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -98,6 +91,13 @@ public class ActivityMain extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
+
+        viewShade = findViewById(R.id.viewShade);
+
+        musicSheetCard = (MusicSheetCard) findViewById(R.id.bottom_sheet_music);
+        musicSheetCard.setSheetClickListener(this);
+        bottomSheetBehavior = BottomSheetBehavior.from(musicSheetCard);
+        bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
 
         replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
 
@@ -240,12 +240,6 @@ public class ActivityMain extends AppCompatActivity implements
         }
 
         transaction.commit();
-
-        if (fragment instanceof FragmentDashboard) {
-            fab.setVisibility(View.VISIBLE);
-        } else {
-            fab.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -275,5 +269,17 @@ public class ActivityMain extends AppCompatActivity implements
                 Integer.valueOf(hex.substring(1, 3), 16),
                 Integer.valueOf(hex.substring(3, 5), 16),
                 Integer.valueOf(hex.substring(5, 7), 16));
+    }
+
+    @Override
+    public void onSheetClick() {
+        switch (bottomSheetBehavior.getState()) {
+            case BottomSheetBehavior.STATE_COLLAPSED:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                break;
+            case BottomSheetBehavior.STATE_EXPANDED:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                break;
+        }
     }
 }
