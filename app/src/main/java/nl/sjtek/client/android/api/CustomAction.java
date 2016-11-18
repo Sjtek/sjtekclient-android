@@ -13,7 +13,7 @@ public class CustomAction implements ActionInterface {
     }
 
     @Override
-    public String getUrl() {
+    public String toString() {
         return url;
     }
 }
