@@ -23,7 +23,7 @@
     <string name="toolbar_user">Hello %1$s%2$s</string>
 
     <string name="sign_in_title">Sign in</string>
-    <string name="sign_in_description">To use the Sjtek app outside the Sjtek, you need to be signed in. Ask Wouter to create an account.</string>
+    <string name="sign_in_description">To use the Sjtek app outside the Sjtek, you need to be signed in.</string>
     <string name="sign_in_username">Username</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_button">Sign in</string>
