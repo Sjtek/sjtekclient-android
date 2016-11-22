@@ -35,6 +35,11 @@ public abstract class BaseCard extends CardView {
             onUpdate(stateManager.getResponseCollection());
             onDataUpdate(stateManager.getDataCollection());
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         EventBus.getDefault().register(this);
     }
 
