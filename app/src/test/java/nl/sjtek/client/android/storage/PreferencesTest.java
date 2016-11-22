@@ -1,5 +1,6 @@
 package nl.sjtek.client.android.storage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -25,6 +26,7 @@ public class PreferencesTest {
         return RuntimeEnvironment.application.getSharedPreferences(KEY, Context.MODE_PRIVATE);
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Before
     public void clearPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences();

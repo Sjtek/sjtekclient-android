@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/background_window"
     android:elevation="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw"
+    tools:targetApi="lollipop">
 
     <FrameLayout
         android:id="@+id/viewTop"
@@ -19,7 +21,8 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:targetApi="lollipop">
 
         <TextView
             android:id="@+id/viewTitle"
@@ -27,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start|center_vertical"
-            android:text="Music" />
+            android:text="@string/card_music_title" />
 
         <RelativeLayout
             android:id="@+id/viewInfo"
@@ -76,7 +79,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_toStartOf="@+id/buttonTopNext"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+                app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+                tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/buttonTopNext"
@@ -87,7 +91,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                app:srcCompat="@drawable/ic_skip_next_black_24dp" />
+                app:srcCompat="@drawable/ic_skip_next_black_24dp"
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
     </FrameLayout>
@@ -99,7 +104,8 @@
         <ImageView
             android:id="@+id/imageViewArtistArt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,6 +121,7 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center_vertical"
+                tools:ignore="ContentDescription"
                 tools:src="@drawable/alexander" />
 
             <LinearLayout
@@ -160,7 +167,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/ic_previous_black_24dp" />
+                        app:srcCompat="@drawable/ic_previous_black_24dp"
+                        tools:ignore="ContentDescription" />
 
                     <ImageButton
                         android:id="@+id/buttonPlay"
@@ -169,7 +177,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+                        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+                        tools:ignore="ContentDescription" />
 
                     <ImageButton
                         android:id="@+id/buttonNext"
@@ -178,7 +187,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/ic_skip_next_black_24dp" />
+                        app:srcCompat="@drawable/ic_skip_next_black_24dp"
+                        tools:ignore="ContentDescription" />
 
                 </LinearLayout>
             </LinearLayout>

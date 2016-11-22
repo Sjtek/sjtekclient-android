@@ -31,7 +31,8 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/textViewTitle"
             android:background="?android:attr/selectableItemBackground"
-            app:srcCompat="@drawable/ic_power_black_24dp" />
+            app:srcCompat="@drawable/ic_power_black_24dp"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="100dp"
@@ -47,7 +48,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:tint="#787878"
-                app:srcCompat="@drawable/ic_coffee" />
+                app:srcCompat="@drawable/ic_coffee"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textViewStatus"
