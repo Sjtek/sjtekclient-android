@@ -16,6 +16,9 @@ import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
+/**
+ * Card for controlling the lights.
+ */
 public class LightsCard extends BaseCard implements View.OnClickListener {
 
     @BindView(R.id.switch1)
@@ -42,6 +45,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         inflate(context, R.layout.card_lights, this);
         ButterKnife.bind(this);
 
+        // Only show the third toggle (LED strip) if the user is allowed to see it.
         if (StateManager.getInstance(getContext()).areExtraLightsEnabled(getContext())) {
             switch3.setVisibility(View.VISIBLE);
         }

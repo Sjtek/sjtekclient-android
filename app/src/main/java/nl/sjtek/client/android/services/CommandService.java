@@ -12,6 +12,9 @@ import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.api.CustomAction;
 
 
+/**
+ * Intent service for some basic API calls.
+ */
 public class CommandService extends IntentService {
 
     public static final String EXTRA_CUSTOM_ACTION = "customAction";

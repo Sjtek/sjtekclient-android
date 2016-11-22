@@ -1,5 +1,7 @@
 package nl.sjtek.client.android.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +27,9 @@ import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.settings.DataCollection;
 
+/**
+ * Activity for singing in to SjtekControl.
+ */
 public class ActivityLogin extends AppCompatActivity {
 
     @BindView(R.id.editTextUsername)
@@ -73,9 +78,13 @@ public class ActivityLogin extends AppCompatActivity {
         stateManager.onDataUpdated(response);
         stateManager.save(this);
 
+        Preferences preferences = Preferences.getInstance(this);
         String username = editTextUsername.getText().toString();
         String password = editTextPassword.getText().toString();
-        Preferences.getInstance(this).setCredentials(username, password);
+        preferences.setCredentials(username, password);
+
+        AccountManager accountManager = AccountManager.get(this);
+        accountManager.addAccountExplicitly(new Account(username, "nl.sjtek"), preferences.getToken(), null);
 
         progressDialog.dismiss();
         finish();

@@ -9,6 +9,9 @@ import android.widget.RemoteViews;
 
 import nl.sjtek.client.android.utils.SjtekWidget;
 
+/**
+ * Widget provider.
+ */
 public class SjtekWidgetProvider extends AppWidgetProvider {
 
     public static void updateAllWidgets(Context context) {

@@ -9,6 +9,9 @@ import java.io.UnsupportedEncodingException;
 
 import nl.sjtek.control.data.settings.DataCollection;
 
+/**
+ * Request for getting data form the API.
+ */
 class DataRequest extends AuthenticatedRequest<DataCollection> {
 
     DataRequest(String credentials, Response.Listener<DataCollection> listener, Response.ErrorListener errorListener) {

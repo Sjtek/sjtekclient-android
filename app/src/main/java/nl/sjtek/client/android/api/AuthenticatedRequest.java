@@ -1,5 +1,7 @@
 package nl.sjtek.client.android.api;
 
+import android.text.TextUtils;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,6 +9,11 @@ import com.android.volley.Response;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A Volley request that will add basic authentication headers.
+ *
+ * @param <T>
+ */
 abstract class AuthenticatedRequest<T> extends Request<T> {
 
     private final String credentials;
@@ -20,7 +27,7 @@ abstract class AuthenticatedRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        if (credentials != null) {
+        if (!TextUtils.isEmpty(credentials)) {
             HashMap<String, String> params = new HashMap<>();
             params.put("Authorization", credentials);
             return params;

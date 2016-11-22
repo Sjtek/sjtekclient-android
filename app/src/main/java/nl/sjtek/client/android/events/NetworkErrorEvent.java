@@ -5,15 +5,15 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 /**
- * Created by wouter on 9-11-16.
+ * Event for network errors. Will automatically generated UI messages.
  */
-
 public class NetworkErrorEvent {
 
     private final String message;
     private final boolean showSignIn;
 
     public NetworkErrorEvent(VolleyError error) {
+        // TODO: 22-11-16 Remove hardcoded messages
         if (error instanceof NoConnectionError) {
             message = "Oops, no connection.";
             showSignIn = false;

@@ -14,7 +14,8 @@ import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
 
 /**
- * Created by Wouter Habets on 21-10-15.
+ * Fragment for the Mopidy web interface.
+ * Displays extra toolbar action buttons for controlling Mopidy.
  */
 public class FragmentMusic extends BaseFragmentWeb {
 

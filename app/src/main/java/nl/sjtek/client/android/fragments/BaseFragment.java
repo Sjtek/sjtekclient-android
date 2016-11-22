@@ -14,6 +14,9 @@ import nl.sjtek.client.android.activities.ActivityLogin;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
 
+/**
+ * Base fragment that displays network error Snackbars.
+ */
 public abstract class BaseFragment extends Fragment {
 
     @Override
@@ -31,6 +34,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCannotConnect(NetworkErrorEvent event) {
+        // TODO: 22-11-16 Remove hardcoded strings
         if (getView() == null) return;
         Snackbar snackbar = Snackbar.make(getView(), event.getMessage(), Snackbar.LENGTH_INDEFINITE)
                 .setAction("Refresh", new View.OnClickListener() {

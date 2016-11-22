@@ -25,7 +25,7 @@ import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
- * Created by Wouter Habets on 26-1-16.
+ * Card for controlling the music.
  */
 public class MusicCard extends BaseCard {
 

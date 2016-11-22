@@ -1,11 +1,20 @@
 package nl.sjtek.client.android.api;
 
 /**
- * Created by Wouter Habets on 21-10-15.
+ * Enum for the API calls of SjtekControl
  */
 public enum Action implements ActionInterface {
+    /**
+     * Get the state of the API.
+     */
     REFRESH("/info"),
+    /**
+     * Master toggle for the house.
+     */
     SWITCH("/toggle"),
+    /**
+     * Get the data of the API (settings etc.)
+     */
     DATA("/data");
 
     private static final String API_BASE = "https://sjtek.nl/api";
@@ -20,6 +29,9 @@ public enum Action implements ActionInterface {
         return url;
     }
 
+    /**
+     * Calls for turning the lights.
+     */
     public enum Light implements ActionInterface {
         TOGGLE_1("/toggle1"),
         TOGGLE_1_ON("/toggle1on"),
@@ -50,6 +62,9 @@ public enum Action implements ActionInterface {
 
     }
 
+    /**
+     * Calls for controlling the music.
+     */
     public enum Music implements ActionInterface {
         TOGGLE("/toggle"),
         PLAY("/play"),
@@ -80,6 +95,9 @@ public enum Action implements ActionInterface {
 
     }
 
+    /**
+     * Calls for controling the TV.
+     */
     public enum TV implements ActionInterface {
         POWER_OFF("/off"),
         VOLUME_LOWER("/volumelower"),
@@ -101,6 +119,9 @@ public enum Action implements ActionInterface {
 
     }
 
+    /**
+     * Calls for controlling the coffee machine.
+     */
     public enum Coffee implements ActionInterface {
         START("/start");
 

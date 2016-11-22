@@ -1,8 +1,14 @@
 package nl.sjtek.client.android.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +18,11 @@ import nl.sjtek.client.android.receiver.SjtekWidgetProvider;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.storage.Preferences;
 
+/**
+ * Activity for displaying the application settings and user account.<br>
+ * The sign in button will go to the {@link ActivityLogin}.
+ * After sign in, it will show the users name and will log out the user on click.
+ */
 public class ActivitySettings extends AppCompatActivity {
 
     @Override
@@ -45,6 +56,11 @@ public class ActivitySettings extends AppCompatActivity {
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
 
+        /**
+         * Update the account field.<br>
+         * Will give the option to sign in if no account has been stored.<br>
+         * Will show the user name and an option to sign out if there is a user stored.
+         */
         private void setAccountPreference() {
             Preference accountPref = findPreference(getString(R.string.pref_key_account));
             if (Preferences.getInstance(getActivity()).isCredentialsSet()) {
@@ -70,12 +86,36 @@ public class ActivitySettings extends AppCompatActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             if (Preferences.getInstance(getActivity()).isCredentialsSet()) {
-                Preferences.getInstance(getActivity()).clearCredentials();
-                setAccountPreference();
+                deleteAccount();
             } else {
                 startActivity(new Intent(getActivity().getApplicationContext(), ActivityLogin.class));
             }
             return true;
+        }
+
+        @SuppressWarnings("deprecation")
+        private void deleteAccount() {
+            Preferences preferences = Preferences.getInstance(getActivity());
+            AccountManager accountManager = AccountManager.get(getActivity().getApplicationContext());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), null, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+
+                    }
+                }, new Handler());
+            } else {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), new AccountManagerCallback<Boolean>() {
+                    @Override
+                    public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
+
+                    }
+                }, new Handler());
+            }
+
+            preferences.clearCredentials();
+            setAccountPreference();
         }
     }
 }

@@ -1,5 +1,6 @@
 package nl.sjtek.client.android.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -12,9 +13,8 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
 
 /**
- * Created by wouter on 20-10-16.
+ * Utility for setting the launcher shortcuts.
  */
-
 public class ShortcutUtils {
 
     private static final String ID_MUSIC = "id_music";
@@ -24,8 +24,9 @@ public class ShortcutUtils {
 
     }
 
+    @SuppressLint("NewApi")
     public static void setShortcuts(Context context) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N_MR1) return;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) return;
         ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
 
         Intent musicIntent = new Intent(context, ActivityMain.class);

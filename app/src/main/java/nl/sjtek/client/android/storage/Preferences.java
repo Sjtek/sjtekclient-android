@@ -2,9 +2,12 @@ package nl.sjtek.client.android.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
+/**
+ * Helper for {@link SharedPreferences}.
+ */
 public class Preferences {
 
     private static final String SHARED_PREFERENCES_NAME = "shared_preferences";
@@ -19,6 +22,10 @@ public class Preferences {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
+    Preferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
+
     public static synchronized Preferences getInstance(Context context) {
         if (instance == null) {
             instance = new Preferences(context.getApplicationContext());
@@ -26,13 +33,32 @@ public class Preferences {
         return instance;
     }
 
+    /**
+     * Check if a String is empty.
+     *
+     * @param s String or null
+     * @return Is the string empty
+     */
+    public static boolean isEmpty(@Nullable String s) {
+        return s == null || s.length() <= 0 || s.trim().length() <= 0;
+    }
+
+    /**
+     * Clear the user credentials and set the credentials changed flag.
+     */
     public void clearCredentials() {
         setCredentials("", "");
     }
 
+    /**
+     * Set the user credentials.
+     *
+     * @param username Username
+     * @param password Password
+     */
     public void setCredentials(String username, String password) {
         String token;
-        if (TextUtils.isEmpty(username) && TextUtils.isEmpty(password)) {
+        if (isEmpty(username) && isEmpty(password)) {
             token = "";
         } else {
             String credentials = String.format("%s:%s", username, password);
@@ -46,23 +72,46 @@ public class Preferences {
                 .apply();
     }
 
+    /**
+     * Get the authentication token. Is empty if no credentials are set.
+     *
+     * @return Credentials
+     */
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, "");
     }
 
+    /**
+     * Get the username. Is empty if no credentials are set.
+     *
+     * @return Username
+     */
     public String getUsername() {
-        if (TextUtils.isEmpty(getToken())) return "";
+        if (isEmpty(getToken())) return "";
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
 
+    /**
+     * Check if the credentials are set.
+     *
+     * @return Are credentials set
+     */
     public boolean isCredentialsSet() {
-        return (!TextUtils.isEmpty(getUsername()) && !TextUtils.isEmpty(getToken()));
+        return (!isEmpty(getUsername()) && !isEmpty(getToken()));
     }
 
+    /**
+     * Check if the credentials are changed.
+     *
+     * @return Are credentials changed
+     */
     public boolean areCredentialsChanged() {
         return sharedPreferences.getBoolean(KEY_CREDENTIALS_CHANGED, false);
     }
 
+    /**
+     * Clear the credentials changed flag.
+     */
     public void clearCredentialsChangedFlag() {
         sharedPreferences.edit()
                 .putBoolean(KEY_CREDENTIALS_CHANGED, false)

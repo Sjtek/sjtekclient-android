@@ -14,6 +14,9 @@ import android.support.v4.content.ContextCompat;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.utils.SjtekWidget;
 
+/**
+ * Broadcast receiver for WiFi connection changes. Handles mainly the shortcuts notification.
+ */
 public class WiFiReceiver extends BroadcastReceiver {
 
     private static final int NOTIFICATION_ID = 1001;
@@ -21,6 +24,11 @@ public class WiFiReceiver extends BroadcastReceiver {
     public WiFiReceiver() {
     }
 
+    /**
+     * Show or hide the shortcuts notification bases on the WiFi status and user preference.
+     *
+     * @param context Context
+     */
     public static void updateNotification(Context context) {
         if (!PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
                 .getBoolean(context.getString(R.string.pref_key_notification_enable), true)) {

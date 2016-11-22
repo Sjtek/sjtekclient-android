@@ -14,7 +14,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.responses.TemperatureResponse;
 
 /**
- * Created by Wouter Habets on 3-2-16.
+ * Card for displaying the temperature (inside and outside).
  */
 public class TemperatureCard extends BaseCard {
 

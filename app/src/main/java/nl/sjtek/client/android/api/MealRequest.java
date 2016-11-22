@@ -12,9 +12,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by wouter on 15-11-16.
+ * Request for getting a meal suggestion.
  */
-
 class MealRequest extends Request<String> {
 
     private static final String URL = "https://sjtekfood.habets.io/api/dinners/next";

@@ -15,9 +15,8 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.settings.DataCollection;
 
 /**
- * Created by wouter on 15-11-16.
+ * Utility for caching the API responses.
  */
-
 public class StateManager {
 
     private static final String RESPONSE_FILE = "response.dat";
@@ -36,6 +35,11 @@ public class StateManager {
         return instance;
     }
 
+    /**
+     * Save the cache to the disk and clear the static instance.
+     *
+     * @param context
+     */
     public synchronized static void stopInstance(Context context) {
         getInstance(context);
         instance.save(context);
@@ -53,24 +57,50 @@ public class StateManager {
         this.dataCollection = dataCollection;
     }
 
+    /**
+     * Check if the caches are loaded from the disk or received from the API.
+     *
+     * @return Is ready
+     */
     public boolean isReady() {
         return (responseCollection != null) && (dataCollection != null);
     }
 
+    /**
+     * Get the cached API state. Is null if the state manager is not ready yet.
+     *
+     * @return API state
+     */
     public ResponseCollection getResponseCollection() {
         return responseCollection;
     }
 
+    /**
+     * Get the cached API data/preferences. Is null if the state manager is not ready yet.
+     *
+     * @return API data/preferences
+     */
     public DataCollection getDataCollection() {
         return dataCollection;
     }
 
-
+    /**
+     * Check if the user is allowed to control the extra lights.
+     *
+     * @param context Context to get the username
+     * @return Light permission
+     */
     public boolean areExtraLightsEnabled(Context context) {
         String user = Preferences.getInstance(context).getUsername();
         return !TextUtils.isEmpty(user) && isReady() && dataCollection.getUsers().get(user).isCheckExtraLight();
     }
 
+    /**
+     * Get the default playlist of the user.
+     *
+     * @param context Context to get the username
+     * @return Playlist
+     */
     public String getDefaultPlaylist(Context context) {
         String user = Preferences.getInstance(context).getUsername();
         if (isReady()) {
@@ -83,6 +113,11 @@ public class StateManager {
         }
     }
 
+    /**
+     * Save the cache to disk.
+     *
+     * @param context Context
+     */
     public void save(Context context) {
         if (responseCollection != null) {
             try (ObjectOutputStream stream = new ObjectOutputStream(context.openFileOutput(RESPONSE_FILE, Context.MODE_PRIVATE))) {
@@ -101,6 +136,11 @@ public class StateManager {
         }
     }
 
+    /**
+     * Load the cache from the disk.
+     *
+     * @param context Context
+     */
     private void load(Context context) {
         File responseFile = new File(context.getFilesDir(), RESPONSE_FILE);
         if (responseFile.exists()) {
