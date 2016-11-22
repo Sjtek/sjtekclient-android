@@ -15,4 +15,9 @@ node {
         sh './gradlew test'
         junit 'app/build/test-results/release/*.xml'
     }
+
+    stage('Lint') {
+        sh './gradlew lint'
+        androidLint canComputeNew: false, defaultEncoding: '', failedTotalHigh: '0', failedTotalLow: '30', failedTotalNormal: '20', healthy: '', pattern: '**/lint-results*.xml', unHealthy: '', unstableTotalHigh: '0', unstableTotalLow: '20', unstableTotalNormal: '10'
+    }
 }
