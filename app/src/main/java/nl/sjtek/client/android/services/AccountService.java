@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import nl.sjtek.client.android.activities.ActivityLogin;
 
@@ -43,6 +44,7 @@ public class AccountService extends Service {
 
         public SjtekAuthenticator(Context context) {
             super(context.getApplicationContext());
+            Log.d(getClass().getSimpleName(), "Creating Sjtek authenticator");
             this.context = context.getApplicationContext();
         }
 
