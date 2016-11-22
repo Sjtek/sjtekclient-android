@@ -2,7 +2,6 @@ package nl.sjtek.client.android.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Base64;
 
 public class Preferences {
@@ -19,11 +18,19 @@ public class Preferences {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
+    Preferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
+
     public static synchronized Preferences getInstance(Context context) {
         if (instance == null) {
             instance = new Preferences(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public static boolean isEmpty(String s) {
+        return s == null || s.length() <= 0 || s.trim().length() <= 0;
     }
 
     public void clearCredentials() {
@@ -32,7 +39,7 @@ public class Preferences {
 
     public void setCredentials(String username, String password) {
         String token;
-        if (TextUtils.isEmpty(username) && TextUtils.isEmpty(password)) {
+        if (isEmpty(username) && isEmpty(password)) {
             token = "";
         } else {
             String credentials = String.format("%s:%s", username, password);
@@ -51,12 +58,12 @@ public class Preferences {
     }
 
     public String getUsername() {
-        if (TextUtils.isEmpty(getToken())) return "";
+        if (isEmpty(getToken())) return "";
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
 
     public boolean isCredentialsSet() {
-        return (!TextUtils.isEmpty(getUsername()) && !TextUtils.isEmpty(getToken()));
+        return (!isEmpty(getUsername()) && !isEmpty(getToken()));
     }
 
     public boolean areCredentialsChanged() {
