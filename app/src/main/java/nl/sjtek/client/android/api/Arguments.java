@@ -1,5 +1,6 @@
 package nl.sjtek.client.android.api;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -93,6 +94,7 @@ public class Arguments implements Serializable {
      * @param context Context for getting the user
      * @return Arguments
      */
+    @SuppressLint("DefaultLocale")
     public Arguments setDefaultUser(Context context) {
         String user = Preferences.getInstance(context).getUsername();
         if (TextUtils.isEmpty(user)) return this;

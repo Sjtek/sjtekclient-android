@@ -1,5 +1,6 @@
 package nl.sjtek.client.android.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -77,6 +78,7 @@ public class ActivityMain extends AppCompatActivity implements
     private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
+    @SuppressLint("DefaultLocale")
     protected void onCreate(Bundle savedInstanceState) {
         // Reset the theme so the splash screen will be hidden.
         setTheme(R.style.AppTheme_NoActionBar);
