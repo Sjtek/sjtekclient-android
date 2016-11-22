@@ -1,8 +1,14 @@
 package nl.sjtek.client.android.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -70,12 +76,36 @@ public class ActivitySettings extends AppCompatActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             if (Preferences.getInstance(getActivity()).isCredentialsSet()) {
-                Preferences.getInstance(getActivity()).clearCredentials();
-                setAccountPreference();
+                deleteAccount();
             } else {
                 startActivity(new Intent(getActivity().getApplicationContext(), ActivityLogin.class));
             }
             return true;
+        }
+
+        @SuppressWarnings("deprecation")
+        private void deleteAccount() {
+            Preferences preferences = Preferences.getInstance(getActivity());
+            AccountManager accountManager = AccountManager.get(getActivity().getApplicationContext());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), null, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+
+                    }
+                }, new Handler());
+            } else {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), new AccountManagerCallback<Boolean>() {
+                    @Override
+                    public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
+
+                    }
+                }, new Handler());
+            }
+
+            preferences.clearCredentials();
+            setAccountPreference();
         }
     }
 }
