@@ -27,6 +27,9 @@ import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.settings.DataCollection;
 
+/**
+ * Activity for singing in to SjtekControl.
+ */
 public class ActivityLogin extends AppCompatActivity {
 
     @BindView(R.id.editTextUsername)

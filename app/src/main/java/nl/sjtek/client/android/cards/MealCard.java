@@ -16,9 +16,8 @@ import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.MealEvent;
 
 /**
- * Created by wouter on 15-11-16.
+ * Card for showing dinner suggestions.
  */
-
 public class MealCard extends BaseCard {
 
     @BindView(R.id.textViewMeal)

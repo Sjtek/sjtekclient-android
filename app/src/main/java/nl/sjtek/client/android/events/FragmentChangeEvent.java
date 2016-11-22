@@ -1,25 +1,24 @@
 package nl.sjtek.client.android.events;
 
 /**
- * Created by wouter on 15-11-16.
+ * Event for {@link nl.sjtek.client.android.activities.ActivityMain} for fragment changes.
  */
-
 public class FragmentChangeEvent {
 
     private final Type type;
-    private final boolean addToBackstack;
+    private final boolean addToBackStack;
 
-    public FragmentChangeEvent(Type type, boolean addToBackstack) {
+    public FragmentChangeEvent(Type type, boolean addToBackStack) {
         this.type = type;
-        this.addToBackstack = addToBackstack;
+        this.addToBackStack = addToBackStack;
     }
 
     public Type getType() {
         return type;
     }
 
-    public boolean isAddToBackstack() {
-        return addToBackstack;
+    public boolean isAddToBackStack() {
+        return addToBackStack;
     }
 
     public enum Type {

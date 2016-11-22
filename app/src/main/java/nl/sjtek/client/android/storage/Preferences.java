@@ -2,8 +2,12 @@ package nl.sjtek.client.android.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
+/**
+ * Helper for {@link SharedPreferences}.
+ */
 public class Preferences {
 
     private static final String SHARED_PREFERENCES_NAME = "shared_preferences";
@@ -29,18 +33,34 @@ public class Preferences {
         return instance;
     }
 
-    public static boolean isEmpty(String s) {
+    /**
+     * Check if a String is empty.
+     *
+     * @param s String or null
+     * @return Is the string empty
+     */
+    public static boolean isEmpty(@Nullable String s) {
         return s == null || s.length() <= 0 || s.trim().length() <= 0;
     }
 
+    /**
+     * Clear the user credentials and set the credentials changed flag.
+     */
     public void clearCredentials() {
         setCredentials("", "");
     }
 
+    /**
+     * Set the user credentials.
+     *
+     * @param username Username
+     * @param password Password
+     */
     public void setCredentials(String username, String password) {
         String token;
         if (isEmpty(username) && isEmpty(password)) {
-            token = "";
+            clearCredentials();
+            return;
         } else {
             String credentials = String.format("%s:%s", username, password);
             token = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
@@ -53,23 +73,46 @@ public class Preferences {
                 .apply();
     }
 
+    /**
+     * Get the authentication token. Is empty if no credentials are set.
+     *
+     * @return Credentials
+     */
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, "");
     }
 
+    /**
+     * Get the username. Is empty if no credentials are set.
+     *
+     * @return Username
+     */
     public String getUsername() {
         if (isEmpty(getToken())) return "";
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
 
+    /**
+     * Check if the credentials are set.
+     *
+     * @return Are credentials set
+     */
     public boolean isCredentialsSet() {
         return (!isEmpty(getUsername()) && !isEmpty(getToken()));
     }
 
+    /**
+     * Check if the credentials are changed.
+     *
+     * @return Are credentials changed
+     */
     public boolean areCredentialsChanged() {
         return sharedPreferences.getBoolean(KEY_CREDENTIALS_CHANGED, false);
     }
 
+    /**
+     * Clear the credentials changed flag.
+     */
     public void clearCredentialsChangedFlag() {
         sharedPreferences.edit()
                 .putBoolean(KEY_CREDENTIALS_CHANGED, false)

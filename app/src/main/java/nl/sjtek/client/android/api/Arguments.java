@@ -14,6 +14,9 @@ import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 
 
+/**
+ * Class for building URL parameters for API calls.
+ */
 public class Arguments implements Serializable {
 
     private static final String ENCODING = "UTF-8";
@@ -26,19 +29,40 @@ public class Arguments implements Serializable {
 
     }
 
+    /**
+     * Get empty arguments.
+     *
+     * @return Empty arguments
+     */
     public static Arguments empty() {
         return new Arguments();
     }
 
+    /**
+     * Should use voice with the call.
+     *
+     * @return Use voice
+     */
     public boolean isUseVoice() {
         return useVoice;
     }
 
+    /**
+     * Let the API speak in the living room on receiving a certain request.
+     *
+     * @param useVoice Should use voice
+     * @return Arguments
+     */
     public Arguments setUseVoice(boolean useVoice) {
         this.useVoice = useVoice;
         return this;
     }
 
+    /**
+     * Get the user.
+     *
+     * @return User
+     */
     public String getUser() {
         try {
             return URLDecoder.decode(user, ENCODING);
@@ -48,6 +72,12 @@ public class Arguments implements Serializable {
         }
     }
 
+    /**
+     * Set the user for identifying with the API.
+     *
+     * @param user User
+     * @return Arguments
+     */
     public Arguments setUser(String user) {
         try {
             this.user = URLEncoder.encode(user, ENCODING);
@@ -57,6 +87,12 @@ public class Arguments implements Serializable {
         return this;
     }
 
+    /**
+     * Set the user according to the currently signed in user.
+     *
+     * @param context Context for getting the user
+     * @return Arguments
+     */
     public Arguments setDefaultUser(Context context) {
         String user = Preferences.getInstance(context).getUsername();
         if (TextUtils.isEmpty(user)) return this;
@@ -64,6 +100,11 @@ public class Arguments implements Serializable {
         return this;
     }
 
+    /**
+     * Get the url for starting a specific playlist/song.
+     *
+     * @return Url of the playlist/song
+     */
     public String getUrl() {
         try {
             return URLDecoder.decode(url, ENCODING);
@@ -73,6 +114,12 @@ public class Arguments implements Serializable {
         }
     }
 
+    /**
+     * Set an url for a music call to specifically start a playlist/song.
+     *
+     * @param url Url of the playlist/song.
+     * @return Arguments
+     */
     public Arguments setUrl(String url) {
         try {
             this.url = URLEncoder.encode(url, ENCODING);
@@ -82,11 +129,22 @@ public class Arguments implements Serializable {
         return this;
     }
 
+    /**
+     * Set the playlist to the user default playlist.
+     *
+     * @param context Context for getting the playlist
+     * @return Arguments
+     */
     public Arguments setDefaultPlaylist(Context context) {
         setUrl(StateManager.getInstance(context).getDefaultPlaylist(context));
         return this;
     }
 
+    /**
+     * Build the arguments to a url encoded string for the url.
+     *
+     * @return Url encoded arguments
+     */
     public String build() {
         List<String> argumentsList = new ArrayList<>();
         if (useVoice) argumentsList.add("voice");
@@ -96,6 +154,9 @@ public class Arguments implements Serializable {
     }
 
     @Override
+    /**
+     * {@see #build()}
+     */
     public String toString() {
         return build();
     }

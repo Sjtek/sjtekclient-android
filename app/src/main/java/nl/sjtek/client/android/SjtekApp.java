@@ -10,7 +10,7 @@ import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.utils.ShortcutUtils;
 
 /**
- * Created by Wouter Habets on 4-12-15.
+ * Sjtek
  */
 public class SjtekApp extends Application {
 

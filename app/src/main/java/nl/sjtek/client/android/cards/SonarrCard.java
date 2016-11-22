@@ -16,9 +16,8 @@ import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.responses.SonarrResponse;
 
 /**
- * Created by wouter on 15-11-16.
+ * Card for displaying Sonarr information.
  */
-
 public class SonarrCard extends BaseCard {
 
     private static final String EPISODE_NAME_TEMPLATE = "S%02dE%02d %s";

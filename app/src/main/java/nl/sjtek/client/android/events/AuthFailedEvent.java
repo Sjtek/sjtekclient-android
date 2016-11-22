@@ -3,9 +3,8 @@ package nl.sjtek.client.android.events;
 import com.android.volley.VolleyError;
 
 /**
- * Created by wouter on 9-11-16.
+ * Event when authentication has failed.
  */
-
 public class AuthFailedEvent {
     private final VolleyError volleyError;
 

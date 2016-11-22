@@ -15,6 +15,11 @@ import java.util.Map;
 
 import nl.sjtek.control.data.settings.DataCollection;
 
+/**
+ * Request for authenticating with the API.<br>
+ * Will put the username and password as a Basic Authentication token in the header.
+ * And will parse the result as a {@link DataCollection}.
+ */
 class AuthenticationRequest extends Request<DataCollection> {
 
     private static final String URL = Action.DATA.toString();

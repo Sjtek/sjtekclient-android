@@ -12,6 +12,11 @@ import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.settings.DataCollection;
 
+/**
+ * Card for creating a UI control for a SjtekControl module.<br>
+ * This will register on the event bus and subscribe on
+ * {@link ResponseCollection} and {@link DataCollection} events.
+ */
 public abstract class BaseCard extends CardView {
 
     public BaseCard(Context context) {
@@ -52,12 +57,12 @@ public abstract class BaseCard extends CardView {
     protected abstract void onShouldInflate(Context context);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onResponseCollectionEvent(ResponseCollection update) {
+    public final void onResponseCollectionEvent(ResponseCollection update) {
         onUpdate(update);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDataCollectionEvent(DataCollection data) {
+    public final void onDataCollectionEvent(DataCollection data) {
         onDataUpdate(data);
     }
 

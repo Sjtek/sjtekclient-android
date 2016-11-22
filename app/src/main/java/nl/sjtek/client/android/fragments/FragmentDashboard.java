@@ -2,7 +2,6 @@ package nl.sjtek.client.android.fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.view.ViewGroup;
 import nl.sjtek.client.android.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment that displays various {@link nl.sjtek.client.android.cards.BaseCard}s.
  */
 public class FragmentDashboard extends BaseFragment {
 

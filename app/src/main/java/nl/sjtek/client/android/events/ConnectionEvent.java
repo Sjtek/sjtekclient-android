@@ -1,9 +1,8 @@
 package nl.sjtek.client.android.events;
 
 /**
- * Created by wouter on 29-9-16.
+ * Event for connection changes in {@link nl.sjtek.client.android.services.SjtekService}.
  */
-
 public class ConnectionEvent {
     private final boolean connected;
 

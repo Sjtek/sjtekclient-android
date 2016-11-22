@@ -21,6 +21,9 @@ import nl.sjtek.client.android.api.Arguments;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 
+/**
+ * Activity for displaying a list of the users playlists. Will be shown as a dialog.
+ */
 public class ActivityPlaylists extends AppCompatActivity {
 
     private final Map<String, String> playlists = new HashMap<>();
@@ -39,6 +42,10 @@ public class ActivityPlaylists extends AppCompatActivity {
         recyclerView.setAdapter(new PlaylistAdapter());
     }
 
+    /**
+     * Adapter for displaying the playlists.<br>
+     * Playlists will be shown as simple list items. And will be started on click.
+     */
     private class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
         @Override

@@ -13,7 +13,7 @@ import nl.sjtek.client.android.activities.ActivityPlaylists;
 import nl.sjtek.client.android.services.CommandService;
 
 /**
- * Created by Wouter Habets on 30-12-15.
+ * Utility for creating a remote view with shortcuts.
  */
 public class SjtekWidget {
 
@@ -21,6 +21,13 @@ public class SjtekWidget {
 
     }
 
+    /**
+     * Get the remote views for the shortcuts bar.
+     *
+     * @param context Context
+     * @param widget  Background color mode
+     * @return Remote views with shortcuts bar
+     */
     public static RemoteViews getWidget(Context context, boolean widget) {
         Intent viewIntent = new Intent(context, ActivityMain.class);
         PendingIntent viewPendingIntent =

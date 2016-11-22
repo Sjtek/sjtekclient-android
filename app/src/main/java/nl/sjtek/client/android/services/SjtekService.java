@@ -15,6 +15,11 @@ import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.events.ConnectionEvent;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
+/**
+ * Service for receiving API updates over a websocket.<br>
+ * Sends the update as a {@link ResponseCollection} over the bus.<br>
+ * Sends a {@link ConnectionEvent} on connection changes.
+ */
 public class SjtekService extends Service {
 
     private Client client;

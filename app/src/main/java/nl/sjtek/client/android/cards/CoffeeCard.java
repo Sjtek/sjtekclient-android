@@ -15,9 +15,8 @@ import nl.sjtek.client.android.api.Action;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
- * Created by wouter on 14-11-16.
+ * Card for controlling the coffee machine.
  */
-
 public class CoffeeCard extends BaseCard {
 
     @BindView(R.id.imageViewCup)

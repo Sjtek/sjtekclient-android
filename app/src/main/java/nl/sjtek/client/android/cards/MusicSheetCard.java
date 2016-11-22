@@ -24,6 +24,9 @@ import nl.sjtek.client.android.api.Action;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
+/**
+ * Bottom sheet for controlling the music. Can be dragged up.
+ */
 public class MusicSheetCard extends LinearLayout {
 
     @BindView(R.id.textViewTopTitle)

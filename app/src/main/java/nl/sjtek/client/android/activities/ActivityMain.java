@@ -28,6 +28,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Random;
 
@@ -45,6 +46,9 @@ import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 
+/**
+ * Main Activity displaying various fragments that can be switched with the navigation drawer.
+ */
 public class ActivityMain extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
@@ -53,6 +57,9 @@ public class ActivityMain extends AppCompatActivity implements
     private MusicSheetCard musicSheetCard;
     private View viewShade;
 
+    /**
+     * Callbacks for the bottom sheet (music)
+     */
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -61,20 +68,25 @@ public class ActivityMain extends AppCompatActivity implements
 
         @Override
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            musicSheetCard.onSlide(slideOffset);
+            // Make the screen darker
             viewShade.setAlpha(slideOffset);
+            // Pass the offset to the sheet
+            musicSheetCard.onSlide(slideOffset);
         }
     };
     private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Reset the theme so the splash screen will be hidden.
         setTheme(R.style.AppTheme_NoActionBar);
+        // Set night mode to auto
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        // Set greeting in Toolbar
         String username = Preferences.getInstance(this).getUsername().toLowerCase();
         if (Preferences.getInstance(this).isCredentialsSet() && toolbar != null) {
             toolbar.setSubtitle(String.format(getString(R.string.toolbar_user), username.substring(0, 1).toUpperCase(), username.substring(1)));
@@ -88,21 +100,25 @@ public class ActivityMain extends AppCompatActivity implements
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // Update header in the navigation drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
 
+        // Setup the bottom sheet (music)
         viewShade = findViewById(R.id.viewShade);
-
         musicSheetCard = (MusicSheetCard) findViewById(R.id.bottom_sheet_music);
         musicSheetCard.setSheetClickListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(musicSheetCard);
         bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
 
-        replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
-
+        // Init the application preferences
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        // Check if the notification should be shown
         WiFiReceiver.updateNotification(this.getApplicationContext());
+
+        replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
     }
 
     @Override
@@ -114,6 +130,7 @@ public class ActivityMain extends AppCompatActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        // Only show the LED button if it's available for the user
         menu.findItem(R.id.action_led).setVisible(StateManager.getInstance(this).areExtraLightsEnabled(this));
         return super.onPrepareOptionsMenu(menu);
     }
@@ -159,6 +176,11 @@ public class ActivityMain extends AppCompatActivity implements
         StateManager.getInstance(getApplicationContext()).save(getApplicationContext());
     }
 
+    /**
+     * Initialise the navigation view and select a random quote.
+     *
+     * @param navigationView Navigation view
+     */
     private void initNavigationHeader(NavigationView navigationView) {
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
@@ -205,12 +227,12 @@ public class ActivityMain extends AppCompatActivity implements
         return true;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void replaceFragment(FragmentChangeEvent event) {
-        replaceFragment(event.getType(), event.isAddToBackstack());
+        replaceFragment(event.getType(), event.isAddToBackStack());
     }
 
-    public void replaceFragment(FragmentChangeEvent.Type target, boolean addToBackStack) {
+    private void replaceFragment(FragmentChangeEvent.Type target, boolean addToBackStack) {
         switch (target) {
             case DASHBOARD:
                 replaceFragment(new FragmentDashboard(), addToBackStack);
@@ -229,7 +251,7 @@ public class ActivityMain extends AppCompatActivity implements
         }
     }
 
-    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+    private void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
 
@@ -243,6 +265,9 @@ public class ActivityMain extends AppCompatActivity implements
     }
 
     @Override
+    /**
+     * Override key down to make it change the SjtekControl volume.
+     */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             API.action(getApplicationContext(), Action.Music.VOLUME_LOWER);
@@ -263,6 +288,10 @@ public class ActivityMain extends AppCompatActivity implements
     }
 
     @Override
+    /**
+     * Callback for the LED color selection.<br>
+     * This will convert the given int to a hex value and to an RGB value.
+     */
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         String hex = String.format("#%06X", 0xFFFFFF & selectedColor);
         API.led(this,

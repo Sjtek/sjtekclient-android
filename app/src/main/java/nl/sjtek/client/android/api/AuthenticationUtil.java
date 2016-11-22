@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Util for authenticating with the API without Volley (for synchronous calls).
+ */
 public class AuthenticationUtil {
 
     private static final String URL = Action.DATA.toString();
@@ -12,6 +15,12 @@ public class AuthenticationUtil {
 
     }
 
+    /**
+     * Authenticate with the API synchronously.
+     *
+     * @param token BASE64 encrypted username and password.
+     * @return Returns true if the authentication is successful
+     */
     public static boolean authenticate(String token) {
         HttpURLConnection connection = null;
         try {

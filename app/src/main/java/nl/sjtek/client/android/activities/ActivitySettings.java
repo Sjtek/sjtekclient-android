@@ -18,6 +18,11 @@ import nl.sjtek.client.android.receiver.SjtekWidgetProvider;
 import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.storage.Preferences;
 
+/**
+ * Activity for displaying the application settings and user account.<br>
+ * The sign in button will go to the {@link ActivityLogin}.
+ * After sign in, it will show the users name and will log out the user on click.
+ */
 public class ActivitySettings extends AppCompatActivity {
 
     @Override
@@ -51,6 +56,11 @@ public class ActivitySettings extends AppCompatActivity {
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
 
+        /**
+         * Update the account field.<br>
+         * Will give the option to sign in if no account has been stored.<br>
+         * Will show the user name and an option to sign out if there is a user stored.
+         */
         private void setAccountPreference() {
             Preference accountPref = findPreference(getString(R.string.pref_key_account));
             if (Preferences.getInstance(getActivity()).isCredentialsSet()) {

@@ -14,8 +14,12 @@ import android.util.Log;
 
 import nl.sjtek.client.android.activities.ActivityLogin;
 
+/**
+ * Service for the AccountManager.
+ */
 public class AccountService extends Service {
 
+    // TODO: 22-11-16 Remove static context
     private static SjtekAuthenticator authenticator;
 
     public AccountService() {

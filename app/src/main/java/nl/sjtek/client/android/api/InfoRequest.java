@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**
- * Created by Wouter Habets on 29-1-16.
+ * Basic API request for sending actions. Expects a {@link ResponseCollection} response.
  */
 class InfoRequest extends AuthenticatedRequest<ResponseCollection> {
 

@@ -1,7 +1,7 @@
 package nl.sjtek.client.android.fragments;
 
 /**
- * Created by Wouter Habets on 21-10-15.
+ * Fragment for showing the Transmission web interface.
  */
 public class FragmentTransmission extends BaseFragmentWeb {
     @Override

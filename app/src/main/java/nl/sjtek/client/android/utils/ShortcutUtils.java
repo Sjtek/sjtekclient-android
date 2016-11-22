@@ -12,9 +12,8 @@ import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
 
 /**
- * Created by wouter on 20-10-16.
+ * Utility for setting the launcher shortcuts.
  */
-
 public class ShortcutUtils {
 
     private static final String ID_MUSIC = "id_music";

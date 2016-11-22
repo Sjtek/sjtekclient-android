@@ -3,9 +3,8 @@ package nl.sjtek.client.android.events;
 import nl.sjtek.control.data.settings.DataCollection;
 
 /**
- * Created by wouter on 9-11-16.
+ * Event when authentication was successful.
  */
-
 public class AuthSuccessfulEvent {
     private final DataCollection dataCollection;
 

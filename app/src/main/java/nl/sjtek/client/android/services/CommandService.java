@@ -9,6 +9,9 @@ import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.api.Arguments;
 
 
+/**
+ * Intent service for some basic API calls.
+ */
 public class CommandService extends IntentService {
 
     public CommandService() {
