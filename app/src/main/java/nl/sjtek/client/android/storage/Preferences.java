@@ -59,8 +59,7 @@ public class Preferences {
     public void setCredentials(String username, String password) {
         String token;
         if (isEmpty(username) && isEmpty(password)) {
-            clearCredentials();
-            return;
+            token = "";
         } else {
             String credentials = String.format("%s:%s", username, password);
             token = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
