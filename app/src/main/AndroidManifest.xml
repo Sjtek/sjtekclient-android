@@ -57,7 +57,14 @@
             android:name=".activities.ActivitySettings"
             android:label="@string/pref_title"
             android:parentActivityName=".activities.ActivityMain"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.ActivityPlaylists"
             android:label="Start playlist"
