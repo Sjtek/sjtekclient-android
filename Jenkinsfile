@@ -12,7 +12,7 @@ node {
     }
 
     stage('Test') {
-        sh 'rm -v */build/test-results/release/*.xml'
+        sh 'rm -vf */build/test-results/release/*.xml'
         sh './gradlew test'
         junit allowEmptyResults: true, testResults: '*/build/test-results/release/*.xml'
     }
