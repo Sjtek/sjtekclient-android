@@ -24,7 +24,7 @@ public class CommandService extends IntentService {
     }
 
     public static void sendCustomAction(Context context, String action) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, CommandService.class);
         intent.setAction(context.getString(R.string.service_action_custom));
         intent.putExtra(CommandService.EXTRA_CUSTOM_ACTION, "switch");
         context.startService(intent);
