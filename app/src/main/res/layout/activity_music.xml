@@ -9,7 +9,6 @@
     tools:context="nl.sjtek.client.android.activities.ActivityMusic">
 
     <LinearLayout
-        android:id="@+id/content_activity_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -105,7 +104,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonClear"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,7 +112,6 @@
                 android:textColor="@color/text" />
 
             <Button
-                android:id="@+id/buttonShuffle"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
