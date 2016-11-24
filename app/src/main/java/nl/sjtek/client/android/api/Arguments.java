@@ -80,6 +80,7 @@ public class Arguments implements Serializable {
      * @return Arguments
      */
     public Arguments setUser(String user) {
+        if (user == null) user = "";
         try {
             this.user = URLEncoder.encode(user, ENCODING);
         } catch (UnsupportedEncodingException e) {
@@ -123,6 +124,7 @@ public class Arguments implements Serializable {
      * @return Arguments
      */
     public Arguments setUrl(String url) {
+        if (url == null) url = "";
         try {
             this.url = URLEncoder.encode(url, ENCODING);
         } catch (UnsupportedEncodingException e) {
