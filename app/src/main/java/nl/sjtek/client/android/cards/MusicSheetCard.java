@@ -124,8 +124,8 @@ public class MusicSheetCard extends LinearLayout {
         if (sheetClickListener != null) sheetClickListener.onSheetClick();
     }
 
-    @OnClick(R.id.imageViewAlbumArt)
-    public void onImageClick() {
+    @OnClick(R.id.buttonStartPlaylist)
+    public void onStartPlaylistClick() {
         Pair[] pair = new Pair[]{
                 Pair.create(imageViewAlbumArt, "albumArt"),
                 Pair.create(textViewArtist, "trackArtist"),
@@ -137,6 +137,11 @@ public class MusicSheetCard extends LinearLayout {
         Activity activity = ((Activity) getContext());
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pair);
         getContext().startActivity(new Intent(getContext(), ActivityMusic.class), options.toBundle());
+    }
+
+    @OnClick(R.id.imageViewAlbumArt)
+    public void onImageClick() {
+        onStartPlaylistClick();
     }
 
     private void setMusicInfo(MusicResponse music) {
