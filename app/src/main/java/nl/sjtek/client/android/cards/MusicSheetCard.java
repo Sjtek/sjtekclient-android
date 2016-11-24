@@ -1,6 +1,10 @@
 package nl.sjtek.client.android.cards;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.activities.ActivityMusic;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.api.Action;
 import nl.sjtek.control.data.responses.MusicResponse;
@@ -39,6 +44,10 @@ public class MusicSheetCard extends LinearLayout {
     TextView textViewArtist;
     @BindView(R.id.buttonPlay)
     ImageButton imageButtonPlay;
+    @BindView(R.id.buttonPrevious)
+    ImageButton imageButtonPrevious;
+    @BindView(R.id.buttonNext)
+    ImageButton imageButtonNext;
     @BindView(R.id.buttonTopPlay)
     ImageButton imageButtonTopPlay;
     @BindView(R.id.imageViewAlbumArt)
@@ -113,6 +122,26 @@ public class MusicSheetCard extends LinearLayout {
     @OnClick(R.id.viewTop)
     public void onTopClick() {
         if (sheetClickListener != null) sheetClickListener.onSheetClick();
+    }
+
+    @OnClick(R.id.buttonStartPlaylist)
+    public void onStartPlaylistClick() {
+        Pair[] pair = new Pair[]{
+                Pair.create(imageViewAlbumArt, "albumArt"),
+                Pair.create(textViewArtist, "trackArtist"),
+                Pair.create(textViewTitle, "trackTitle"),
+                Pair.create(imageButtonPlay, "buttonPlay"),
+                Pair.create(imageButtonPrevious, "buttonPrevious"),
+                Pair.create(imageButtonNext, "buttonNext")
+        };
+        Activity activity = ((Activity) getContext());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pair);
+        getContext().startActivity(new Intent(getContext(), ActivityMusic.class), options.toBundle());
+    }
+
+    @OnClick(R.id.imageViewAlbumArt)
+    public void onImageClick() {
+        onStartPlaylistClick();
     }
 
     private void setMusicInfo(MusicResponse music) {

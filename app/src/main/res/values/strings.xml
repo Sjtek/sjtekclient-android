@@ -85,5 +85,7 @@
     <string name="shortcut_toggle">Toggle all</string>
     <string name="shortcut_music">Music</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="music_clear_queue">Clear queue</string>
+    <string name="music_shuffle">Clear queue</string>
+    <string name="music_start_playlist">Start playlist</string>
 </resources>

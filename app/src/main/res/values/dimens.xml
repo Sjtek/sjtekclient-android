@@ -6,4 +6,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="music_panel_peek">72dp</dimen>
     <dimen name="music_panel_height">300dp</dimen>
+
+    <integer name="animation_speed">1000</integer>
 </resources>

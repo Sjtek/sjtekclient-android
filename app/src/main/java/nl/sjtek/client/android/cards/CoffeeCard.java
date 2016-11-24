@@ -23,7 +23,6 @@ public class CoffeeCard extends BaseCard {
     ImageView imageView;
     @BindView(R.id.textViewStatus)
     TextView textViewStatus;
-    private boolean heated = false;
 
     public CoffeeCard(Context context) {
         super(context);
@@ -50,20 +49,14 @@ public class CoffeeCard extends BaseCard {
 
     @Override
     protected void onUpdate(ResponseCollection update) {
-        boolean heated = update.getCoffee().isHeated();
-        if (this.heated != heated) {
-            this.heated = heated;
-            updateViews();
-        }
+        updateViews(update.getCoffee().isHeated());
     }
 
-    private void updateViews() {
+    private void updateViews(boolean heated) {
         int color = ContextCompat.getColor(getContext(), heated ?
                 R.color.coffee_heated : R.color.coffee_cold);
         textViewStatus.setTextColor(color);
-        textViewStatus.setText(heated ?
-                getContext().getString(R.string.card_coffee_heated_true) :
-                getContext().getString(R.string.card_coffee_heated_false));
+        textViewStatus.setText(heated ? getContext().getString(R.string.card_coffee_heated_true) : getContext().getString(R.string.card_coffee_heated_false));
         imageView.setColorFilter(color);
     }
 }

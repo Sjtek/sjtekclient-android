@@ -120,10 +120,21 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
+        <activity
+            android:name=".activities.ActivityMusic"
+            android:label="@string/card_music_title"
+            android:parentActivityName=".activities.ActivityMain"
+            android:theme="@style/AppTheme.Dialog">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nl.sjtek.client.android.activities.ActivityMain" />
+        </activity>
 
         <service android:name=".services.WearListenerServices">
             <intent-filter>

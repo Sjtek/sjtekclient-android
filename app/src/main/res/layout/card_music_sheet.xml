@@ -121,6 +121,7 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center_vertical"
+                android:transitionName="albumArt"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/alexander" />
 
@@ -141,6 +142,7 @@
                     android:maxLines="1"
                     android:textSize="18sp"
                     android:textStyle="normal"
+                    android:transitionName="trackTitle"
                     tools:text="Title" />
 
                 <TextView
@@ -152,12 +154,12 @@
                     android:maxLines="1"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:transitionName="trackArtist"
                     tools:text="Artist" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <ImageButton
@@ -167,6 +169,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
+                        android:transitionName="buttonPrevious"
                         app:srcCompat="@drawable/ic_previous_black_24dp"
                         tools:ignore="ContentDescription" />
 
@@ -177,6 +180,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
+                        android:transitionName="buttonPlay"
                         app:srcCompat="@drawable/ic_play_arrow_black_24dp"
                         tools:ignore="ContentDescription" />
 
@@ -187,10 +191,19 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
+                        android:transitionName="buttonNext"
                         app:srcCompat="@drawable/ic_skip_next_black_24dp"
                         tools:ignore="ContentDescription" />
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonStartPlaylist"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/music_start_playlist"
+                    android:textColor="@color/text" />
             </LinearLayout>
 
         </LinearLayout>

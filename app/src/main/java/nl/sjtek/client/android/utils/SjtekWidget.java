@@ -9,7 +9,7 @@ import android.widget.RemoteViews;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMain;
-import nl.sjtek.client.android.activities.ActivityPlaylists;
+import nl.sjtek.client.android.activities.ActivityMusic;
 import nl.sjtek.client.android.services.CommandService;
 
 /**
@@ -45,7 +45,7 @@ public class SjtekWidget {
         intentSwitch.setAction(context.getString(R.string.service_action_switch));
         PendingIntent pendingIntentSwitch = PendingIntent.getService(context, 30, intentSwitch, 0);
 
-        Intent playlistsIntent = new Intent(context, ActivityPlaylists.class);
+        Intent playlistsIntent = new Intent(context, ActivityMusic.class);
         PendingIntent pendingIntentPlaylists = PendingIntent.getActivity(context, 0, playlistsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         @LayoutRes int layoutRes;

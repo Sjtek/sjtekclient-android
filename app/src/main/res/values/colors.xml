@@ -9,4 +9,6 @@
 
     <color name="background_card">#fff</color>
     <color name="background_window">#f2f2f2</color>
+
+    <color name="text">#787878</color>
 </resources>

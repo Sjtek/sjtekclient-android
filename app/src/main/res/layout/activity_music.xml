@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_window"
+    android:maxWidth="400dp"
+    tools:context="nl.sjtek.client.android.activities.ActivityMusic">
+
+    <LinearLayout
+        android:id="@+id/content_activity_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="48dp">
+
+        <ImageView
+            android:id="@+id/imageViewAlbumArt"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:focusableInTouchMode="true"
+            android:scaleType="centerInside"
+            android:transitionName="albumArt"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/alexander"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:transitionName="trackTitle"
+            tools:targetApi="lollipop"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/textViewArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:transitionName="trackArtist"
+            tools:targetApi="lollipop"
+            tools:text="Artist" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/buttonPrevious"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:transitionName="buttonPrevious"
+                app:srcCompat="@drawable/ic_previous_black_24dp"
+                tools:ignore="ContentDescription"
+                tools:targetApi="lollipop" />
+
+            <ImageButton
+                android:id="@+id/buttonPlay"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:transitionName="buttonPlay"
+                app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+                tools:ignore="ContentDescription"
+                tools:targetApi="lollipop" />
+
+            <ImageButton
+                android:id="@+id/buttonNext"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:transitionName="buttonNext"
+                app:srcCompat="@drawable/ic_skip_next_black_24dp"
+                tools:ignore="ContentDescription"
+                tools:targetApi="lollipop" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonClear"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_clear_queue"
+                android:textColor="@color/text" />
+
+            <Button
+                android:id="@+id/buttonShuffle"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_shuffle"
+                android:textColor="@color/text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_card"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/music_start_playlist" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_playlist" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
