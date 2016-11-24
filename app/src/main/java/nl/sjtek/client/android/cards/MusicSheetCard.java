@@ -50,6 +50,8 @@ public class MusicSheetCard extends LinearLayout {
     ImageButton imageButtonNext;
     @BindView(R.id.buttonTopPlay)
     ImageButton imageButtonTopPlay;
+    @BindView(R.id.buttonTopNext)
+    ImageButton imageButtonTopNext;
     @BindView(R.id.imageViewAlbumArt)
     ImageView imageViewAlbumArt;
     @BindView(R.id.imageViewArtistArt)
@@ -84,6 +86,9 @@ public class MusicSheetCard extends LinearLayout {
     public void onSlide(float slideOffset) {
         viewTitle.setAlpha(slideOffset);
         viewInfo.setAlpha(1 - slideOffset);
+        int topButtonVisibility = slideOffset == 1 ? View.GONE : View.VISIBLE;
+        imageButtonTopPlay.setVisibility(topButtonVisibility);
+        imageButtonTopNext.setVisibility(topButtonVisibility);
     }
 
     @Override
