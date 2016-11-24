@@ -8,7 +8,7 @@ node {
 
     stage('Build') {
         sh './gradlew assemble'
-        archive 'app/build/outputs/apk/*.apk'
+        archive '*/build/outputs/apk/*.apk'
     }
 
     stage('Test') {

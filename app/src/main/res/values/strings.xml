@@ -29,7 +29,7 @@
     <string name="sign_in_error" formatted="false">
         Something went wrong while signing in. Check your username and password.\n\n
         Http code: %1$s\n
-        Message: %1$s
+        Message: %2$s
     </string>
 
     <string name="card_coffee_title">Coffee</string>

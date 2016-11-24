@@ -45,8 +45,11 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:25.0.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
+    wearApp project(':wear')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.google.android.gms:play-services-wearable:10.0.0'
+    compile project(':shared')
 }

@@ -1,0 +1,93 @@
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nl.sjtek.client.android.fragments.MusicFragment"
+    tools:deviceIds="wear">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_padding_vertical"
+        android:paddingEnd="@dimen/activity_padding_horizontal"
+        android:paddingStart="@dimen/activity_padding_horizontal"
+        android:paddingTop="@dimen/activity_padding_vertical"
+        app:layout_box="all">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    tools:text="Taylor Swift" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    tools:text="Shake it off" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonPlayPause"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_blue"
+                    android:src="@drawable/ic_play_pause_white" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <android.support.wearable.view.CircularButton
+                    android:id="@+id/buttonNext"
+                    style="@style/CircularButton"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center"
+                    android:color="@color/button_blue"
+                    android:src="@drawable/ic_next_white_24dp" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.wearable.view.BoxInsetLayout>
