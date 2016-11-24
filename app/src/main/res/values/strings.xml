@@ -4,7 +4,6 @@
     <string name="service_action_music_toggle" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_TOGGLE</string>
     <string name="service_action_music_next" translatable="false">nl.sjtek.client.android.ACTION_MUSIC_NEXT</string>
     <string name="service_action_switch" translatable="false">nl.sjtek.client.android.ACTION_SWITCH</string>
-    <string name="service_action_custom" translatable="false">nl.sjtek.client.android.ACTION_CUSTOM</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

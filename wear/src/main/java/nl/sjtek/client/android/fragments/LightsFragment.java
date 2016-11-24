@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.Action;
+import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.ActionSender;
 
 public class LightsFragment extends Fragment implements View.OnClickListener {
@@ -27,23 +29,23 @@ public class LightsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonToggle:
-                sendCommand("switch");
+                sendCommand(Action.SWITCH);
                 break;
             case R.id.buttonPlayPause:
-                sendCommand("music/toggle");
+                sendCommand(Action.Music.TOGGLE);
                 break;
             case R.id.buttonLightsOff:
-                sendCommand("lights/toggle1off");
-                sendCommand("lights/toggle2off");
+                sendCommand(Action.Light.TOGGLE_1_OFF);
+                sendCommand(Action.Light.TOGGLE_2_OFF);
                 break;
             case R.id.buttonLightsOn:
-                sendCommand("lights/toggle1on");
-                sendCommand("lights/toggle2on");
+                sendCommand(Action.Light.TOGGLE_1_ON);
+                sendCommand(Action.Light.TOGGLE_2_ON);
                 break;
         }
     }
 
-    private void sendCommand(String action) {
+    private void sendCommand(ActionInterface action) {
         ((ActionSender) getActivity()).sendAction(action);
     }
 }

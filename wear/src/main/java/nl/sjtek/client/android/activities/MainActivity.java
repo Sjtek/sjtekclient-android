@@ -20,6 +20,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import nl.sjtek.client.android.R;
+import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.ActionSender;
 import nl.sjtek.client.android.fragments.FragmentGrid;
 import nl.sjtek.client.android.fragments.LightsFragment;
@@ -110,10 +111,10 @@ public class MainActivity extends WearableActivity implements
     }
 
     @Override
-    public void sendAction(String action) {
+    public void sendAction(ActionInterface action) {
         if (apiClient.isConnected()) {
             PutDataMapRequest mapRequest = PutDataMapRequest.create("/action");
-            mapRequest.getDataMap().putString("action", action);
+            mapRequest.getDataMap().putString("action", action.toString());
             PutDataRequest dataRequest = mapRequest.asPutDataRequest();
             dataRequest.setUrgent();
             PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(apiClient, dataRequest);
