@@ -134,6 +134,7 @@ public class StateManager {
                 e.printStackTrace();
             }
         }
+        new WearSyncThread(context, responseCollection, dataCollection).start();
     }
 
     /**
