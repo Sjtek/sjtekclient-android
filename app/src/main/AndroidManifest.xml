@@ -130,7 +130,7 @@
             android:name=".activities.ActivityMusic"
             android:label="@string/card_music_title"
             android:parentActivityName=".activities.ActivityMain"
-            android:theme="@style/AppTheme.Dialog">
+            android:theme="@style/AppTheme.CustomDialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nl.sjtek.client.android.activities.ActivityMain" />
