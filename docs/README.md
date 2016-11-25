@@ -3,6 +3,9 @@
 ## Inleiding
 Deze app dient als client voor Sjtek Control. Een zelf gemaakt systeem voor enkele dingen in het huis te automatiseren. De belangrijkste dingen hiervan zijn de lichten, een LED strip, het koffiezet apparaat, de TV, een thermometer in de woonkamer en Mopidy. Mopidy is een headless muziek speler die Spotify, Youtube etc. ondersteund. Dit alles draait op een kleine computer in de woonkamer.
 
+Een overzicht hiervan is hieronder te zien.
+![Systeem overzicht](./system-overview.png)
+
 ## De API
 De communicatie met de API loopt vooral via HTTP GET request.
 Voor alle modules zijn endpoints beschikbaar om de onderdelen aan te sturen. Deze endpoints zijn te vinden in de module `shared` in de `enum` `.api.Action`. 
