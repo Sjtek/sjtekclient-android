@@ -55,6 +55,7 @@ public class SonarrCard extends BaseCard {
     @SuppressLint("DefaultLocale")
     @Override
     protected void onUpdate(ResponseCollection update) {
+        if (update.getSonarr() == null || update.getSonarr().getDiskUsage().size() == 0) return;
         List<SonarrResponse.Episode> episodes = update.getSonarr().getUpcoming();
         Map<String, SonarrResponse.Disk> disks = update.getSonarr().getDiskUsage();
 
