@@ -35,7 +35,6 @@ import java.util.Random;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.cards.MusicSheetCard;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
@@ -46,6 +45,7 @@ import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
+import nl.sjtek.control.data.actions.Action;
 
 /**
  * Main Activity displaying various fragments that can be switched with the navigation drawer.

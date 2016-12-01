@@ -14,6 +14,9 @@ import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.control.data.actions.Action;
+import nl.sjtek.control.data.actions.ActionInterface;
+import nl.sjtek.control.data.actions.Arguments;
 import nl.sjtek.control.data.responses.ResponseCollection;
 import nl.sjtek.control.data.settings.DataCollection;
 

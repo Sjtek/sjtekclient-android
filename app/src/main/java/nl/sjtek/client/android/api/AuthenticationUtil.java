@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import nl.sjtek.control.data.actions.Action;
+
 /**
  * Util for authenticating with the API without Volley (for synchronous calls).
  */

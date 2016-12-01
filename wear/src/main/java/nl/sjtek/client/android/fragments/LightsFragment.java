@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.ActionSender;
+import nl.sjtek.control.data.actions.Action;
+import nl.sjtek.control.data.actions.ActionInterface;
 
 public class LightsFragment extends Fragment implements View.OnClickListener {
 

@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.settings.DataCollection;
 
 /**

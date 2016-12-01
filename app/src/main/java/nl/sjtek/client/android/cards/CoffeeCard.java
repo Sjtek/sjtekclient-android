@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
 /**

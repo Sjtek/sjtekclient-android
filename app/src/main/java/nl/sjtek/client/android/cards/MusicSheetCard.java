@@ -25,7 +25,7 @@ import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityMusic;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
