@@ -9,7 +9,7 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.CustomAction;
+import nl.sjtek.control.data.actions.CustomAction;
 
 public class WearListenerServices extends WearableListenerService {
     public WearListenerServices() {

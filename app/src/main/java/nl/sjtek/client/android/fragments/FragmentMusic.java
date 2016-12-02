@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.api.APIArguments;
+import nl.sjtek.control.data.actions.Action;
 
 /**
  * Fragment for the Mopidy web interface.
@@ -46,7 +46,7 @@ public class FragmentMusic extends BaseFragmentWeb {
                 API.action(getContext(), Action.Music.CLEAR);
                 return true;
             case R.id.action_start:
-                API.action(getContext(), Action.Music.START, new Arguments().setDefaultPlaylist(getContext()));
+                API.action(getContext(), Action.Music.START, new APIArguments().setDefaultPlaylist(getContext()));
             default:
                 return super.onOptionsItemSelected(item);
         }
