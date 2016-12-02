@@ -16,8 +16,8 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_more"
-        tools:ignore="ContentDescription" />
+        android:src="@drawable/ic_alexander"
+        tools:ignore="ContentDescription,VectorDrawableCompat" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,8 +30,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_media_play"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <ImageButton
             android:id="@+id/buttonNext"
@@ -39,8 +39,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_media_next"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_skip_next_black_24dp"
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <ImageButton
             android:id="@+id/buttonPlaylists"
@@ -48,8 +48,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_shuffle_black_24dp"
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <ImageButton
             android:id="@+id/buttonToggle"
@@ -57,8 +57,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_lock_power_off"
-            tools:ignore="ContentDescription" />
+            android:src="@drawable/ic_power_black_24dp"
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
     </LinearLayout>
 </LinearLayout>
