@@ -30,8 +30,8 @@ public class ShortcutUtils {
         ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
 
         Intent musicIntent = new Intent(context, ActivityMain.class);
-        musicIntent.setAction("");
-        // TODO: 15-11-16 Set target fragment
+        musicIntent.setAction(ActivityMain.ACTION_TARGET);
+        musicIntent.putExtra(ActivityMain.EXTRA_TARGET, ActivityMain.TARGET_MUSIC);
 
         ShortcutInfo shortcutMusic = new ShortcutInfo.Builder(context, ID_MUSIC)
                 .setShortLabel(context.getString(R.string.shortcut_music))

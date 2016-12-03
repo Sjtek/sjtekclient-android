@@ -54,6 +54,9 @@ public class ActivityMain extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
 
+    public static final String ACTION_TARGET = "nl.sjtek.client.android.action.TARGET";
+    public static final String EXTRA_TARGET = "extra_target";
+    public static final String TARGET_MUSIC = "music";
     private DrawerLayout drawer;
     private MusicSheetCard musicSheetCard;
     private View viewShade;
@@ -120,7 +123,15 @@ public class ActivityMain extends AppCompatActivity implements
         // Check if the notification should be shown
         WiFiReceiver.updateNotification(this.getApplicationContext());
 
-        replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
+        if (getIntent().getAction().equals(ACTION_TARGET)) {
+            switch (getIntent().getStringExtra(EXTRA_TARGET)) {
+                case TARGET_MUSIC:
+                    replaceFragment(FragmentChangeEvent.Type.MUSIC, false);
+                    break;
+            }
+        } else {
+            replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
+        }
     }
 
     @Override

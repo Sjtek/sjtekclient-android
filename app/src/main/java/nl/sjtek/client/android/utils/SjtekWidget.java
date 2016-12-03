@@ -46,7 +46,7 @@ public class SjtekWidget {
         PendingIntent pendingIntentSwitch = PendingIntent.getService(context, 30, intentSwitch, 0);
 
         Intent playlistsIntent = new Intent(context, ActivityMusic.class);
-        PendingIntent pendingIntentPlaylists = PendingIntent.getActivity(context, 0, playlistsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntentPlaylists = PendingIntent.getActivity(context, 0, playlistsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         @LayoutRes int layoutRes;
         if (widget) {
