@@ -32,7 +32,7 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.sjtek.sjtekcontrol-core:data:4.4'
+    compile 'com.github.sjtek.sjtekcontrol-core:data:4.5'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'org.java-websocket:Java-WebSocket:1.3.0'
     compile 'com.jakewharton:butterknife:8.4.0'

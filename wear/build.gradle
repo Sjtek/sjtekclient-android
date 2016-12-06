@@ -26,5 +26,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-wearable:10.0.0'
     compile 'com.android.support:support-v4:25.0.1'
     provided 'com.google.android.wearable:wearable:2.0.0-alpha3'
-    compile 'com.github.sjtek.sjtekcontrol-core:data:4.4'
+    compile 'com.github.sjtek.sjtekcontrol-core:data:4.5'
 }
