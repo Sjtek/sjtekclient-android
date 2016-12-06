@@ -32,6 +32,12 @@ public class APIArguments extends nl.sjtek.control.data.actions.Arguments {
         return this;
     }
 
+    @Override
+    public APIArguments setNoShuffle(boolean noShuffle) {
+        super.setNoShuffle(noShuffle);
+        return this;
+    }
+
     /**
      * Set the user according to the currently signed in user.
      *
