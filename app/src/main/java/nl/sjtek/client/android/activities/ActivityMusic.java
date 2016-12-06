@@ -140,6 +140,16 @@ public class ActivityMusic extends AppCompatActivity {
         API.action(this, Action.Music.NEXT);
     }
 
+    @OnClick(R.id.buttonShuffle)
+    public void onShuffleClick() {
+        API.action(this, Action.Music.SHUFFLE);
+    }
+
+    @OnClick(R.id.buttonClear)
+    public void onClearClick() {
+        API.action(this, Action.Music.CLEAR);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdate(ResponseCollection responseCollection) {
         MusicResponse music = responseCollection.getMusic();
