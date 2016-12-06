@@ -8,8 +8,8 @@ android {
         applicationId "nl.sjtek.client.android"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 6000
-        versionName "6.0"
+        versionCode 6001
+        versionName "6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
     }
