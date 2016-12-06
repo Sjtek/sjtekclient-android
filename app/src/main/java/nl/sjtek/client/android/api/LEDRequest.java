@@ -1,25 +1,33 @@
 package nl.sjtek.client.android.api;
 
-import android.annotation.SuppressLint;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+
+import java.util.Locale;
+
+import nl.sjtek.control.data.actions.Action;
 
 /**
  * Request for changing the LED strip.
  */
 class LEDRequest extends Request<Boolean> {
 
-    private static final String URL = "http://10.10.0.4:8000/led?rgb=%d,%d,%d";
+    private static final String PATH = "%s?rgb=%d,%d,%d";
 
     private final Response.Listener<Boolean> responseListener;
 
-
-    @SuppressLint("DefaultLocale")
     LEDRequest(int r, int g, int b, Response.Listener<Boolean> responseListener, Response.ErrorListener errorListener) {
-        super(Method.GET, String.format(URL, r, g, b), errorListener);
+        super(Method.GET, buildUrl(r, g, b), errorListener);
         this.responseListener = responseListener;
+    }
+
+    private static String buildUrl(int r, int g, int b) {
+        if (r == 0 && g == 0 && b == 0) {
+            return Action.Light.TOGGLE_3_OFF.getUrl();
+        } else {
+            return String.format(Locale.getDefault(), PATH, Action.Light.TOGGLE_3_ON, r, g, b);
+        }
     }
 
     @Override
