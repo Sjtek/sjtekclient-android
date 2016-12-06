@@ -33,10 +33,10 @@ import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.adapters.PlaylistAdapter;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -138,6 +138,16 @@ public class ActivityMusic extends AppCompatActivity {
     @OnClick(R.id.buttonNext)
     public void onNextClick() {
         API.action(this, Action.Music.NEXT);
+    }
+
+    @OnClick(R.id.buttonShuffle)
+    public void onShuffleClick() {
+        API.action(this, Action.Music.SHUFFLE);
+    }
+
+    @OnClick(R.id.buttonClear)
+    public void onClearClick() {
+        API.action(this, Action.Music.CLEAR);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

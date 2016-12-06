@@ -35,7 +35,6 @@ import java.util.Random;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.cards.MusicSheetCard;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
 import nl.sjtek.client.android.fragments.FragmentDashboard;
@@ -46,6 +45,7 @@ import nl.sjtek.client.android.receiver.WiFiReceiver;
 import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
+import nl.sjtek.control.data.actions.Action;
 
 /**
  * Main Activity displaying various fragments that can be switched with the navigation drawer.
@@ -54,6 +54,9 @@ public class ActivityMain extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
 
+    public static final String ACTION_TARGET = "nl.sjtek.client.android.action.TARGET";
+    public static final String EXTRA_TARGET = "extra_target";
+    public static final String TARGET_MUSIC = "music";
     private DrawerLayout drawer;
     private MusicSheetCard musicSheetCard;
     private View viewShade;
@@ -120,7 +123,15 @@ public class ActivityMain extends AppCompatActivity implements
         // Check if the notification should be shown
         WiFiReceiver.updateNotification(this.getApplicationContext());
 
-        replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
+        if (getIntent().getAction().equals(ACTION_TARGET)) {
+            switch (getIntent().getStringExtra(EXTRA_TARGET)) {
+                case TARGET_MUSIC:
+                    replaceFragment(FragmentChangeEvent.Type.MUSIC, false);
+                    break;
+            }
+        } else {
+            replaceFragment(FragmentChangeEvent.Type.DASHBOARD, false);
+        }
     }
 
     @Override

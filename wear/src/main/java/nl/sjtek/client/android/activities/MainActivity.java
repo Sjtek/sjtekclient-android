@@ -20,13 +20,13 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import nl.sjtek.client.android.R;
-import nl.sjtek.client.android.api.ActionInterface;
 import nl.sjtek.client.android.api.ActionSender;
 import nl.sjtek.client.android.fragments.FragmentGrid;
 import nl.sjtek.client.android.fragments.LightsFragment;
 import nl.sjtek.client.android.fragments.MusicFragment;
 import nl.sjtek.client.android.fragments.PlaylistFragment;
 import nl.sjtek.client.android.fragments.WeatherFragment;
+import nl.sjtek.control.data.actions.ActionInterface;
 
 public class MainActivity extends WearableActivity implements
         GoogleApiClient.ConnectionCallbacks,

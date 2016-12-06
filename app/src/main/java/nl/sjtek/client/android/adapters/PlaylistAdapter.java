@@ -11,8 +11,8 @@ import java.util.Map;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.api.APIArguments;
+import nl.sjtek.control.data.actions.Action;
 
 /**
  * Adapter for displaying the playlists.<br>
@@ -43,11 +43,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return playlists.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void setText(String text) {
@@ -57,7 +58,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         @Override
         public void onClick(View view) {
             String playlist = playlists.get(playlistNames.get(getLayoutPosition()));
-            API.action(view.getContext(), Action.Music.START, new Arguments().setUrl(playlist));
+            API.action(view.getContext(), Action.Music.START, new APIArguments().setUrl(playlist));
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            String playlist = playlists.get(playlistNames.get(getLayoutPosition()));
+            API.action(view.getContext(), Action.Music.START, new APIArguments().setUrl(playlist).setNoShuffle(true));
+            return true;
         }
     }
 }

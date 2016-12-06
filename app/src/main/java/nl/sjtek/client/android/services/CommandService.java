@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
-import nl.sjtek.client.android.api.Arguments;
+import nl.sjtek.client.android.api.APIArguments;
+import nl.sjtek.control.data.actions.Action;
 
 
 /**
@@ -35,7 +35,7 @@ public class CommandService extends IntentService {
         } else if (ACTION_MUSIC_NEXT.equals(action)) {
             API.action(getApplicationContext(), Action.Music.NEXT);
         } else if (ACTION_SWITCH.equals(action)) {
-            API.action(getApplicationContext(), Action.SWITCH, new Arguments().setUseVoice(true).setDefaultUser(getApplicationContext()));
+            API.action(getApplicationContext(), Action.SWITCH, new APIArguments().setUseVoice(true).setDefaultUser(getApplicationContext()));
         }
     }
 }

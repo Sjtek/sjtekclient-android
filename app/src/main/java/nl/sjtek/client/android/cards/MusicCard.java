@@ -19,8 +19,8 @@ import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.activities.ActivityPlaylists;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.api.Action;
 import nl.sjtek.client.android.events.FragmentChangeEvent;
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.responses.MusicResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 

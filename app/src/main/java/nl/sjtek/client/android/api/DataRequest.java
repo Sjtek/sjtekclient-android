@@ -7,6 +7,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.io.UnsupportedEncodingException;
 
+import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.settings.DataCollection;
 
 /**

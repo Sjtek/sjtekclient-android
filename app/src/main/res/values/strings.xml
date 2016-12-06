@@ -85,6 +85,6 @@
     <string name="shortcut_music">Music</string>
 
     <string name="music_clear_queue">Clear queue</string>
-    <string name="music_shuffle">Clear queue</string>
+    <string name="music_shuffle">Shuffle queue</string>
     <string name="music_start_playlist">Start playlist</string>
 </resources>
