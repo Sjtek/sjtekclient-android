@@ -9,4 +9,10 @@
         android:orderInCategory="1001"
         android:title="@string/dialog_led_title"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_screen"
+        android:orderInCategory="2000"
+        android:title="@string/screen_settings"
+        app:showAsAction="never" />
 </menu>

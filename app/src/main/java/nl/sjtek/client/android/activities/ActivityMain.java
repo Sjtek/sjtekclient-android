@@ -154,6 +154,9 @@ public class ActivityMain extends AppCompatActivity implements
             case R.id.action_led:
                 showLedDialog();
                 return true;
+            case R.id.action_screen:
+                startActivity(new Intent(this, ScreenActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
