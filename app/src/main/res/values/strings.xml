@@ -87,4 +87,5 @@
     <string name="music_clear_queue">Clear queue</string>
     <string name="music_shuffle">Shuffle queue</string>
     <string name="music_start_playlist">Start playlist</string>
+    <string name="screen_settings">Screen settings</string>
 </resources>

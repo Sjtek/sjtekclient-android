@@ -148,14 +148,8 @@
         </service>
 
         <activity
-            android:label="SjtekScreen"
-            android:name=".activities.ScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".activities.ScreenActivity"
+            android:label="SjtekScreen" />
     </application>
 
 </manifest>
