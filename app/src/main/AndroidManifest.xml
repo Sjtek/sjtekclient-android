@@ -139,6 +139,7 @@
         <service android:name=".services.WearListenerServices">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+
                 <data
                     android:host="*"
                     android:path="/action"
@@ -146,6 +147,15 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:label="SjtekScreen"
+            android:name=".activities.ScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
