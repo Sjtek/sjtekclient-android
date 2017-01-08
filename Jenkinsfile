@@ -7,7 +7,7 @@ node {
     }
 
     stage('Build') {
-        sh './gradlew assemble'
+        sh './gradlew -PSigning.config=/var/jenkins_home/.android-signing/sjtekclient-android assemble'
         archive '*/build/outputs/apk/*.apk'
     }
 
