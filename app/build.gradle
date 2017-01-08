@@ -25,11 +25,12 @@ android {
 }
 
 if (project.hasProperty("Signing.config")) {
-    if (new File(project.property("Signing.config") + ".gradle").exists()) {
-        apply from: project.property("Signing.config" + ".gradle");
+    def signingConfigPath = project.property("Signing.config") + ".gradle"
+    if (new File(signingConfigPath).exists()) {
+        apply from: signingConfigPath;
         println "Signgin config applied"
     } else {
-        println "File not available" + project.property("Signing.config")
+        println "File not available" + signingConfigPath
     }
 } else {
     println "Doesn't have the property"
