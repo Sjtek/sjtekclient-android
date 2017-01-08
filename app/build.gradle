@@ -28,14 +28,11 @@ if (project.hasProperty("Signing.config")) {
     def signingConfigPath = project.property("Signing.config") + ".gradle"
     if (new File(signingConfigPath).exists()) {
         apply from: signingConfigPath;
-        println "Signgin config applied"
+        println "Signing config applied"
     } else {
-        println "File not available" + signingConfigPath
+        println "Signing property set, but no config file found. " + signingConfigPath
     }
-} else {
-    println "Doesn't have the property"
 }
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
