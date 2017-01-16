@@ -11,6 +11,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_nightmode"
+        android:icon="@drawable/ic_nightmode_white_24dp"
+        android:orderInCategory="1002"
+        android:title="@string/toggle_night_mode"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_screen"
         android:orderInCategory="2000"
         android:title="@string/screen_settings"

@@ -14,6 +14,7 @@ import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.actions.ActionInterface;
 import nl.sjtek.control.data.actions.Arguments;
@@ -166,6 +167,16 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
                 EventBus.getDefault().post(new MealEvent(""));
             }
         }));
+    }
+
+    public static void toggleNightMode(Context context) {
+        StateManager state = StateManager.getInstance(context);
+        if (!state.isReady()) return;
+        if (state.getResponseCollection().getNightMode().isEnabled()) {
+            action(context, Action.NightMode.DISABLE);
+        } else {
+            action(context, Action.NightMode.ENABLE);
+        }
     }
 
     /**

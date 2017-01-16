@@ -88,4 +88,6 @@
     <string name="music_shuffle">Shuffle queue</string>
     <string name="music_start_playlist">Start playlist</string>
     <string name="screen_settings">Screen settings</string>
+    <string name="toggle_night_mode">Toggle night mode</string>
+    <string name="night_mode_enabled">Night mode enabled</string>
 </resources>
