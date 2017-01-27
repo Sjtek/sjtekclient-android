@@ -35,7 +35,7 @@ public class WiFiReceiver extends BroadcastReceiver {
             dismissNotification(context);
             return;
         }
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         String ssid = wifiInfo.getSSID();
         if (ssid != null && (ssid.contains("Routers of Rohan"))) {

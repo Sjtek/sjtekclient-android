@@ -23,7 +23,7 @@ public class PreferencesTest {
         return RuntimeEnvironment.application.getSharedPreferences(KEY, Context.MODE_PRIVATE);
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "ApplySharedPref"})
     @Before
     public void clearPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences();

@@ -76,7 +76,6 @@
                 android:layout_weight="1">
 
                 <android.support.wearable.view.CircularButton
-                    android:id="@+id/buttonNext"
                     style="@style/CircularButton"
                     android:layout_width="@dimen/button_size"
                     android:layout_height="@dimen/button_size"
