@@ -105,9 +105,9 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="@string/service_action_music_toggle" />
-                <action android:name="@string/service_action_music_next" />
-                <action android:name="@string/service_action_switch" />
+                <action android:name="nl.sjtek.client.android.ACTION_MUSIC_TOGGLE" />
+                <action android:name="nl.sjtek.client.android.ACTION_MUSIC_NEXT" />
+                <action android:name="nl.sjtek.client.android.ACTION_MUSIC_SWITCH" />
             </intent-filter>
         </service>
         <service
