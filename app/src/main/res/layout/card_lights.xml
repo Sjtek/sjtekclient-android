@@ -34,6 +34,18 @@
             android:text="@string/card_lights_switch2" />
 
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/card_lights_switch5" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/card_lights_switch7" />
+
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

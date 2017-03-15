@@ -90,4 +90,6 @@
     <string name="screen_settings">Screen settings</string>
     <string name="toggle_night_mode">Toggle night mode</string>
     <string name="night_mode_enabled">Night mode enabled</string>
+    <string name="card_lights_switch5">Hallway</string>
+    <string name="card_lights_switch7">Stairs</string>
 </resources>
