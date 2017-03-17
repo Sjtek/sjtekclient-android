@@ -240,6 +240,16 @@ public class ActivityMain extends AppCompatActivity implements
             replaceFragment(FragmentChangeEvent.Type.TRANSMISSION, false);
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, ActivitySettings.class));
+        } else if (id == R.id.nav_hue) {
+            Intent hueIntent = getPackageManager().getLaunchIntentForPackage("com.philips.lighting.hue2");
+            if (hueIntent != null) {
+                startActivity(hueIntent);
+            }
+        } else if (id == R.id.nav_nap) {
+            Intent napIntent = getPackageManager().getLaunchIntentForPackage("io.habets.nap");
+            if (napIntent != null) {
+                startActivity(napIntent);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

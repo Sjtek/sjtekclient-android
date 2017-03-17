@@ -2,27 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
+        android:id="@+id/nav_group_main"
         android:checkableBehavior="single"
         android:title="@string/nav_title_services">
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard_black_24dp"
-            android:title="@string/nav_dashboard"/>
+            android:title="@string/nav_dashboard" />
         <item
             android:id="@+id/nav_music"
             android:icon="@drawable/ic_music_black_24dp"
-            android:title="@string/nav_music"/>
+            android:title="@string/nav_music" />
         <item
             android:id="@+id/nav_sonarr"
             android:icon="@drawable/ic_sonarr_black_24dp"
-            android:title="@string/nav_sonarr"/>
+            android:title="@string/nav_sonarr" />
         <item
             android:id="@+id/nav_transmission"
             android:icon="@drawable/ic_transmission_black_24dp"
-            android:title="@string/nav_transmission"/>
+            android:title="@string/nav_transmission" />
     </group>
 
     <group
+        android:id="@+id/nav_group_settings"
         android:checkableBehavior="single"
         android:title="@string/nav_title_settings">
         <item
@@ -30,5 +32,22 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/nav_settings" />
     </group>
+
+    <group
+        android:id="@+id/nav_group_external"
+        android:checkableBehavior="single"
+        android:title="@string/nav_title_external_apps">
+
+        <item
+            android:id="@+id/nav_hue"
+            android:icon="@drawable/ic_hue_black_24dp"
+            android:title="@string/nav_hue" />
+
+        <item
+            android:id="@+id/nav_nap"
+            android:icon="@drawable/ic_nap_black_24dp"
+            android:title="@string/nav_nap" />
+    </group>
+
 
 </menu>
