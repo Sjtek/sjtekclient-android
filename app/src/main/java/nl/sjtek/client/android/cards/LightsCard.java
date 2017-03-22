@@ -13,7 +13,6 @@ import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.actions.ActionInterface;
-import nl.sjtek.control.data.actions.CustomAction;
 import nl.sjtek.control.data.responses.LightsResponse;
 import nl.sjtek.control.data.responses.ResponseCollection;
 
@@ -28,6 +27,8 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
     SwitchCompat switch2;
     @BindView(R.id.switch3)
     SwitchCompat switch3;
+    @BindView(R.id.switch4)
+    SwitchCompat switch4;
     @BindView(R.id.switch5)
     SwitchCompat switch5;
     @BindView(R.id.switch7)
@@ -53,6 +54,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         // Only show the third toggle (LED strip) if the user is allowed to see it.
         if (StateManager.getInstance(getContext()).areExtraLightsEnabled(getContext())) {
             switch3.setVisibility(View.VISIBLE);
+            switch4.setVisibility(View.VISIBLE);
         }
     }
 
@@ -62,11 +64,11 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         switch1.setChecked(lights.isLight1());
         switch2.setChecked(lights.isLight2());
         switch3.setChecked(lights.isLight3());
+        switch4.setChecked(lights.isLight4());
         switch5.setChecked(lights.isLight5());
         switch7.setChecked(lights.isLight7());
     }
 
-    // TODO: 15-3-17 Fix hardcoded URL
     @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.switch5, R.id.switch7})
     public void onClick(View v) {
         boolean enabled = ((SwitchCompat) v).isChecked();
@@ -80,11 +82,14 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
             case R.id.switch3:
                 toggle(enabled ? Action.Light.TOGGLE_3_ON : Action.Light.TOGGLE_3_OFF);
                 break;
+            case R.id.switch4:
+                toggle(enabled ? Action.Light.TOGGLE_4_ON : Action.Light.TOGGLE_4_OFF);
+                break;
             case R.id.switch5:
-                toggle(enabled ? new CustomAction("https://sjtek.nl/api/lights/toggle5on") : new CustomAction("https://sjtek.nl/api/lights/toggle5off"));
+                toggle(enabled ? Action.Light.TOGGLE_5_ON : Action.Light.TOGGLE_5_OFF);
                 break;
             case R.id.switch7:
-                toggle(enabled ? new CustomAction("https://sjtek.nl/api/lights/toggle7on") : new CustomAction("https://sjtek.nl/api/lights/toggle7off"));
+                toggle(enabled ? Action.Light.TOGGLE_7_ON : Action.Light.TOGGLE_7_ON);
                 break;
         }
     }

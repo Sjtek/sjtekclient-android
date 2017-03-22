@@ -42,7 +42,8 @@
     <string name="card_lights_title">Lights</string>
     <string name="card_lights_switch1">Living room</string>
     <string name="card_lights_switch2">Kitchen</string>
-    <string name="card_lights_switch3">Wouters room</string>
+    <string name="card_lights_switch3">LED strip</string>
+    <string name="card_lights_switch4">Desk light</string>
 
     <string name="card_meal_title">Dinner</string>
     <string name="card_meal_default" translatable="false">Bluffer</string>
