@@ -69,7 +69,7 @@ public class LightsCard extends BaseCard implements View.OnClickListener {
         switch7.setChecked(lights.isLight7());
     }
 
-    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.switch5, R.id.switch7})
+    @OnClick({R.id.switch1, R.id.switch2, R.id.switch3, R.id.switch4, R.id.switch5, R.id.switch7})
     public void onClick(View v) {
         boolean enabled = ((SwitchCompat) v).isChecked();
         switch (v.getId()) {
