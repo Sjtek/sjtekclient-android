@@ -4,11 +4,9 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
@@ -100,12 +98,7 @@ public class ActivityLogin extends AppCompatActivity {
                 .title(getString(R.string.sign_in_title))
                 .content(message)
                 .neutralText(getString(android.R.string.ok))
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
+                .onNeutral((dialog, which) -> dialog.dismiss())
                 .build()
                 .show();
     }

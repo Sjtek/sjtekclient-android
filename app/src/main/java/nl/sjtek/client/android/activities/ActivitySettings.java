@@ -2,8 +2,6 @@ package nl.sjtek.client.android.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -99,18 +97,12 @@ public class ActivitySettings extends AppCompatActivity {
             AccountManager accountManager = AccountManager.get(getActivity().getApplicationContext());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), null, new AccountManagerCallback<Bundle>() {
-                    @Override
-                    public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), null, accountManagerFuture -> {
 
-                    }
                 }, new Handler());
             } else {
-                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), new AccountManagerCallback<Boolean>() {
-                    @Override
-                    public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
+                accountManager.removeAccount(new Account(preferences.getUsername(), "nl.sjtek"), accountManagerFuture -> {
 
-                    }
                 }, new Handler());
             }
 

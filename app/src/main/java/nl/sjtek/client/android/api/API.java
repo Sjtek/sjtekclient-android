@@ -59,17 +59,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
      * @param password Password
      */
     public static void authenticate(Context context, String username, String password) {
-        getInstance(context).requestQueue.add(new AuthenticationRequest(username, password, new Response.Listener<DataCollection>() {
-            @Override
-            public void onResponse(DataCollection response) {
-                EventBus.getDefault().post(new AuthSuccessfulEvent(response));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                EventBus.getDefault().post(new AuthFailedEvent(error));
-            }
-        }));
+        getInstance(context).requestQueue.add(new AuthenticationRequest(username, password, response -> EventBus.getDefault().post(new AuthSuccessfulEvent(response)), error -> EventBus.getDefault().post(new AuthFailedEvent(error))));
     }
 
     /**
@@ -82,12 +72,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
     public static void data(Context context) {
         API instance = getInstance(context);
         instance.requestQueue.add(new DataRequest(getToken(context),
-                new Response.Listener<DataCollection>() {
-                    @Override
-                    public void onResponse(DataCollection response) {
-                        EventBus.getDefault().post(response);
-                    }
-                }, instance));
+                response -> EventBus.getDefault().post(response), instance));
     }
 
     /**
@@ -100,16 +85,10 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
      * @param b       Value for blue
      */
     public static void led(Context context, int r, int g, int b) {
-        getInstance(context).requestQueue.add(new LEDRequest(r, g, b, new Response.Listener<Boolean>() {
-            @Override
-            public void onResponse(Boolean response) {
+        getInstance(context).requestQueue.add(new LEDRequest(r, g, b, response -> {
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, error -> {
 
-            }
         }));
     }
 
@@ -156,17 +135,7 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
      * @param context Context
      */
     public static void meal(Context context) {
-        getInstance(context).requestQueue.add(new MealRequest(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                EventBus.getDefault().post(new MealEvent(response));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                EventBus.getDefault().post(new MealEvent(""));
-            }
-        }));
+        getInstance(context).requestQueue.add(new MealRequest(response -> EventBus.getDefault().post(new MealEvent(response)), error -> EventBus.getDefault().post(new MealEvent(""))));
     }
 
     public static void toggleNightMode(Context context) {

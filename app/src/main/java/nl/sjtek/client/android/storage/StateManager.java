@@ -38,7 +38,7 @@ public class StateManager {
     /**
      * Save the cache to the disk and clear the static instance.
      *
-     * @param context
+     * @param context Context
      */
     public synchronized static void stopInstance(Context context) {
         getInstance(context);

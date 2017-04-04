@@ -22,12 +22,16 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 if (project.hasProperty("Signing.config")) {
     def signingConfigPath = project.property("Signing.config") + ".gradle"
     if (new File(signingConfigPath).exists()) {
-        apply from: signingConfigPath;
+        apply from: signingConfigPath
         println "Signing config applied"
     } else {
         println "Signing property set, but no config file found. " + signingConfigPath

@@ -294,10 +294,10 @@ public class ActivityMain extends AppCompatActivity implements
         transaction.commit();
     }
 
-    @Override
     /**
      * Override key down to make it change the SjtekControl volume.
      */
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             API.action(getApplicationContext(), Action.Music.VOLUME_LOWER);
@@ -317,11 +317,11 @@ public class ActivityMain extends AppCompatActivity implements
                 .show();
     }
 
-    @Override
     /**
      * Callback for the LED color selection.<br>
      * This will convert the given int to a hex value and to an RGB value.
      */
+    @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         String hex = String.format("#%06X", 0xFFFFFF & selectedColor);
         API.led(this,

@@ -31,9 +31,7 @@ class MealRequest extends Request<String> {
             String data = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             JSONObject jsonObject = new JSONObject(data);
             return Response.success(jsonObject.getString("name"), null);
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
-        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException | JSONException e) {
             return Response.error(new ParseError(e));
         }
     }
