@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_more"
+        android:src="@drawable/ic_kitkat_menu"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_media_play"
+            android:src="@drawable/ic_kitkat_play"
             tools:ignore="ContentDescription" />
 
         <ImageButton
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_media_next"
+            android:src="@drawable/ic_kitkat_next"
             tools:ignore="ContentDescription" />
 
         <ImageButton
@@ -48,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:src="@drawable/ic_kitkat_shuffle"
             tools:ignore="ContentDescription" />
 
         <ImageButton
@@ -57,7 +57,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@android:drawable/ic_lock_power_off"
+            android:src="@drawable/ic_kitkat_power"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>

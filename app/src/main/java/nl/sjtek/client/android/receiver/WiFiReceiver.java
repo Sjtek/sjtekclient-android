@@ -46,9 +46,15 @@ public class WiFiReceiver extends BroadcastReceiver {
     }
 
     private static void showNotification(Context context) {
+        int icon;
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+            icon = R.drawable.ic_notification_drawable;
+        } else {
+            icon = R.drawable.ic_notification_black_24dp;
+        }
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_notification_black_24dp)
+                        .setSmallIcon(icon)
                         .setContent(SjtekWidget.getWidget(context, false))
                         .setPriority(NotificationCompat.PRIORITY_MIN)
                         .setColor(ContextCompat.getColor(context, R.color.colorPrimary))

@@ -123,7 +123,7 @@ public class ActivityMain extends AppCompatActivity implements
         // Check if the notification should be shown
         WiFiReceiver.updateNotification(this.getApplicationContext());
 
-        if (getIntent().getAction().equals(ACTION_TARGET)) {
+        if (getIntent().getAction() != null && getIntent().getAction().equals(ACTION_TARGET)) {
             switch (getIntent().getStringExtra(EXTRA_TARGET)) {
                 case TARGET_MUSIC:
                     replaceFragment(FragmentChangeEvent.Type.MUSIC, false);
