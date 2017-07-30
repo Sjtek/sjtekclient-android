@@ -2,6 +2,7 @@ package nl.sjtek.client.android.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
@@ -89,7 +90,7 @@ public class ActivityMain extends AppCompatActivity implements
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         // Set greeting in Toolbar
         String username = Preferences.getInstance(this).getUsername().toLowerCase();
@@ -99,20 +100,20 @@ public class ActivityMain extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         // Update header in the navigation drawer
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationHeader(navigationView);
 
         // Setup the bottom sheet (music)
         viewShade = findViewById(R.id.viewShade);
-        musicSheetCard = (MusicSheetCard) findViewById(R.id.bottom_sheet_music);
+        musicSheetCard = findViewById(R.id.bottom_sheet_music);
         musicSheetCard.setSheetClickListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(musicSheetCard);
         bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
@@ -121,7 +122,9 @@ public class ActivityMain extends AppCompatActivity implements
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Check if the notification should be shown
-        WiFiReceiver.updateNotification(this.getApplicationContext());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            WiFiReceiver.updateNotification(this.getApplicationContext());
+        }
 
         if (getIntent().getAction() != null && getIntent().getAction().equals(ACTION_TARGET)) {
             switch (getIntent().getStringExtra(EXTRA_TARGET)) {
@@ -201,7 +204,7 @@ public class ActivityMain extends AppCompatActivity implements
      */
     private void initNavigationHeader(NavigationView navigationView) {
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
-        TextView textViewLine = (TextView) headerView.findViewById(R.id.textViewHeaderLine);
+        TextView textViewLine = headerView.findViewById(R.id.textViewHeaderLine);
 
         if (StateManager.getInstance(this).isReady()) {
             String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
@@ -214,7 +217,7 @@ public class ActivityMain extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
@@ -252,7 +255,7 @@ public class ActivityMain extends AppCompatActivity implements
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -328,6 +331,11 @@ public class ActivityMain extends AppCompatActivity implements
                 Integer.valueOf(hex.substring(1, 3), 16),
                 Integer.valueOf(hex.substring(3, 5), 16),
                 Integer.valueOf(hex.substring(5, 7), 16));
+    }
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
+
     }
 
     @Override
