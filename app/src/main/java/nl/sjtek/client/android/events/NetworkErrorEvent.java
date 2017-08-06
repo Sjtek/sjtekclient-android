@@ -15,7 +15,7 @@ public class NetworkErrorEvent {
     public NetworkErrorEvent(VolleyError error) {
         // TODO: 22-11-16 Remove hardcoded messages
         if (error instanceof NoConnectionError) {
-            message = "Oops, no connection.";
+            message = "Oops, no connection. (" + error.getMessage() + ")";
             showSignIn = false;
         } else if (error instanceof TimeoutError) {
             message = "Oops, request timed out.";
