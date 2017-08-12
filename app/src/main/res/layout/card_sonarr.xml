@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     card_view:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -20,68 +21,98 @@
             style="?android:textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/card_sonarr_title" />
+            android:layout_marginStart="0dp"
+            android:text="@string/card_sonarr_title"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="30dp"
+            tools:layout_conversion_absoluteWidth="65dp" />
 
         <TextView
             android:id="@+id/textViewUpcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/card_sonarr_upcoming_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="73dp" />
 
         <TextView
             android:id="@+id/textViewShowTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textViewUpcoming"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="73dp"
             tools:text="Show name" />
 
         <TextView
             android:id="@+id/textViewEpisodeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textViewShowTitle"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="89dp"
             tools:text="Episode name" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/card_sonarr_disk_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textViewEpisodeName"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="78dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="@string/card_sonarr_disk_root"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="52dp" />
 
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="wrap_content"
-                android:text="@string/card_sonarr_disk_root" />
-
-            <TextView
-                android:id="@+id/textViewDiskRootPercentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="60%" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewDiskRootPercentage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="32dp"
+            card_view:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+            card_view:layout_constraintStart_toEndOf="@+id/textView3"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="25dp"
+            tools:text="60%" />
 
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="wrap_content"
-                android:text="@string/card_sonarr_disk_data" />
 
-            <TextView
-                android:id="@+id/textViewDiskDataPercentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="60%" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_sonarr_disk_data"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/textView3"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="52dp" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textViewDiskDataPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+            card_view:layout_constraintStart_toStartOf="@+id/textViewDiskRootPercentage"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="25dp"
+            tools:text="60%" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

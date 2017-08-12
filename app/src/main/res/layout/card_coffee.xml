@@ -7,60 +7,66 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
             android:text="@string/card_coffee_title"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/buttonStart"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textViewTitle"
+            android:layout_width="45dp"
+            android:layout_height="0dp"
             android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewStatus"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewStatus"
             app:srcCompat="@drawable/ic_power_black_24dp"
+            tools:ignore="ContentDescription"
+            tools:layout_editor_absoluteX="334dp" />
+
+
+        <ImageView
+            android:id="@+id/imageViewCup"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:tint="#787878"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewStatus"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewStatus"
+            app:srcCompat="@drawable/ic_coffee"
             tools:ignore="ContentDescription" />
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="72dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textViewTitle"
-            android:layout_toStartOf="@+id/buttonStart"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toStartOf="@+id/buttonStart"
+            app:layout_constraintStart_toEndOf="@+id/imageViewCup"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            tools:text="Cold" />
 
-            <ImageView
-                android:id="@+id/imageViewCup"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:tint="#787878"
-                app:srcCompat="@drawable/ic_coffee"
-                tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="30sp"
-                tools:text="Cold" />
-        </LinearLayout>
-
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>
