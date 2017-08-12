@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import nl.sjtek.client.android.receiver.SleepReceiver
-import nl.sjtek.client.android.receiver.WiFiReceiver
+import nl.sjtek.client.android.utils.NotificationUtils
 
 class SjtekService : Service() {
 
@@ -17,7 +17,7 @@ class SjtekService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(SERVICE_ID, WiFiReceiver.getNotification(this))
+        startForeground(SERVICE_ID, NotificationUtils.getNotification(this))
         registerReceiver(sleepReceiver, sleepFilter)
     }
 

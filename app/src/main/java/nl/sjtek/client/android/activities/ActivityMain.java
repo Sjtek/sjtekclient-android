@@ -2,7 +2,6 @@ package nl.sjtek.client.android.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
@@ -42,7 +41,7 @@ import nl.sjtek.client.android.fragments.FragmentDashboard;
 import nl.sjtek.client.android.fragments.FragmentMusic;
 import nl.sjtek.client.android.fragments.FragmentSonarr;
 import nl.sjtek.client.android.fragments.FragmentTransmission;
-import nl.sjtek.client.android.receiver.WiFiReceiver;
+import nl.sjtek.client.android.geofence.GeofenceUtils;
 import nl.sjtek.client.android.services.UpdateService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
@@ -121,10 +120,8 @@ public class ActivityMain extends AppCompatActivity implements
         // Init the application preferences
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        // Check if the notification should be shown
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            WiFiReceiver.updateNotification(this.getApplicationContext());
-        }
+        // Start geofencing
+        GeofenceUtils.INSTANCE.start(this);
 
         if (getIntent().getAction() != null && getIntent().getAction().equals(ACTION_TARGET)) {
             switch (getIntent().getStringExtra(EXTRA_TARGET)) {

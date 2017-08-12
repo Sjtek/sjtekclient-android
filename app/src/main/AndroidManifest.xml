@@ -81,14 +81,6 @@
             android:theme="@style/AppTheme.Dialog" />
 
         <receiver
-            android:name=".receiver.WiFiReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver
             android:name=".receiver.SjtekWidgetProvider"
             android:enabled="true"
             android:exported="false">
