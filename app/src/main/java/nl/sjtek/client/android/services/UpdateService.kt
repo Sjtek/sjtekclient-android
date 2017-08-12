@@ -8,6 +8,7 @@ import nl.sjtek.client.android.events.ConnectionEvent
 import nl.sjtek.control.data.responses.ResponseCollection
 import okhttp3.*
 import org.greenrobot.eventbus.EventBus
+import kotlin.concurrent.thread
 
 /**
  * Service for receiving API updates over a websocket.<br></br>
@@ -20,13 +21,15 @@ class UpdateService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        API.info(applicationContext)
-        webSocket?.close(1000, null)
+        thread(start = true) {
+            API.info(applicationContext)
+            webSocket?.close(1000, null)
 
-        val request = Request.Builder()
-                .url("ws://ws.sjtek.nl")
-                .build()
-        webSocket = OkHttpClient().newWebSocket(request, Client())
+            val request = Request.Builder()
+                    .url("ws://ws.sjtek.nl")
+                    .build()
+            webSocket = OkHttpClient().newWebSocket(request, Client())
+        }
     }
 
     override fun onDestroy() {

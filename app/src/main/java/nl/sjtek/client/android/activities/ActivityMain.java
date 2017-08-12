@@ -167,24 +167,14 @@ public class ActivityMain extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
-        API.data(getApplicationContext());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (Preferences.getInstance(this).areCredentialsChanged()) {
             Preferences.getInstance(this).clearCredentialsChangedFlag();
             recreate();
+            return;
         }
+        EventBus.getDefault().register(this);
+        API.data(getApplicationContext());
         startService(new Intent(this, UpdateService.class));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopService(new Intent(this, UpdateService.class));
     }
 
     @Override
@@ -192,6 +182,7 @@ public class ActivityMain extends AppCompatActivity implements
         super.onStop();
         EventBus.getDefault().unregister(this);
         StateManager.getInstance(getApplicationContext()).save(getApplicationContext());
+        stopService(new Intent(this, UpdateService.class));
     }
 
     /**
