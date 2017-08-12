@@ -14,7 +14,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.services.SjtekService;
+import nl.sjtek.client.android.services.UpdateService;
 import nl.sjtek.control.data.actions.Action;
 import nl.sjtek.control.data.actions.ActionInterface;
 import nl.sjtek.control.data.responses.ResponseCollection;
@@ -36,14 +36,14 @@ public class ScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        startService(new Intent(this, SjtekService.class));
+        startService(new Intent(this, UpdateService.class));
         API.info(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        stopService(new Intent(this, SjtekService.class));
+        stopService(new Intent(this, UpdateService.class));
         EventBus.getDefault().unregister(this);
     }
 
@@ -109,7 +109,7 @@ public class ScreenActivity extends AppCompatActivity {
         private static final String BASE = "/screen";
         private final String path;
 
-        private Trigger(String urlAction) {
+        Trigger(String urlAction) {
             this.path = urlAction;
         }
 

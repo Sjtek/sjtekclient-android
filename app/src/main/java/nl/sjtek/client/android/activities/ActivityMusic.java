@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.adapters.PlaylistAdapter;
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.client.android.services.SjtekService;
+import nl.sjtek.client.android.services.UpdateService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.control.data.actions.Action;
@@ -105,13 +105,13 @@ public class ActivityMusic extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Debug.stopMethodTracing();
-        startService(new Intent(this, SjtekService.class));
+        startService(new Intent(this, UpdateService.class));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        stopService(new Intent(this, SjtekService.class));
+        stopService(new Intent(this, UpdateService.class));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package nl.sjtek.client.android.receiver;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -34,15 +35,24 @@ public class WiFiReceiver extends BroadcastReceiver {
      * @param context Context
      */
     public static void updateNotification(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        String ssid = wifiInfo.getSSID();
+        if (ssid != null && (ssid.contains(SSID))) {
+            updateNotification(context, true);
+        } else {
+            updateNotification(context, false);
+        }
+    }
+
+    public static void updateNotification(Context context, boolean inSjtek) {
         if (!PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
                 .getBoolean(context.getString(R.string.pref_key_notification_enable), true)) {
             dismissNotification(context);
             return;
         }
-        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        String ssid = wifiInfo.getSSID();
-        if (ssid != null && (ssid.contains(SSID))) {
+
+        if (inSjtek) {
             showNotification(context);
         } else {
             dismissNotification(context);
@@ -50,6 +60,11 @@ public class WiFiReceiver extends BroadcastReceiver {
     }
 
     private static void showNotification(Context context) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(NOTIFICATION_ID, getNotification(context));
+    }
+
+    public static Notification getNotification(Context context) {
         int icon;
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
             icon = R.drawable.ic_notification_drawable;
@@ -71,8 +86,7 @@ public class WiFiReceiver extends BroadcastReceiver {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setOngoing(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        return builder.build();
     }
 
     private static void dismissNotification(Context context) {

@@ -20,7 +20,7 @@ import nl.sjtek.control.data.responses.ResponseCollection;
  * Sends the update as a {@link ResponseCollection} over the bus.<br>
  * Sends a {@link ConnectionEvent} on connection changes.
  */
-public class SjtekService extends Service {
+public class UpdateService extends Service {
 
     private Client client;
 

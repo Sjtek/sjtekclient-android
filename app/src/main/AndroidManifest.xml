@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
@@ -111,7 +112,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".services.SjtekService"
+            android:name=".services.UpdateService"
             android:enabled="true"
             android:exported="false" />
         <service
@@ -152,6 +153,24 @@
         <activity
             android:name=".activities.ScreenActivity"
             android:label="SjtekScreen" />
+
+        <receiver
+            android:name=".receiver.SleepReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.urbandroid.sleep.alarmclock.SLEEP_TRACKING_STARTED" />
+                <action android:name="com.urbandroid.sleep.alarmclock.SLEEP_TRACKING_STOPPED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.GeofenceIntentService"
+            android:exported="false" />
+        <service
+            android:name=".services.SjtekService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

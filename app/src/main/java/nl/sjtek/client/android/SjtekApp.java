@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatDelegate;
 import com.squareup.leakcanary.LeakCanary;
 
 import nl.sjtek.client.android.api.API;
+import nl.sjtek.client.android.geofence.GeofenceUtils;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.utils.ShortcutUtils;
 
@@ -28,5 +29,6 @@ public class SjtekApp extends Application {
         Preferences.getInstance(this);
         ShortcutUtils.setShortcuts(this);
         API.init(this);
+        GeofenceUtils.INSTANCE.start(this);
     }
 }

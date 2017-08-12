@@ -1,7 +1,9 @@
 package nl.sjtek.client.android.events;
 
+import nl.sjtek.client.android.services.UpdateService;
+
 /**
- * Event for connection changes in {@link nl.sjtek.client.android.services.SjtekService}.
+ * Event for connection changes in {@link UpdateService}.
  */
 public class ConnectionEvent {
     private final boolean connected;
