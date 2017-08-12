@@ -29,14 +29,6 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-        <!--<nl.sjtek.client.android.cards.MusicCard-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
-        <!--android:layout_marginEnd="@dimen/activity_horizontal_margin"-->
-        <!--android:layout_marginStart="@dimen/activity_horizontal_margin"-->
-        <!--android:layout_marginTop="@dimen/activity_vertical_margin" />-->
-
         <nl.sjtek.client.android.cards.TemperatureCard
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,14 +38,6 @@
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
         <nl.sjtek.client.android.cards.CoffeeCard
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-        <nl.sjtek.client.android.cards.MealCard
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
