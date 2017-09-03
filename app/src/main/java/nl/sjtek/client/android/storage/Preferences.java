@@ -2,8 +2,11 @@ package nl.sjtek.client.android.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+
+import nl.sjtek.client.android.R;
 
 /**
  * Helper for {@link SharedPreferences}.
@@ -31,6 +34,11 @@ public class Preferences {
             instance = new Preferences(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public static boolean areNotificationEnabled(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+                .getBoolean(context.getString(R.string.pref_key_notification_enable), true);
     }
 
     /**

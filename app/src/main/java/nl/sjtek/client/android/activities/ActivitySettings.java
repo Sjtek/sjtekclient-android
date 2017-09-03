@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import nl.sjtek.client.android.R;
 import nl.sjtek.client.android.receiver.SjtekWidgetProvider;
-import nl.sjtek.client.android.receiver.WiFiReceiver;
+import nl.sjtek.client.android.services.SjtekService;
 import nl.sjtek.client.android.storage.Preferences;
 
 /**
@@ -73,8 +74,14 @@ public class ActivitySettings extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(getString(R.string.pref_key_notification_enable))) {
-                if (getActivity() != null)
-                    WiFiReceiver.updateNotification(getActivity().getApplicationContext());
+                if (getActivity() != null) {
+                    Intent intent = new Intent(getActivity(), SjtekService.class);
+                    if (Preferences.areNotificationEnabled(getActivity())) {
+                        ContextCompat.startForegroundService(getActivity().getApplicationContext(), intent);
+                    } else {
+                        getActivity().stopService(intent);
+                    }
+                }
             } else if (key.equals(getString(R.string.pref_key_widget_transparent))) {
                 if (getActivity() != null)
                     SjtekWidgetProvider.updateAllWidgets(getActivity().getApplicationContext());

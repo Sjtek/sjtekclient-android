@@ -11,7 +11,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
-import nl.sjtek.client.android.events.MealEvent;
 import nl.sjtek.client.android.events.NetworkErrorEvent;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
@@ -126,16 +125,6 @@ public class API implements Response.Listener<ResponseCollection>, Response.Erro
      */
     public static void info(Context context) {
         getInstance(context).addRequest(context, Action.REFRESH, Arguments.empty());
-    }
-
-    /**
-     * Get a meal suggestion.<br>
-     * This will send {@link MealEvent} over the bus.
-     *
-     * @param context Context
-     */
-    public static void meal(Context context) {
-        getInstance(context).requestQueue.add(new MealRequest(response -> EventBus.getDefault().post(new MealEvent(response)), error -> EventBus.getDefault().post(new MealEvent(""))));
     }
 
     public static void toggleNightMode(Context context) {

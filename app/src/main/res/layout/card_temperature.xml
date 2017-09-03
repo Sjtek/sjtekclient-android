@@ -27,16 +27,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textViewTempInside"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="40sp"
                     tools:text="20" />
@@ -44,11 +44,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textViewTempInside"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/card_temperature_inside"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="1dp"
@@ -59,16 +58,16 @@
                 android:layout_marginTop="16dp"
                 android:background="#676767" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textViewTempOutside"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="40sp"
                     tools:text="20" />
@@ -76,28 +75,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textViewTempOutside"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/card_temperature_outside"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp">
-
-                <ImageView
-                    android:id="@+id/imageViewWeather"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="fitCenter"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
-
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
