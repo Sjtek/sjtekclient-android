@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream
 
 object StorageHelper {
 
-    fun <T> save(context: Context, fileName: String, data: T?) {
+    fun save(context: Context, fileName: String, data: Any?) {
         if (data == null) return
         try {
             ObjectOutputStream(context.openFileOutput(fileName, Context.MODE_PRIVATE)).use { stream ->
@@ -17,10 +17,10 @@ object StorageHelper {
         }
     }
 
-    fun <T> load(context: Context, fileName: String): T? {
+    fun load(context: Context, fileName: String): Any? {
         try {
             ObjectInputStream(context.openFileInput(fileName)).use { stream ->
-                return stream.readObject() as? T
+                return stream.readObject()
             }
         } catch (e: Exception) {
             e.printStackTrace()

@@ -100,12 +100,17 @@ object StateManager {
      *
      * @param context Context
      */
+    @Suppress("UNCHECKED_CAST")
     fun load(context: Context) {
         val time = measureTimeMillis {
-            responseHolder = StorageHelper.load(context, FILE_RESPONSE)
-            lamps = StorageHelper.load(context, FILE_LAMPS)
-            quotes = StorageHelper.load(context, FILE_QUOTES)
-            users = StorageHelper.load(context, FILE_USERS)
+            try {
+                responseHolder = StorageHelper.load(context, FILE_RESPONSE) as? ResponseHolder
+                lamps = StorageHelper.load(context, FILE_LAMPS) as? Map<Int, Lamp>
+                quotes = StorageHelper.load(context, FILE_QUOTES) as? List<String>
+                users = StorageHelper.load(context, FILE_USERS) as? List<User>
+            } catch (e: ClassCastException) {
+                e.printStackTrace()
+            }
         }
         Log.d("StateManager", "Loaded in ${time}ms")
     }
