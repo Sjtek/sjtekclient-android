@@ -1,18 +1,21 @@
 package nl.sjtek.client.android.events;
 
-import nl.sjtek.control.data.settings.DataCollection;
+
+import java.util.List;
+
+import nl.sjtek.control.data.staticdata.User;
 
 /**
  * Event when authentication was successful.
  */
 public class AuthSuccessfulEvent {
-    private final DataCollection dataCollection;
+    private final List<User> users;
 
-    public AuthSuccessfulEvent(DataCollection dataCollection) {
-        this.dataCollection = dataCollection;
+    public AuthSuccessfulEvent(List<User> users) {
+        this.users = users;
     }
 
-    public DataCollection getDataCollection() {
-        return dataCollection;
+    public List<User> getUsers() {
+        return users;
     }
 }

@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import nl.sjtek.client.android.api.API
-import nl.sjtek.control.data.actions.Action
+import nl.sjtek.control.data.actions.Actions
 
 class SleepReceiver : BroadcastReceiver() {
 
@@ -29,8 +29,8 @@ class SleepReceiver : BroadcastReceiver() {
     }
 
     private fun start(context: Context) {
-        API.action(context, Action.NightMode.ENABLE)
-        API.action(context, Action.Light.TOGGLE_3_OFF)
+        API.action(context, Actions.nightMode.enable())
+        API.action(context, Actions.lights.toggle(room = "wouter", enabled = false))
         setSyncthing(context, true)
     }
 
@@ -44,12 +44,12 @@ class SleepReceiver : BroadcastReceiver() {
 
     private fun alarmTriggered(context: Context) {
         API.led(context, 10, 255, 0)
-        API.action(context, Action.NightMode.DISABLE)
+        API.action(context, Actions.nightMode.disable())
     }
 
     private fun alarmDismissed(context: Context) {
         API.led(context, 10, 255, 0)
-        API.action(context, Action.NightMode.DISABLE)
+        API.action(context, Actions.nightMode.disable())
         setSyncthing(context, false)
     }
 

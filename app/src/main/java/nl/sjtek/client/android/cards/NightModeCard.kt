@@ -7,9 +7,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import nl.sjtek.client.android.R
-import nl.sjtek.control.data.responses.ResponseCollection
+import nl.sjtek.control.data.parsers.ResponseHolder
 
 class NightModeCard @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : BaseCard(context, attrs, defStyleAttr) {
 
@@ -34,8 +33,8 @@ class NightModeCard @JvmOverloads constructor(context: Context, attrs: Attribute
         addView(textView)
     }
 
-    override fun onUpdate(update: ResponseCollection) {
+    override fun onUpdate(update: ResponseHolder) {
         super.onUpdate(update)
-        visibility = if (update.nightMode.isEnabled) View.VISIBLE else View.GONE
+        visibility = if (update.nightMode.enabled) View.VISIBLE else View.GONE
     }
 }

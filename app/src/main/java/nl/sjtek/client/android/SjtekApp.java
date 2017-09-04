@@ -8,6 +8,7 @@ import com.squareup.leakcanary.LeakCanary;
 import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.geofence.GeofenceUtils;
 import nl.sjtek.client.android.storage.Preferences;
+import nl.sjtek.client.android.storage.StateManager;
 import nl.sjtek.client.android.utils.ShortcutUtils;
 
 /**
@@ -26,6 +27,7 @@ public class SjtekApp extends Application {
         LeakCanary.install(this);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        StateManager.INSTANCE.load(this);
         Preferences.getInstance(this);
         ShortcutUtils.setShortcuts(this);
         API.init(this);
