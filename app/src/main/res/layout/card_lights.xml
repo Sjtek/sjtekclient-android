@@ -1,63 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/card_lights_title"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch1" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch2" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch5" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch7" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch3"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/card_lights_switch4"
-            android:visibility="gone" />
-    </LinearLayout>
-
+        tools:listitem="@layout/item_lamp" />
 </android.support.v7.widget.CardView>
