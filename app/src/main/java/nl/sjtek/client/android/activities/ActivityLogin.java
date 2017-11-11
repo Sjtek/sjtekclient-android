@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,7 +25,8 @@ import nl.sjtek.client.android.events.AuthFailedEvent;
 import nl.sjtek.client.android.events.AuthSuccessfulEvent;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
-import nl.sjtek.control.data.settings.DataCollection;
+import nl.sjtek.control.data.parsers.UserHolder;
+import nl.sjtek.control.data.staticdata.User;
 
 /**
  * Activity for singing in to SjtekControl.
@@ -71,10 +74,9 @@ public class ActivityLogin extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSuccess(AuthSuccessfulEvent event) {
-        DataCollection response = event.getDataCollection();
-        StateManager stateManager = StateManager.getInstance(this);
-        stateManager.onDataUpdated(response);
-        stateManager.save(this);
+        List<User> response = event.getUsers();
+        StateManager.INSTANCE.onUsersUpdate(new UserHolder(response, null));
+        StateManager.INSTANCE.save(getApplicationContext());
 
         Preferences preferences = Preferences.getInstance(this);
         String username = editTextUsername.getText().toString();
@@ -83,6 +85,8 @@ public class ActivityLogin extends AppCompatActivity {
 
         AccountManager accountManager = AccountManager.get(this);
         accountManager.addAccountExplicitly(new Account(username, "nl.sjtek"), preferences.getToken(), null);
+
+        API.data(this);
 
         progressDialog.dismiss();
         finish();

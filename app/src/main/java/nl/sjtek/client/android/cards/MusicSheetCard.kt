@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.card_music_sheet.view.*
 import nl.sjtek.client.android.R
 import nl.sjtek.client.android.activities.ActivityMusic
 import nl.sjtek.client.android.api.API
-import nl.sjtek.control.data.actions.Action
-import nl.sjtek.control.data.responses.MusicResponse
-import nl.sjtek.control.data.responses.ResponseCollection
+import nl.sjtek.control.data.actions.Actions
+import nl.sjtek.control.data.parsers.ResponseHolder
+import nl.sjtek.control.data.response.Music
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -60,14 +60,14 @@ class MusicSheetCard @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onUpdate(responseCollection: ResponseCollection) {
+    fun onUpdate(responseCollection: ResponseHolder) {
         val music = responseCollection.music
         setMusicInfo(music)
     }
 
-    fun onPreviousClick(view: View? = null) = API.action(context, Action.Music.PREVIOUS)
-    fun onNextClick(view: View? = null) = API.action(context, Action.Music.NEXT)
-    fun onToggleClick(view: View? = null) = API.action(context, Action.Music.TOGGLE)
+    fun onPreviousClick(view: View? = null) = API.action(context, Actions.music.previous())
+    fun onNextClick(view: View? = null) = API.action(context, Actions.music.next())
+    fun onToggleClick(view: View? = null) = API.action(context, Actions.music.toggle())
     fun onStartPlaylistClick(view: View? = null) {
         val pair = arrayOf(
                 Pair.create<View, String>(imageViewAlbumArt, "albumArt"),
@@ -85,30 +85,26 @@ class MusicSheetCard @JvmOverloads constructor(context: Context, attrs: Attribut
         sheetClickListener?.onSheetClick()
     }
 
-    private fun setMusicInfo(music: MusicResponse) {
-        val song = music.song
-
-        val buttonImage: Int
-        if (music.state == MusicResponse.State.STATUS_PLAYING) {
-            buttonImage = R.drawable.ic_pause_black_24dp
+    private fun setMusicInfo(music: Music) {
+        val buttonImage: Int = if (music.state == Music.State.PLAYING) {
+            R.drawable.ic_pause_black_24dp
         } else {
-            buttonImage = R.drawable.ic_play_arrow_black_24dp
+            R.drawable.ic_play_arrow_black_24dp
         }
 
         buttonPlay.setImageResource(buttonImage)
         buttonTopPlay.setImageResource(buttonImage)
 
-        textViewTopTitle.text = song.title
-        textViewTopArtist.text = if (TextUtils.isEmpty(song.artist)) "Music stopped" else song.artist
+        textViewTopTitle.text = music.name
+        textViewTopArtist.text = if (TextUtils.isEmpty(music.artist)) "Music stopped" else music.artist
 
-        textViewTitle.text = song.title
-        textViewArtist.text = if (TextUtils.isEmpty(song.artist)) "Music stopped" else song.artist
+        textViewTitle.text = music.name
+        textViewArtist.text = if (TextUtils.isEmpty(music.artist)) "Music stopped" else music.artist
 
-        var image = ""
-        if (!TextUtils.isEmpty(song.album)) {
-            image = song.albumArt
-        } else if (!TextUtils.isEmpty(song.artistArt)) {
-            image = song.artistArt
+        val image = when {
+            music.albumArt.isNotBlank() -> music.albumArt
+            music.artistArt.isNotBlank() -> music.artistArt
+            else -> ""
         }
 
         if (TextUtils.isEmpty(image)) {

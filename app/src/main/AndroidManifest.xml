@@ -75,10 +75,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.ActivityPlaylists"
-            android:label="Start playlist"
-            android:theme="@style/AppTheme.Dialog" />
 
         <receiver
             android:name=".receiver.SjtekWidgetProvider"

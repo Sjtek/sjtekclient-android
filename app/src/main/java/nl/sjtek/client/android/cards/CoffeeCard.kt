@@ -7,8 +7,8 @@ import butterknife.OnClick
 import kotlinx.android.synthetic.main.card_coffee.view.*
 import nl.sjtek.client.android.R
 import nl.sjtek.client.android.api.API
-import nl.sjtek.control.data.actions.Action
-import nl.sjtek.control.data.responses.ResponseCollection
+import nl.sjtek.control.data.actions.Actions
+import nl.sjtek.control.data.parsers.ResponseHolder
 
 /**
  * Card for controlling the coffee machine.
@@ -21,11 +21,11 @@ class CoffeeCard @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     @OnClick(R.id.buttonStart)
     fun onStartClick() {
-        API.action(context, Action.Coffee.START)
+        API.action(context, Actions.coffee.enable())
     }
 
-    override fun onUpdate(update: ResponseCollection) {
-        updateViews(update.coffee.isHeated)
+    override fun onUpdate(update: ResponseHolder) {
+        updateViews(update.coffee.enabled)
     }
 
     private fun updateViews(heated: Boolean) {

@@ -9,7 +9,6 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import nl.sjtek.client.android.api.API;
-import nl.sjtek.control.data.actions.CustomAction;
 
 public class WearListenerServices extends WearableListenerService {
     public WearListenerServices() {
@@ -25,7 +24,7 @@ public class WearListenerServices extends WearableListenerService {
                 if (item.getUri().getPath().contains("/action")) {
                     DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                     String action = dataMap.getString("action");
-                    API.action(getApplicationContext(), new CustomAction(action));
+                    API.action(getApplicationContext(), action);
                 }
             }
         }

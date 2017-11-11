@@ -36,9 +36,10 @@ import nl.sjtek.client.android.api.API;
 import nl.sjtek.client.android.services.UpdateService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
-import nl.sjtek.control.data.actions.Action;
-import nl.sjtek.control.data.responses.MusicResponse;
-import nl.sjtek.control.data.responses.ResponseCollection;
+import nl.sjtek.control.data.actions.Actions;
+import nl.sjtek.control.data.parsers.ResponseHolder;
+import nl.sjtek.control.data.response.Music;
+import nl.sjtek.control.data.staticdata.User;
 
 public class ActivityMusic extends AppCompatActivity {
 
@@ -68,19 +69,28 @@ public class ActivityMusic extends AppCompatActivity {
             getWindow().setEnterTransition(slide);
         }
 
+        String username;
+        if (Preferences.getInstance(this).isCredentialsSet()) {
+            username = Preferences.getInstance(this).getUsername();
+        } else {
+            username = "default";
+        }
 
-        if (StateManager.getInstance(this).isReady()) {
-            long start = System.currentTimeMillis();
-            StateManager stateManager = StateManager.getInstance(this);
-            onUpdate(stateManager.getResponseCollection());
-
-            String username;
-            if (Preferences.getInstance(this).isCredentialsSet()) {
-                username = Preferences.getInstance(this).getUsername();
-            } else {
-                username = "default";
+        List<User> users = StateManager.INSTANCE.getUsers();
+        User user = null;
+        if (users != null) {
+            for (User u : users) {
+                if (u.getUsername().equals(username)) {
+                    user = u;
+                    break;
+                }
             }
-            Map<String, String> playlistMap = stateManager.getDataCollection().getUsers().get(username).getPlaylists();
+        }
+        if (user != null) {
+            long start = System.currentTimeMillis();
+            onUpdate(StateManager.INSTANCE.getResponseHolder());
+
+            Map<String, String> playlistMap = user.getPlaylists();
             List<String> playlistNames = new ArrayList<>();
             playlistNames.addAll(playlistMap.keySet());
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -127,36 +137,36 @@ public class ActivityMusic extends AppCompatActivity {
 
     @OnClick(R.id.buttonPrevious)
     public void onPreviousClick() {
-        API.action(this, Action.Music.PREVIOUS);
+        API.action(this, Actions.INSTANCE.getMusic().previous());
     }
 
     @OnClick(R.id.buttonPlay)
     public void onPlayClick() {
-        API.action(this, Action.Music.TOGGLE);
+        API.action(this, Actions.INSTANCE.getMusic().toggle());
     }
 
     @OnClick(R.id.buttonNext)
     public void onNextClick() {
-        API.action(this, Action.Music.NEXT);
+        API.action(this, Actions.INSTANCE.getMusic().next());
     }
 
     @OnClick(R.id.buttonShuffle)
     public void onShuffleClick() {
-        API.action(this, Action.Music.SHUFFLE);
+        //TODO Add shuffle
+        API.action(this, Actions.INSTANCE.getMusic().play());
     }
 
     @OnClick(R.id.buttonClear)
     public void onClearClick() {
-        API.action(this, Action.Music.CLEAR);
+        API.action(this, Actions.INSTANCE.getMusic().clear());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdate(ResponseCollection responseCollection) {
-        MusicResponse music = responseCollection.getMusic();
-        MusicResponse.Song song = music.getSong();
+    public void onUpdate(ResponseHolder responseHolder) {
+        Music music = responseHolder.getMusic();
 
         int buttonImage;
-        if (music.getState() == MusicResponse.State.STATUS_PLAYING) {
+        if (music.getState() == Music.State.PLAYING) {
             buttonImage = R.drawable.ic_pause_black_24dp;
         } else {
             buttonImage = R.drawable.ic_play_arrow_black_24dp;
@@ -164,14 +174,14 @@ public class ActivityMusic extends AppCompatActivity {
 
         imageButtonPlay.setImageResource(buttonImage);
 
-        textViewTitle.setText(song.getTitle());
-        textViewArtist.setText(TextUtils.isEmpty(song.getArtist()) ? "Music stopped" : song.getArtist());
+        textViewTitle.setText(music.getName());
+        textViewArtist.setText(TextUtils.isEmpty(music.getArtist()) ? "Music stopped" : music.getArtist());
 
         String image = "";
-        if (!TextUtils.isEmpty(song.getAlbum())) {
-            image = song.getAlbumArt();
-        } else if (!TextUtils.isEmpty(song.getArtistArt())) {
-            image = song.getArtistArt();
+        if (!TextUtils.isEmpty(music.getAlbum())) {
+            image = music.getAlbumArt();
+        } else if (!TextUtils.isEmpty(music.getArtistArt())) {
+            image = music.getArtistArt();
         }
 
         if (TextUtils.isEmpty(image)) {

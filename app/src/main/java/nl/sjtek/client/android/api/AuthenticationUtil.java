@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import nl.sjtek.control.data.actions.Action;
+import nl.sjtek.control.data.actions.Actions;
 
 /**
  * Util for authenticating with the API without Volley (for synchronous calls).
  */
 public class AuthenticationUtil {
 
-    private static final String URL = Action.DATA.toString();
+    private static final String URL = API.BASE_URL + Actions.INSTANCE.users();
 
     private AuthenticationUtil() {
 

@@ -1,7 +1,5 @@
 package nl.sjtek.client.android.api;
 
-import android.util.Log;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -10,30 +8,34 @@ import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.io.UnsupportedEncodingException;
 
-import nl.sjtek.control.data.responses.ResponseCollection;
+import nl.sjtek.control.data.actions.Actions;
+import nl.sjtek.control.data.parsers.ResponseHolder;
+import nl.sjtek.control.data.parsers.ResponseParser;
 
 /**
- * Basic API request for sending actions. Expects a {@link ResponseCollection} response.
+ * Basic API request for sending actions. Expects a {@link ResponseHolder} response.
  */
-class InfoRequest extends AuthenticatedRequest<ResponseCollection> {
+class InfoRequest extends AuthenticatedRequest<ResponseHolder> {
 
     private static final int INITIAL_TIMEOUT_MS = 10000;
 
-    InfoRequest(String url, Response.Listener<ResponseCollection> responseListener,
+    InfoRequest(Response.Listener<ResponseHolder> responseListener,
                 Response.ErrorListener errorListener,
                 String credentials) {
-        super(Method.GET, url, credentials, responseListener, errorListener);
-        Log.d(this.getClass().getSimpleName(), "URL: " + url);
+        super(Method.GET, API.BASE_URL + Actions.INSTANCE.info(), credentials, responseListener, errorListener);
         setShouldCache(false);
         setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override
-    protected Response<ResponseCollection> parseNetworkResponse(NetworkResponse response) {
+    protected Response<ResponseHolder> parseNetworkResponse(NetworkResponse response) {
         try {
             String data = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            ResponseCollection responseCollection = new ResponseCollection(data);
-            return Response.success(responseCollection, null);
+            ResponseHolder responseHolder = ResponseParser.INSTANCE.parse(data);
+            if (responseHolder.getException() != null) {
+                return Response.error(new ParseError(responseHolder.getException()));
+            }
+            return Response.success(responseHolder, null);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return Response.error(new ParseError(e));

@@ -4,8 +4,9 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import nl.sjtek.client.android.storage.StateManager
-import nl.sjtek.control.data.responses.ResponseCollection
-import nl.sjtek.control.data.settings.DataCollection
+import nl.sjtek.control.data.parsers.LampHolder
+import nl.sjtek.control.data.parsers.ResponseHolder
+import nl.sjtek.control.data.staticdata.Lamp
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -23,11 +24,8 @@ abstract class BaseCard @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val stateManager = StateManager.getInstance(context)
-        if (stateManager.isReady) {
-            onUpdate(stateManager.responseCollection)
-            onDataUpdate(stateManager.dataCollection)
-        }
+        val response = StateManager.responseHolder
+        if (response != null) onUpdate(response)
     }
 
     override fun onAttachedToWindow() {
@@ -43,20 +41,20 @@ abstract class BaseCard @JvmOverloads constructor(context: Context, attrs: Attri
     protected abstract fun onShouldInflate(context: Context)
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onResponseCollectionEvent(update: ResponseCollection) {
+    fun onResponseHolderUpdate(update: ResponseHolder) {
         onUpdate(update)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onDataCollectionEvent(data: DataCollection) {
-        onDataUpdate(data)
+    fun onLampHolderUpdate(update: LampHolder) {
+        onLampUpdate(update.lamps)
     }
 
-    internal fun onDataUpdate(data: DataCollection) {
+    internal open fun onUpdate(update: ResponseHolder) {
 
     }
 
-    internal open fun onUpdate(update: ResponseCollection) {
+    internal open fun onLampUpdate(lamps: Map<Int, Lamp>) {
 
     }
 }

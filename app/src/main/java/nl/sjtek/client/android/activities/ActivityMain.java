@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
@@ -25,12 +24,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.color.ColorChooserDialog;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import nl.sjtek.client.android.R;
@@ -45,14 +44,14 @@ import nl.sjtek.client.android.geofence.GeofenceUtils;
 import nl.sjtek.client.android.services.UpdateService;
 import nl.sjtek.client.android.storage.Preferences;
 import nl.sjtek.client.android.storage.StateManager;
-import nl.sjtek.control.data.actions.Action;
+import nl.sjtek.control.data.actions.Actions;
 
 /**
  * Main Activity displaying various fragments that can be switched with the navigation drawer.
  */
 public class ActivityMain extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        ColorChooserDialog.ColorCallback, MusicSheetCard.SheetClickListener {
+        MusicSheetCard.SheetClickListener {
 
     public static final String ACTION_TARGET = "nl.sjtek.client.android.action.TARGET";
     public static final String EXTRA_TARGET = "extra_target";
@@ -142,18 +141,8 @@ public class ActivityMain extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // Only show the LED button if it's available for the user
-        menu.findItem(R.id.action_led).setVisible(StateManager.getInstance(this).areExtraLightsEnabled(this));
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_led:
-                showLedDialog();
-                return true;
             case R.id.action_screen:
                 startActivity(new Intent(this, ScreenActivity.class));
                 return true;
@@ -181,7 +170,7 @@ public class ActivityMain extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        StateManager.getInstance(getApplicationContext()).save(getApplicationContext());
+        StateManager.INSTANCE.save(getApplicationContext());
         stopService(new Intent(this, UpdateService.class));
     }
 
@@ -194,10 +183,11 @@ public class ActivityMain extends AppCompatActivity implements
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_activity_main, drawer, false);
         TextView textViewLine = headerView.findViewById(R.id.textViewHeaderLine);
 
-        if (StateManager.getInstance(this).isReady()) {
-            String[] lines = StateManager.getInstance(this).getDataCollection().getQuotes();
+        List<String> quotes = StateManager.INSTANCE.getQuotes();
+        if (quotes == null) quotes = new ArrayList<>();
+        if (quotes.size() > 1) {
             Random random = new Random();
-            textViewLine.setText(lines[random.nextInt(lines.length - 1)]);
+            textViewLine.setText(quotes.get(random.nextInt(quotes.size() - 1)));
         }
 
         navigationView.addHeaderView(headerView);
@@ -291,39 +281,14 @@ public class ActivityMain extends AppCompatActivity implements
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            API.action(getApplicationContext(), Action.Music.VOLUME_LOWER);
+            API.action(getApplicationContext(), Actions.INSTANCE.getMusic().volumeLower());
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            API.action(getApplicationContext(), Action.Music.VOLUME_RAISE);
+            API.action(getApplicationContext(), Actions.INSTANCE.getMusic().volumeIncrease());
             return true;
         } else {
             return super.onKeyDown(keyCode, event);
         }
-    }
-
-    private void showLedDialog() {
-        new ColorChooserDialog.Builder(this, R.string.dialog_led_title)
-                .doneButton(R.string.dialog_led_done)
-                .cancelButton(R.string.dialog_led_cancel)
-                .show();
-    }
-
-    /**
-     * Callback for the LED color selection.<br>
-     * This will convert the given int to a hex value and to an RGB value.
-     */
-    @Override
-    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
-        String hex = String.format("#%06X", 0xFFFFFF & selectedColor);
-        API.led(this,
-                Integer.valueOf(hex.substring(1, 3), 16),
-                Integer.valueOf(hex.substring(3, 5), 16),
-                Integer.valueOf(hex.substring(5, 7), 16));
-    }
-
-    @Override
-    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
-
     }
 
     @Override

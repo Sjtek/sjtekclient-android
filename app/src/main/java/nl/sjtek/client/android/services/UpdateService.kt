@@ -3,9 +3,10 @@ package nl.sjtek.client.android.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import nl.sjtek.client.android.api.API
 import nl.sjtek.client.android.events.ConnectionEvent
-import nl.sjtek.control.data.responses.ResponseCollection
+import nl.sjtek.control.data.parsers.ResponseParser
 import okhttp3.*
 import org.greenrobot.eventbus.EventBus
 import kotlin.concurrent.thread
@@ -26,7 +27,7 @@ class UpdateService : Service() {
             webSocket?.close(1000, null)
 
             val request = Request.Builder()
-                    .url("ws://ws.sjtek.nl")
+                    .url("wss://sjtek.nl/api/ws")
                     .build()
             webSocket = OkHttpClient().newWebSocket(request, Client())
         }
@@ -50,8 +51,13 @@ class UpdateService : Service() {
 
         override fun onMessage(webSocket: WebSocket?, text: String?) {
             super.onMessage(webSocket, text)
-            val rc = ResponseCollection(text)
-            EventBus.getDefault().post(rc)
+            val response = ResponseParser.parse(text)
+            if (response.exception == null) {
+                Log.d("UpdateService", "Received update")
+                EventBus.getDefault().post(response)
+            } else {
+                Log.d("UpdateService", "Received invalid update")
+            }
         }
 
         override fun onClosed(webSocket: WebSocket?, code: Int, reason: String?) {
