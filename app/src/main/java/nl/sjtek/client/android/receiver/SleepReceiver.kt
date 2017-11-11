@@ -5,19 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
+import android.util.Log
+import android.widget.Toast
 import nl.sjtek.client.android.api.API
-import nl.sjtek.control.data.actions.Actions
 
 class SleepReceiver : BroadcastReceiver() {
 
     private fun isInSjtek(context: Context): Boolean {
         val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val currentSSID = wifiManager.connectionInfo.ssid
-        return SSID == currentSSID
+        return currentSSID.contains(SSID)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         if (!isInSjtek(context)) return
+        Log.d(SleepReceiver::class.java.simpleName, "Sleep receiver: ${intent.action}")
+        Toast.makeText(context, intent.action, Toast.LENGTH_SHORT).show()
         when (intent.action) {
             ACTION_START -> start(context)
             ACTION_STOP -> stop(context)
@@ -39,22 +42,34 @@ class SleepReceiver : BroadcastReceiver() {
     }
 
     private fun snooze(context: Context) {
-        API.led(context, 0, 20, 0)
+        API.action(context, Actions.lights.toggle(
+                room = "wouter",
+                enabled = true,
+                red = 0, green = 20, blue = 0))
     }
 
     private fun alarmTriggered(context: Context) {
-        API.led(context, 10, 255, 0)
+        API.action(context, Actions.lights.toggle(
+                id = 8,
+                enabled = true,
+                red = 10, green = 255, blue = 0))
         API.action(context, Actions.nightMode.disable())
     }
 
     private fun alarmDismissed(context: Context) {
-        API.led(context, 10, 255, 0)
+        API.action(context, Actions.lights.toggle(
+                id = 8,
+                enabled = true,
+                red = 10, green = 255, blue = 0))
         API.action(context, Actions.nightMode.disable())
         setSyncthing(context, false)
     }
 
     private fun smartPeriod(context: Context) {
-        API.led(context, 0, 20, 0)
+        API.action(context, Actions.lights.toggle(
+                room = "wouter",
+                enabled = true,
+                red = 0, green = 20, blue = 0))
     }
 
     private fun setSyncthing(context: Context, enable: Boolean) {
@@ -67,7 +82,7 @@ class SleepReceiver : BroadcastReceiver() {
 
     companion object {
 
-        const val SSID = "Internetjes"
+        const val SSID = "Premium Platinum Plus WiFi"
 
         const val INTENT_START = "com.urbandroid.sleep.alarmclock.START_SLEEP_TRACK"
         const val INTENT_PAUSE = "com.urbandroid.sleep.ACTION_PAUSE_TRACKING"
