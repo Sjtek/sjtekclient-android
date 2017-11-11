@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="button_green">#4CAF50</color>
-    <color name="button_red">#F44336</color>
-    <color name="button_blue">#3F51B5</color>
-    <color name="button_ripple">#aaffffff</color>
-    <color name="window_background">#424242</color>
-</resources>

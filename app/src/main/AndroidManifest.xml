@@ -127,17 +127,6 @@
                 android:value="nl.sjtek.client.android.activities.ActivityMain" />
         </activity>
 
-        <service android:name=".services.WearListenerServices">
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-
-                <data
-                    android:host="*"
-                    android:path="/action"
-                    android:scheme="wear" />
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".activities.ScreenActivity"
             android:label="SjtekScreen" />
@@ -158,7 +147,7 @@
         <service
             android:name=".services.SjtekService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager
 import android.util.Log
 import android.widget.Toast
 import nl.sjtek.client.android.api.API
+import nl.sjtek.control.data.actions.Actions
 
 class SleepReceiver : BroadcastReceiver() {
 

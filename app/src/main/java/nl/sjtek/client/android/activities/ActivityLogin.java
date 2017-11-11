@@ -2,12 +2,12 @@ package nl.sjtek.client.android.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.EventBus;
@@ -98,12 +98,9 @@ public class ActivityLogin extends AppCompatActivity {
         progressDialog.dismiss();
         String message = String.format(getString(R.string.sign_in_error),
                 (error.networkResponse != null ? "" + error.networkResponse.statusCode : "-"), error.getMessage());
-        new MaterialDialog.Builder(this)
-                .title(getString(R.string.sign_in_title))
-                .content(message)
-                .neutralText(getString(android.R.string.ok))
-                .onNeutral((dialog, which) -> dialog.dismiss())
-                .build()
-                .show();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.sign_in_title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss()).show();
     }
 }
