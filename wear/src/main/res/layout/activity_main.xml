@@ -10,12 +10,10 @@
     tools:context="io.habets.sjtek.MainActivity"
     tools:deviceIds="wear">
 
-    <LinearLayout
+    <android.support.wear.widget.WearableRecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
-
-    </LinearLayout>
+        app:boxedEdges="all" />
 </android.support.wear.widget.BoxInsetLayout>
 
