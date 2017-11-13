@@ -11,11 +11,12 @@ import kotlin.concurrent.thread
 
 object Net {
 
+    private const val BASE_URL = "https://sjtek.nl/api/"
     private const val TIMEOUT = 2000
 
     fun getLamps(context: Context): List<Lamp> {
         try {
-            val connection = URL(Actions.lamps()).openConnection() as HttpURLConnection
+            val connection = URL(BASE_URL + Actions.lamps()).openConnection() as HttpURLConnection
             connection.connectTimeout = TIMEOUT
             connection.readTimeout = TIMEOUT
             if (connection.responseCode == HttpURLConnection.HTTP_OK) {
@@ -36,7 +37,7 @@ object Net {
     fun send(url: String) {
         thread(start = true) {
             try {
-                val connection = URL(url).openConnection() as HttpURLConnection
+                val connection = URL(BASE_URL + url).openConnection() as HttpURLConnection
                 connection.connectTimeout = TIMEOUT
                 connection.readTimeout = TIMEOUT
                 connection.responseCode
