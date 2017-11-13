@@ -126,7 +126,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nl.sjtek.client.android.activities.ActivityMain" />
         </activity>
-
         <activity
             android:name=".activities.ScreenActivity"
             android:label="SjtekScreen" />
