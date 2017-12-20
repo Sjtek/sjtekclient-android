@@ -22,8 +22,10 @@ object GeofenceUtils {
     fun start(context: Context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
+            Log.e("GeofenceUtils", "Missing location permission")
             return
         }
+        Log.d("GeofenceUtils", "Adding geofences")
         val geofence = Geofence.Builder()
                 .setRequestId(REQUEST_ID)
                 .setCircularRegion(LATITUDE, LONGITUDE, RADIUS)
